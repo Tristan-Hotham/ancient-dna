@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ancient DNA on the Map</title>
+<meta name="description" content="An interactive map of 16,496 ancient human genomes in the Allen Ancient DNA Resource, placed where and when each person lived: watch farmers spread out of Anatolia, steppe ancestry sweep across Europe after 2500 BCE, and see how heavily the archive leans towards Europe.">
+<meta property="og:title" content="Ancient DNA on the map: 16,496 ancient genomes, placed where and when they lived">
+<meta property="og:description" content="Every published ancient human genome in the AADR on one map with a time slider. 68% come from Europe, home to 9% of people. In Britain, none of 76 men before 2500 BCE carried R1b; 89% did in the next thousand years.">
+<meta property="og:image" content="https://maps.tristanhotham.com/ancient-dna/header.png">
+<meta property="og:url" content="https://maps.tristanhotham.com/ancient-dna/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800;9..144,900&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<style>
+/* Bone and ochre: pale paper, red ochre, lapis blue, a burial-earth brown. */
+:root{
+  --bg:#F6F4EF; --panel:#EAE7DF; --fg:#1D2128; --muted:#636A72; --rule:#DDD8CC; --card:#FFFEFA; --border:#CBC5B8;
+  --hot:#B5402A; --cool:#2F5FA7; --gold:#C9A227; --ink:#3B2A1A; --land:#E6E1D5; --sea:#E3EAEE; --nocall:#CFC9BD; --ghost:#9A948A;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12151B; --panel:#1C2029; --fg:#ECEEF1; --muted:#A2A8B0; --rule:#30353F; --card:#171B22; --border:#444B57;
+  --hot:#F07A5E; --cool:#7DA7E6; --gold:#E8C454; --ink:#E2C9A6; --land:#262B33; --sea:#161A20; --nocall:#4A505B; --ghost:#6B7280; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12151B; --panel:#1C2029; --fg:#ECEEF1; --muted:#A2A8B0; --rule:#30353F; --card:#171B22; --border:#444B57;
+  --hot:#F07A5E; --cool:#7DA7E6; --gold:#E8C454; --ink:#E2C9A6; --land:#262B33; --sea:#161A20; --nocall:#4A505B; --ghost:#6B7280; color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 18px/1.62 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));overflow-x:hidden}
+.wrap{max-width:700px;margin:0 auto;padding-block:28px 64px}
+.wrap .bleed{width:min(1180px,calc(100vw - 32px));margin-left:calc((100% - min(1180px,100vw - 32px))/2);margin-right:0}
+a{color:inherit;text-decoration-color:var(--hot);text-underline-offset:3px}
+.kicker{font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.kicker b{background:var(--ink);color:var(--bg);padding:5px 8px;font-weight:500}
+header.hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 24px;align-items:end;border-bottom:6px double var(--fg);padding-bottom:22px;margin-top:18px}
+h1{font:900 clamp(42px,10vw,88px)/.92 var(--display);letter-spacing:-.02em;margin:0;text-wrap:balance}
+h1 .a{color:var(--hot)} h1 .b{color:var(--cool)}
+.mark{width:clamp(70px,14vw,116px);height:auto;display:block;color:var(--fg)}
+.dek{grid-column:1/-1;font-size:21px;line-height:1.42;margin:8px 0 0;max-width:58ch}
+.byline{font:400 13px/1.4 var(--mono);color:var(--muted);margin-top:14px}
+h2{font:800 34px/1.04 var(--display);letter-spacing:-.01em;margin:54px 0 10px;text-wrap:balance}
+h2 .n{font:500 13px/1 var(--mono);color:var(--hot);display:block;letter-spacing:.1em;margin-bottom:10px}
+h3{font:600 20px/1.25 var(--display);margin:28px 0 6px}
+p{margin:0 0 16px}
+.lede::first-letter{font:900 72px/.8 var(--display);float:left;margin:6px 10px 0 0;color:var(--hot)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0 8px}
+.stats div{background:var(--card);padding:14px 12px}
+.stats b{display:block;font:900 clamp(22px,4.4vw,32px)/1 var(--display);letter-spacing:-.01em}
+.stats b.h{color:var(--hot)} .stats b.c{color:var(--cool)} .stats b.g{color:var(--gold)} .stats b.p{color:var(--ink)}
+.stats span{font:400 12px/1.35 var(--mono);color:var(--muted);display:block;margin-top:6px}
+@media (max-width:600px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.figure{margin:26px 0 30px}
+.fig-h{font:600 19px/1.25 var(--display);margin:0 0 4px}
+.fig-sub{font:400 13px/1.45 var(--mono);color:var(--muted);margin:0 0 12px}
+.src{font:400 12px/1.45 var(--mono);color:var(--muted);margin-top:10px}
+.chart{width:100%;position:relative}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+svg text{font-family:var(--mono);fill:var(--fg)}
+.lab{font-size:12px}.lab.m{fill:var(--muted)}.lab.b{font-weight:500}.lab.s{font-size:11px}
+.tip{position:absolute;pointer-events:none;background:var(--fg);color:var(--bg);font:400 12px/1.45 var(--mono);padding:8px 10px;border-radius:3px;max-width:300px;z-index:2000;transform:translate(-50%,calc(-100% - 12px));display:none}
+.tip b{font-weight:500}
+.controls{display:flex;gap:8px;align-items:center;margin:0 0 10px;flex-wrap:wrap}
+.scrollrow{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin;padding-bottom:2px;max-width:100%}
+.scrollrow .btn{flex:0 0 auto;white-space:nowrap}
+.ctl-l{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-right:2px;flex:0 0 auto;align-self:center}
+.btn{font:500 12px/1 var(--mono);background:var(--card);color:var(--fg);border:1px solid var(--border);border-radius:3px;padding:8px 10px;cursor:pointer;min-height:36px}
+.btn[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.btn:focus-visible,input:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--hot);outline-offset:2px}
+.searchbox{position:relative;flex:1 1 260px;min-width:0}
+input[type=search]{font:400 15px/1 var(--mono);background:var(--card);color:var(--fg);border:1px solid var(--border);border-radius:3px;padding:10px 11px;min-height:40px;width:100%}
+.suggest{position:absolute;left:0;right:0;top:100%;margin:2px 0 0;padding:0;list-style:none;background:var(--card);border:1px solid var(--border);z-index:1001;font:400 13px/1.3 var(--mono);display:none;max-height:340px;overflow:auto}
+.suggest li{padding:8px 10px;cursor:pointer;border-bottom:1px solid var(--rule)}
+.suggest li span{color:var(--muted)}
+.suggest li[aria-selected="true"],.suggest li:hover{background:var(--panel)}
+.timebox{display:grid;grid-template-columns:auto minmax(9ch,auto) minmax(0,1fr);gap:10px;align-items:center;margin:0 0 6px;font:500 13px/1 var(--mono)}
+.timebox .yv{font:800 22px/1.05 var(--display);color:var(--hot);white-space:nowrap}
+.timebox .yv small{display:block;font:400 11px/1.2 var(--mono);color:var(--muted);margin-top:3px}
+.timebox input[type=range]{width:100%;accent-color:var(--hot);height:28px}
+.ticks{position:relative;height:16px;margin:-4px 0 8px;font:400 10.5px/1 var(--mono);color:var(--muted)}
+.ticks span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.play{width:42px;height:38px;border-radius:3px;border:1px solid var(--fg);background:var(--fg);color:var(--bg);font:600 15px/1 var(--mono);cursor:pointer}
+.mapgrid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:14px;align-items:start}
+@media (max-width:900px){.mapgrid{grid-template-columns:1fr}}
+.side{background:var(--card);border:1px solid var(--border);padding:12px 12px 10px;font:400 13px/1.45 var(--mono);max-height:690px;overflow:auto}
+@media (max-width:900px){.side{max-height:none}}
+.side h4{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:14px 0 8px}
+.side h4:first-child{margin-top:2px}
+.side .big{font:800 26px/1.1 var(--display);margin:2px 0 4px}
+.side .sub{color:var(--muted);font-size:12px;margin:0 0 8px}
+.side ol,.side ul{margin:4px 0 8px;padding-left:20px}
+.side li{margin:3px 0}
+.side li small,.side td small{color:var(--muted)}
+.side table{width:100%;border-collapse:collapse;margin:4px 0 6px}
+.side td{padding:3px 4px 3px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+.side td.num{text-align:right;white-space:nowrap}
+.go{cursor:pointer;text-decoration:underline;text-decoration-color:var(--border);text-underline-offset:3px}
+#mapbox{position:relative;background:var(--bg)}
+.lmap{height:640px;border:1px solid var(--border);background:var(--sea);border-radius:2px}
+@media (max-width:600px){.lmap{height:min(64vh,480px)}}
+.timebox{padding-right:44px}
+@media (max-width:600px){.timebox{grid-template-columns:auto minmax(0,1fr)}.timebox input[type=range]{grid-column:1/-1}}
+#mapbox:fullscreen,#mapbox.mfs-fake{padding:10px 12px;overflow:auto;background:var(--bg)}
+#mapbox:fullscreen .lmap,#mapbox.mfs-fake .lmap{height:calc(100vh - 175px);height:calc(100dvh - 175px)}
+#mapbox:fullscreen .side,#mapbox.mfs-fake .side{max-height:calc(100dvh - 175px)}
+@media (max-width:900px){#mapbox:fullscreen .side,#mapbox.mfs-fake .side{display:none}#mapbox:fullscreen .lmap,#mapbox.mfs-fake .lmap{height:calc(100dvh - 230px)}}
+.maplibregl-map{font:400 12px/1.4 var(--mono)}
+.maplibregl-popup-content{background:var(--card);color:var(--fg);font:400 12.5px/1.45 var(--mono);padding:10px 12px;border-radius:3px;box-shadow:0 2px 10px rgba(0,0,0,.2);max-width:290px}
+.maplibregl-popup-content b.t{font:700 15px/1.2 var(--display);display:block;margin-bottom:2px}
+.maplibregl-popup-content small{color:var(--muted)}
+.maplibregl-popup-tip{border-top-color:var(--card)!important;border-bottom-color:var(--card)!important}
+.maplibregl-popup-close-button{color:var(--fg);font-size:18px;padding:0 6px}
+.maplibregl-ctrl-attrib{background:color-mix(in srgb,var(--card) 85%,transparent)!important;color:var(--muted)}
+.maplibregl-ctrl-attrib a{color:var(--fg)}
+.maplibregl-ctrl-group{background:var(--card)}
+.lyrWrap{position:absolute;top:10px;left:10px;z-index:3}
+.lyrBtn{background:var(--card,var(--bg));color:var(--fg);border:1px solid var(--border);border-radius:3px;font:600 12px/1 var(--mono);padding:9px 10px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.lyrBtn[aria-expanded="true"]{background:var(--fg);color:var(--bg)}
+.lyrPanel{background:var(--card,var(--bg));color:var(--fg);border:1px solid var(--border);border-radius:3px;padding:10px 12px 8px;margin-top:6px;width:260px;box-shadow:0 2px 10px rgba(0,0,0,.15);font:400 12px/1.3 var(--mono);max-height:min(70vh,520px);overflow:auto}
+.lyrPanel[hidden]{display:none}
+.lyrPanel .row{margin:0 0 9px}
+.lyrPanel label{display:flex;gap:6px;align-items:center;cursor:pointer;font-weight:600}
+.lyrPanel input[type=range]{width:100%;accent-color:var(--fg)}
+.lyrPanel select{font:400 12px var(--mono);background:var(--bg);color:var(--fg);border:1px solid var(--border);border-radius:2px;padding:2px 4px;width:100%;min-height:0}
+.lyrPanel .sub{display:flex;gap:6px;align-items:center;color:var(--muted);font-size:11px;margin-top:3px}
+.lyrPanel .sub span{flex:0 0 58px}
+.lyrPanel .hd{font:500 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:10px 0 7px;border-top:1px solid var(--rule);padding-top:9px}
+.lyrPanel .reset{font:400 11px var(--mono);color:var(--muted);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline}
+.mapnote{position:absolute;left:10px;bottom:28px;z-index:2;background:color-mix(in srgb,var(--card) 92%,transparent);border:1px solid var(--border);border-radius:3px;padding:6px 9px;font:400 12px/1.35 var(--mono);max-width:min(320px,70%);box-shadow:0 1px 4px rgba(0,0,0,.12);pointer-events:none}
+.mapnote:empty{display:none}
+.legend{display:flex;gap:6px 14px;flex-wrap:wrap;font:400 12px/1.3 var(--mono);color:var(--muted);margin-top:8px;align-items:center}
+.legend span{display:inline-flex;align-items:center}
+.legend button{font:400 12px/1.3 var(--mono);color:var(--fg);background:none;border:1px solid transparent;border-radius:3px;padding:3px 5px;cursor:pointer;display:inline-flex;align-items:center}
+.legend button[aria-pressed="false"]{opacity:.38;text-decoration:line-through}
+.legend button small{color:var(--muted);margin-left:5px}
+.legend i{display:inline-block;width:13px;height:13px;margin-right:6px;border-radius:50%;border:1px solid rgba(0,0,0,.15);flex:0 0 auto}
+.legend i.sq{border-radius:2px}
+.pull{font:600 26px/1.25 var(--display);border-left:6px solid var(--hot);padding:4px 0 4px 18px;margin:30px 0}
+.note{background:var(--panel);border:1px solid var(--rule);padding:14px 16px;font-size:16px;margin:22px 0}
+.note h3{margin-top:0}
+table.tbl{width:100%;border-collapse:collapse;font:400 13px/1.4 var(--mono)}
+table.tbl th{font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 6px 6px 0;border-bottom:2px solid var(--fg)}
+table.tbl td{padding:6px 6px 6px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+table.tbl td.r,table.tbl th.r{text-align:right;white-space:nowrap}
+table.tbl tr[data-i]{cursor:pointer}
+table.tbl tr[data-i]:hover td{background:var(--panel)}
+table.tbl td small{color:var(--muted)}
+.tablebox{max-height:460px;overflow:auto;border:1px solid var(--border);background:var(--card);padding:0 10px}
+details{margin:14px 0}
+summary{font:500 13px/1.4 var(--mono);cursor:pointer;color:var(--fg);padding:8px 0}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+.cta a{font:500 13px/1 var(--mono);text-decoration:none;border:1px solid var(--fg);padding:11px 14px;border-radius:3px}
+.cta a.p{background:var(--hot);border-color:var(--hot);color:#fff}
+footer{border-top:6px double var(--fg);margin-top:56px;padding-top:16px;font:400 13px/1.55 var(--mono);color:var(--muted)}
+footer p{margin:0 0 10px}
+.theme{position:fixed;right:12px;bottom:12px;z-index:1002}
+.loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:500 13px var(--mono);color:var(--muted);pointer-events:none;z-index:1}
+@media print{.theme,.controls{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="kicker"><b>Data study</b><span>Genetics and archaeology</span><span>World, 43,925 BCE to 1890 CE</span></div>
+<header class="hero">
+  <h1>Ancient <span class="a">DNA</span> on the <span class="b">map</span></h1>
+  <svg class="mark" viewBox="0 0 120 120" aria-hidden="true"><g id="heroMark"></g></svg>
+  <p class="dek">Every published ancient human genome in the Allen Ancient DNA Resource, 16,496 people, placed where and when they lived. Press play and watch the first farmers spread out of Anatolia, people from the steppe sweep across Europe after 2500 BCE, and the archive's own blind spots appear.</p>
+</header>
+<div class="byline">Dr Tristan Hotham · Independent researcher · 2026 · Data: Allen Ancient DNA Resource (AADR) v66.p1, Mallick et al., Harvard Dataverse, CC0; Natural Earth</div>
+
+<div class="stats">
+  <div><b class="p">16,496</b><span>ancient people whose genomes pass the archive's quality checks</span></div>
+  <div><b class="c">68%</b><span>of them lived in Europe, home to 9% of people today</span></div>
+  <div><b class="h">0 of 76</b><span>men in Britain before 2500 BCE carried the Y line R1b; 89% did in the next thousand years</span></div>
+  <div><b class="g">1.1 km</b><span>a year: the pace at which the earliest farmers in each country get further from Anatolia</span></div>
+</div>
+
+<p class="lede">Bones keep secrets for a very long time. In 2010 scientists published the first genome of an ancient human, read from a man who lived in Greenland around 1935 BCE. Since then labs have read the DNA of thousands more: hunters from the last Ice Age, the first farmers, Bronze Age herders, Roman townspeople, Viking raiders, medieval villagers. The Allen Ancient DNA Resource (AADR), curated by Swapan Mallick, David Reich and colleagues at Harvard, gathers every published genome in one free file. Release v66.p1 describes 17,629 ancient individuals, and 16,496 of them pass its quality checks.</p>
+<p>The map below puts each of them where they were buried, at the time they lived. Press play and the archive comes alive: a scatter of Ice Age hunters, then a wave of farmers moving from Anatolia into Europe after 7000 BCE, then, around 2500 BCE, a sudden change in the male lines across western Europe. Colour the dots by the Y chromosome to see it. Along the way the map also shows something about the science itself: where the bones come from, and where they do not.</p>
+
+<h2><span class="n">01 · The map</span>16,408 people, 45,000 years</h2>
+<div class="bleed" id="atlas">
+<div id="mapbox" data-fullscreen-map>
+<div class="timebox"><button class="play" id="play" aria-label="Play through time">&#9654;</button><div class="yv" id="yv">All<small id="ylab">everyone, to 1890 CE</small></div><input type="range" id="tt" min="0" max="1000" step="1" value="1000" aria-label="Time"></div>
+<div class="ticks" id="ticks" aria-hidden="true"></div>
+<div class="controls">
+  <div class="scrollrow" id="winRow"><span class="ctl-l">Show</span><button class="btn" data-w="0" aria-pressed="true">Everyone up to then</button><button class="btn" data-w="1" aria-pressed="false">Narrow window</button><button class="btn" data-w="2" aria-pressed="false">Medium window</button><button class="btn" data-w="3" aria-pressed="false">Wide window</button></div>
+</div>
+<div class="controls"><div class="scrollrow" id="colRow"><span class="ctl-l">Colour by</span><button class="btn" data-c="pe" aria-pressed="true">Period</button><button class="btn" data-c="cu" aria-pressed="false">Culture label</button><button class="btn" data-c="yc" aria-pressed="false">Y line (fathers)</button><button class="btn" data-c="mc" aria-pressed="false">mtDNA line (mothers)</button></div></div>
+<div class="mapgrid">
+  <div><div style="position:relative"><div id="map" class="lmap" role="application" aria-label="World map of ancient individuals by place and date"></div><div class="loading" id="loading">Loading 16,408 people...</div><div class="mapnote" id="mapnote"></div></div>
+    <div class="legend" id="legend"></div></div>
+  <div class="side" id="side" aria-live="polite"></div>
+</div>
+</div>
+<div class="controls" style="margin-top:10px">
+  <div class="searchbox"><input type="search" id="q" placeholder="Search a person, a group or a site (Iceman, Yamnaya, Stonehenge...)" aria-label="Search a person, a group or a site" autocomplete="off"><ul class="suggest" id="sug" role="listbox"></ul></div>
+</div>
+<div class="controls"><div class="scrollrow" id="focusRow"><span class="ctl-l">Zoom to</span></div></div>
+<p class="src">Each dot is one person, at the place the archive gives for their burial and the mean of their date. The time slider runs on a stretched scale, so that the last few thousand years, where most genomes come from, get more room; a window shows people within a few centuries of the date at the top (wider for older periods). Faint grey dots (Earlier people, in Map layers) lived before the window. Click a dot for the person. Colours: broad period from the date; culture label from words in the archive's group name; Y and mtDNA lines grouped into major branches (pale: no call, or a woman for the Y line). Map layers also shows the 8 Neanderthal and Denisovan genomes and the 1,133 people who did not pass the quality checks. Source: AADR v66.p1 (Mallick et al., doi:10.7910/DVN/FFIDCW), CC0. Outlines: Natural Earth. Labels: OpenFreeMap, © OpenMapTiles, © OpenStreetMap contributors. Relief and hillshade: Esri.</p>
+</div>
+
+<h2><span class="n">02 · The archive</span>From one genome to 16,496 in sixteen years</h2>
+<p>The AADR file has 23,089 rows. 3,970 of them are people alive today, used by geneticists for comparison. The other 19,118 describe 17,629 ancient individuals, many of them sequenced more than once. The archive grades each set of data, and I keep a person if at least one of theirs passes: 16,496 people (94%), from 3,664 sites in 127 present-day countries and territories, reported in 334 publications. The other 1,133 are flagged for contamination, low quality or other problems, and are left out of every count below.</p>
+<div class="figure"><p class="fig-h">Ancient genomes by the year they were first published</p><p class="fig-sub">People passing the quality checks, by the year in the label of the paper that first reported them. 276 have no year in the label. Hover a bar.</p><div class="chart" id="pubChart"></div></div>
+<p>The field is young and growing fast. 80% of these genomes were first published in 2020 or later, and 3,757 in 2025 alone. Single papers now report hundreds of people at a time: the largest, PattersonReichNature2021, accounts for 741.</p>
+<p>The oldest modern humans in the archive lived around 43,925 BCE: a group from the cave of Ranis in Thuringia, Germany, and a woman from Zlatý kůň in Czechia, given the same broad date. Ust'-Ishim man, from Siberia, follows at about 42,416 BCE. But the archive is overwhelmingly recent. Half of everyone in it lived after 450 BCE; 80% lived after 3000 BCE; only 102 people lived before 10,000 BCE, at the end of the last Ice Age.</p>
+<div class="figure"><p class="fig-h">How old are they?</p><p class="fig-sub">People in each 500 years, from 10,000 BCE to the present (102 older people are not shown). Hover a bar.</p><div class="chart" id="timeChart"></div></div>
+<p>Of the 16,496, molecular sex (read from the ratio of X and Y chromosome DNA, not from the skeleton) is male for 8,601 (52%), female for 6,835 (41%) and unknown for 1,060. That is 1.26 men for every woman, a skew that reflects which burials archaeologists dig up and labs choose to sample, not the people of the past.</p>
+<div class="note"><h3>Neanderthals and Denisovans</h3><p>The archive also holds our archaic cousins. 8 archaic genomes pass the quality checks, from the Denisova and Chagyrskaya caves in the Altai mountains of Siberia, Mezmaiskaya in the Caucasus, Vindija in Croatia and Grotte Mandrin in France. The oldest, Denisova 25, is dated to about 183,050 BCE. They are on the map as large dark dots (Map layers) but left out of every count of modern humans here.</p></div>
+
+<h2><span class="n">03 · Who gets sampled</span>Europe has 9% of the people and 68% of the genomes</h2>
+<p>Ancient DNA does not come evenly from the past. Of the 16,400 modern humans on the map, 11,217 (68%) were buried in Europe, a continent with 9.2% of the world's people and 7.5% of its land. Africa, where our species began, has 1.9% of the genomes for 17% of the people; Asia 22% for 60%. Per head of today's population, Europe has about 66 times as many ancient genomes as Africa.</p>
+<div class="figure"><p class="fig-h">Share of ancient genomes, people and land, by continent</p><p class="fig-sub">Genomes: modern humans passing the quality checks, by where they were buried. People: present-day population (Natural Earth estimates, 2019). Land: area without Antarctica. Russia west of 60°E (the Urals) counts as Europe. Hover a bar.</p><div class="chart" id="biasChart"></div><div class="legend" id="biasLegend"></div></div>
+<p>The reasons are partly natural and partly human. DNA survives best in cold, dry ground, and badly in the tropics. But money, laboratories and long traditions of excavation matter as much: the countries with the most people in the archive are Russia (1,394), Hungary (1,317) and the United Kingdom (1,151). Europe's lead holds in almost every period: it has 82% of the people from 6000 to 4000 BCE and 79% from 1 to 1000 CE. A map of ancient DNA is, first of all, a map of where geneticists have looked.</p>
+<div class="figure"><p class="fig-h">The countries with the most ancient genomes</p><p class="fig-sub">People passing the quality checks, by the present-day country or territory the archive gives. 35 have at least a hundred. Click a row to see it on the map.</p><div class="tablebox"><table class="tbl" id="countryTable"></table></div></div>
+
+<h2><span class="n">04 · The first farmers</span>Out of Anatolia at about a kilometre a year</h2>
+<p>Farming began in the Near East, and ancient DNA studies have shown that it reached Europe mostly with people who moved, not just as an idea that spread. The archive's dates trace that movement. The earliest people it labels Neolithic come from Turkey, from 8750 BCE. Then, country by country, the first Neolithic burials get later the further they lie from Anatolia: Greece 6366 BCE, Hungary 5990 BCE, France 5413 BCE, Portugal 5352 BCE, Britain 3981 BCE, Ireland 3796 BCE.</p>
+<div class="figure"><p class="fig-h">The earliest Neolithic burial in each country, against its distance from central Anatolia</p><p class="fig-sub">For each country in Europe and Anatolia with at least three people labelled Neolithic: the earliest of them (by mean date) and its distance from Çatalhöyük. Line: least squares fit, Turkey left out. Hover a dot.</p><div class="chart" id="neoChart"></div></div>
+<p>Across 24 countries the earliest dates fall later by about 0.88 years for every kilometre from Çatalhöyük (correlation 0.75). Put the other way round, the farming frontier, as the sampled burials record it, moved at about 1.1 km a year, roughly a lifetime to cross a county. The first Neolithic burial in Ireland comes 4,954 years after the first in Turkey. By latitude the story is the same: the first Neolithic burial north of 45°N is from 6035 BCE (Serbia), north of 50°N from 5250 BCE (Czechia), and north of 55°N from 4110 BCE (Denmark).</p>
+<p>Two cautions. The earliest sampled burial is not the moment farming arrived: it depends on which sites happen to have been dated and sequenced, so the true front was earlier, by an unknown amount. And "Neolithic" here is the archive's label. In the Baltic, Russia and Ukraine it often marks pottery-making hunter-gatherers, so I leave those countries out, along with groups whose labels also name hunter-gatherers and dates that are very uncertain or inconsistent (1,597 people remain).</p>
+
+<h2><span class="n">05 · The steppe arrives</span>Britain before and after 2500 BCE</h2>
+<p>The Y chromosome passes from father to son almost unchanged, so its branches, or haplogroups, trace male lines. In the archive, men of the Yamnaya culture of the Pontic and Caspian steppe, most of them buried between 3052 BCE and 2672 BCE, mostly carry R1b (79% of 163). Men of the Corded Ware culture, which followed in northern and central Europe, carry R1a (50%) and R1b (41%). Men buried with Bell Beaker pots carry R1b (95% of 114). The earlier farmers of Europe mostly did not: among Neolithic men in Europe, 8.7% carry R1b or R1a.</p>
+<div class="figure"><p class="fig-h">Y lines over time, by region</p><p class="fig-sub">Share of men in each 500 years whose Y call reaches a major branch, by branch; the number above each bar is how many men. Calls too broad to place (such as R or CT) are left out. Pale bars: fewer than five men. Choose a region.</p><div class="controls"><div class="scrollrow" id="regRow"><span class="ctl-l">Region</span></div></div><div class="chart" id="steppeChart"></div><div class="legend" id="steppeLegend"></div></div>
+<p>Britain shows the change most starkly. Of the 76 men in Britain before 2500 BCE whose Y line the archive resolves, none carried R1b; 71 (93%) carried I2. Of the 56 from 2500 to 1500 BCE, 50 (89%) carried R1b. The earliest R1b man in Britain in the archive, I3071, was buried with Beaker pottery at Canada Farm in Dorset, 2468-2294 calBCE (3900±30 BP, SUERC-32210). R1b still made up 91% of British men in the Iron Age, before the Romans came.</p>
+<p class="pull">In Britain, none of 76 men before 2500 BCE carried R1b. In the thousand years after, 89% did.</p>
+<p>The same turn happens across western and central Europe within a few centuries. In every one of the four regions below, R1b and R1a together go from a small minority before 3000 BCE to at least half of all men from 2500 BCE: in Iberia from 2% to 80% (2500 to 1500 BCE), in central Europe from 5% to 82%, and in Scandinavia from 3% to 51%, where I1 also rises.</p>
+<div class="figure"><p class="fig-h">Men carrying R1b or R1a, four regions</p><p class="fig-sub">Share of men with a resolved Y line in each 500 years who carry R1b or R1a. Only periods with at least five men are drawn. Hover a point.</p><div class="chart" id="steppeLines"></div><div class="legend" id="linesLegend"></div></div>
+<p>Later movements leave marks too. In Britain from 400 to 1066 CE, 30% of men carry I1, a line that in the archive is commonest in Scandinavia (35% of men there from 1 to 1000 CE) and almost absent from earlier Britain. That fits the settlers from across the North Sea that historians and the genetic studies describe.</p>
+<div class="note"><h3>What a haplogroup can and cannot tell you</h3><p>A Y haplogroup is one line of descent, father to father, out of the thousands of ancestors each of us has; an mtDNA haplogroup is one line, mother to mother. They are a proxy for ancestry, not ancestry itself. A change in Y lines can happen because newcomers' sons outnumbered others', without the whole population being replaced, and the published studies behind this archive measure whole-genome ancestry to show how much changed. R1b is also an old and large branch: a few earlier men carry older forms of it (10 in central Europe before 3000 BCE), so R1b alone does not mark steppe ancestry. I only count branches; I do not measure ancestry here.</p></div>
+
+<h2><span class="n">06 · Faces in the record</span>Ötzi, Ust'-Ishim and a lot of Avars</h2>
+<p>Some of the archive's people are famous. Ötzi the Iceman, found in 1991 melting out of a glacier in the Alps, is here under the ID "Iceman", in the group Italy_TrentinoSouthTyrol_North_MN, dated 3371-3103 calBCE (4550±27 BP; ETH-8345.1-2). His Y line is G2a2a1a2a1a1, part of G2, the commonest Y branch among Neolithic men in Anatolia in the archive (25%). Not every famous name passes the checks. Kennewick Man, found by the Columbia River in Washington in 1996, and the Anzick child from Montana, the only known Clovis burial, are both in the archive but graded "Questionable", so they are not in the counts; turn on "People who did not pass the checks" in Map layers to see them.</p>
+<div class="figure"><p class="fig-h">Famous individuals in the archive</p><p class="fig-sub">Searched for by ID. Grade: the archive's own quality assessment. Click a row to see the person on the map.</p><div class="tablebox"><table class="tbl" id="famousTable"></table></div></div>
+<p>The busiest places are mostly cemeteries dug in large campaigns. The single most sampled site is Mödling-An der Goldenen Stiege (Lower Austria, Mödling District), with 447 people, followed by Rákóczifalva-Bagi-földek (Jász-Nagykun-Szolnok Coiunty, Szolnok) with 330; both are cemeteries of the Avar period, in Austria and Hungary, between 580 CE and 832 CE. Çatalhöyük, the great Neolithic town in central Anatolia, has 119. At the other end, 1,641 of the 3,630 sites (45%) have just one person.</p>
+<div class="figure"><p class="fig-h">The most sampled sites</p><p class="fig-sub">Places with the most people passing the quality checks. A few "sites" are whole counties where the archive gives no closer place. Click a row to see it on the map.</p><div class="tablebox"><table class="tbl" id="siteTable"></table></div></div>
+
+<h2><span class="n">07 · How I did this</span>Methods and caveats</h2>
+<p><b>Data.</b> The AADR release v66.p1 public 1240K annotation file (23,089 rows, 49 columns). Ancient means a date mean above 0 years before present (1950). An individual is one Individual ID; the 19,118 ancient rows hold 1,489 extra rows for people sequenced more than once. A row passes if the archive's assessment begins "Pass", "PROVISIONAL_PASS" or "MERGE_PASS"; a person is kept if any of their rows passes, represented by the passing row with the most SNPs (if you take each person's richest row and then filter, 16,267 pass instead of 16,496). Dates are the archive's mean, from radiocarbon or from context; years are 1950 minus that mean. Places are the archive's coordinates; 88 people have none and are not on the map.</p>
+<p><b>Labels.</b> Sex is the archive's molecular sex. Y lines are the archive's automatic ISOGG call, or its hand call where one exists (224 people), grouped by the leading letters into major branches (R1b, R1a, I1, I2, G2, J1, J2, E1b and the letters N, Q, C, O, H, T, L and D); calls above that level are "too broad". mtDNA lines are grouped by their leading letter. Broad periods come from the date. Culture labels come from words in the archive's group names (for example Yamnaya, CordedWare, BellBeaker, N for Neolithic, BA for Bronze Age, IA for Iron Age, Viking), with named cultures taking priority over broad periods; the full rules are in the code. They are a convenience, not a classification.</p>
+<p><b>Comparisons.</b> Continents are Natural Earth's, with Russia split at 60°E; population is Natural Earth's 2019 estimate (Russia's split in proportion to its town populations on each side, 73% west), land is area without Antarctica. Present-day population is a yardstick for the sampling, not a claim about the past. Neolithic arrival uses the earliest dated individual per country, which depends on what has been sampled. Haplogroup shares count men, not ancestry.</p>
+<details><summary>Sources and licences</summary>
+<ul>
+<li>Mallick, S., Micco, A., Mah, M., Ringbauer, H., Lazaridis, I., Olalde, I., Patterson, N. and Reich, D. The Allen Ancient DNA Resource (AADR), version v66.p1. Harvard Dataverse, doi:10.7910/DVN/FFIDCW. CC0 1.0.</li>
+<li>Mallick, S. et al. (2024) The Allen Ancient DNA Resource (AADR) a curated compendium of ancient human genomes. Scientific Data 11, 182. doi:10.1038/s41597-024-03031-7.</li>
+<li>Each genome comes from the publication named in its popup; the archive credits 334 of them.</li>
+<li>Natural Earth country outlines, land and populated places (public domain).</li>
+<li>Map labels and borders: OpenFreeMap, © OpenMapTiles, © OpenStreetMap contributors. Relief, hillshade and satellite tiles: Esri.</li>
+</ul></details>
+
+<div class="cta"><a class="p" href="https://doi.org/10.5281/zenodo.23872993">Read the paper</a><a href="https://github.com/Tristan-Hotham/ancient-dna">Data and code</a><a href="https://blog.tristanhotham.com/2026/10/31/ancient-dna/">Blog post</a></div>
+
+<footer>
+<p>Dr Tristan Hotham, Independent researcher. ORCID <a href="https://orcid.org/0000-0003-4931-9349">0000-0003-4931-9349</a>.</p>
+<p>Cite as: Hotham, T. (2026) Ancient DNA on the map: where and when the world's published ancient human genomes lived. Zenodo. <a href="https://doi.org/10.5281/zenodo.23872993">https://doi.org/10.5281/zenodo.23872993</a></p>
+<p>Data: Allen Ancient DNA Resource (AADR) v66.p1, Mallick et al., Harvard Dataverse, doi:10.7910/DVN/FFIDCW (CC0 1.0). Licence: derived data and text CC BY 4.0, code MIT.</p>
+<p>I wrote the text, with drafting and editing assistance from Claude (Anthropic), which also helped prepare the analysis code. I reviewed and checked all text and results.</p>
+</footer>
+</div>
+<div class="tip" id="tip"></div>
+<button class="btn theme" id="theme" aria-label="Toggle dark mode">◐</button>
+<script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script>
+const R = {"sex":{"M":8601,"F":6835,"U":1060,"M_pct":52.14,"F_pct":41.43,"U_pct":6.43,"m_per_f":1.26},"oldest":[{"id":"RNI085","group":"Germany_Ranis_IUP","site":"Ranis (Thuringia, Saale-Orla-Kreis)","country":"Germany","bp":45875,"year":-43925,"yr":"43,925 BCE","date":"47600-40250 BCE","sex":"U","y":"","mt":"","pub":"SümerKrauseNature2024","first_pub":"SümerKrauseNature2024","pub_year":2024,"lat":50.664,"lon":11.568,"culture":"Upper Palaeolithic"},{"id":"RNI081","group":"Germany_Ranis_IUP","site":"Ranis (Thuringia, Saale-Orla-Kreis)","country":"Germany","bp":45875,"year":-43925,"yr":"43,925 BCE","date":"47600-40250 BCE","sex":"U","y":"","mt":"","pub":"SümerKrauseNature2024","first_pub":"SümerKrauseNature2024","pub_year":2024,"lat":50.664,"lon":11.568,"culture":"Upper Palaeolithic"},{"id":"RNI004","group":"Germany_Ranis_IUP","site":"Ranis (Thuringia, Saale-Orla-Kreis)","country":"Germany","bp":45875,"year":-43925,"yr":"43,925 BCE","date":"47600-40250 BCE","sex":"U","y":"","mt":"","pub":"SümerKrauseNature2024","first_pub":"SümerKrauseNature2024","pub_year":2024,"lat":50.664,"lon":11.568,"culture":"Upper Palaeolithic"},{"id":"RNI006","group":"Germany_Ranis_IUP","site":"Ranis (Thuringia, Saale-Orla-Kreis)","country":"Germany","bp":45875,"year":-43925,"yr":"43,925 BCE","date":"47600-40250 BCE","sex":"U","y":"","mt":"","pub":"SümerKrauseNature2024","first_pub":"SümerKrauseNature2024","pub_year":2024,"lat":50.664,"lon":11.568,"culture":"Upper Palaeolithic"},{"id":"RNI087","group":"Germany_Ranis_IUP","site":"Ranis (Thuringia, Saale-Orla-Kreis)","country":"Germany","bp":45875,"year":-43925,"yr":"43,925 BCE","date":"47600-40250 BCE","sex":"U","y":"","mt":"","pub":"SümerKrauseNature2024","first_pub":"SümerKrauseNature2024","pub_year":2024,"lat":50.664,"lon":11.568,"culture":"Upper Palaeolithic"},{"id":"RNI010","group":"Germany_Ranis_IUP","site":"Ranis (Thuringia, Saale-Orla-Kreis)","country":"Germany","bp":45875,"year":-43925,"yr":"43,925 BCE","date":"47600-40250 BCE","sex":"U","y":"","mt":"","pub":"SümerKrauseNature2024","first_pub":"SümerKrauseNature2024","pub_year":2024,"lat":50.664,"lon":11.568,"culture":"Upper Palaeolithic"},{"id":"RNI013","group":"Germany_Ranis_IUP","site":"Ranis (Thuringia, Saale-Orla-Kreis)","country":"Germany","bp":45875,"year":-43925,"yr":"43,925 BCE","date":"47600-40250 BCE","sex":"U","y":"","mt":"","pub":"SümerKrauseNature2024","first_pub":"SümerKrauseNature2024","pub_year":2024,"lat":50.664,"lon":11.568,"culture":"Upper Palaeolithic"},{"id":"RNI080","group":"Germany_Ranis_IUP","site":"Ranis (Thuringia, Saale-Orla-Kreis)","country":"Germany","bp":45875,"year":-43925,"yr":"43,925 BCE","date":"47600-40250 BCE","sex":"U","y":"","mt":"","pub":"SümerKrauseNature2024","first_pub":"SümerKrauseNature2024","pub_year":2024,"lat":50.664,"lon":11.568,"culture":"Upper Palaeolithic"},{"id":"ZKU002","group":"Czechia_Zlatykun_IUP","site":"Zlatý-kůň (Central Bohemian Region, Beroun District, Koněprusy Caves)","country":"Czechia","bp":45875,"year":-43925,"yr":"43,925 BCE","date":"47600-40250 BCE","sex":"U","y":"","mt":"","pub":"SümerKrauseNature2024","first_pub":"PrüferKrauseNatEcolEvol2021","pub_year":2021,"lat":49.916,"lon":14.066,"culture":"Upper Palaeolithic"},{"id":"BB7-240","group":"Bulgaria_BachoKiroCave_IUP","site":"Bacho-Kiro Cave (Lovech Province, Ugarchin Municipality)","country":"Bulgaria","bp":45371,"year":-43421,"yr":"43,421 BCE","date":"44169-42652 calBCE (42850±480 BP, ETH-86770)","sex":"M","y":"","mt":"","pub":"HajdinjakPääboNature2021","first_pub":"HajdinjakPääboNature2021","pub_year":2021,"lat":42.948,"lon":24.43,"culture":"Upper Palaeolithic"},{"id":"Ust_Ishim","group":"Russia_UstIshim_IUP","site":"Ust'-Ishim (Omsk Oblast, Ust-Ishimsky District)","country":"Russia","bp":44366,"year":-42416,"yr":"42,416 BCE","date":"43980-40954 calBCE (41400±953 BP)","sex":"M","y":"K2","mt":"R*","pub":"FuPääboNature2014","first_pub":"FuPääboNature2014","pub_year":2014,"lat":57.7,"lon":71.1,"culture":"Upper Palaeolithic"},{"id":"F6-620","group":"Bulgaria_BachoKiroCave_IUP","site":"Bacho-Kiro Cave (Lovech Province, Ugarchin Municipality)","country":"Bulgaria","bp":43250,"year":-41300,"yr":"41,300 BCE","date":"42000-40600 BCE","sex":"M","y":"","mt":"","pub":"HajdinjakPääboNature2021","first_pub":"HajdinjakPääboNature2021","pub_year":2021,"lat":42.948,"lon":24.43,"culture":"Upper Palaeolithic"}],"archaic":[{"id":"Denisova25","group":"Russia_DenisovaCave_MPleistocene","site":"Denisova Cave (Altai Republic, Soloneshensky District)","country":"Russia","bp":185000,"year":-183050,"yr":"183,050 BCE","date":"198050-168050 BCE","sex":"M","y":"","mt":"","pub":"PeyrégneKelsoBioRxiv2025","first_pub":"PeyrégneKelsoBioRxiv2025","pub_year":2025,"lat":51.403,"lon":84.666,"culture":"Archaic (Neanderthal, Denisovan)"},{"id":"Altai","group":"Altai_Neanderthal","site":"Denisova-Cave (Altai Krai, Soloneshensky District)","country":"Russia","bp":110450,"year":-108500,"yr":"108,500 BCE","date":"128050-88950 BCE","sex":"F","y":"","mt":"Neanderthal","pub":"PrüferPääboNature2013","first_pub":"PrüferPääboNature2013","pub_year":2013,"lat":51.398,"lon":84.676,"culture":"Archaic (Neanderthal, Denisovan)"},{"id":"Denisova11","group":"Russia_Denisova_Neanderthal_Mix","site":"Denisova-Cave (Altai Krai, Soloneshensky District)","country":"Russia","bp":98700,"year":-96750,"yr":"96,750 BCE","date":"116150-77350 BCE","sex":"F","y":"","mt":"Neanderthal","pub":"SlonPääboNature2018","first_pub":"SlonPääboNature2018","pub_year":2018,"lat":51.398,"lon":84.676,"culture":"Archaic (Neanderthal, Denisovan)"},{"id":"Chagyrskaya8","group":"ChagyrskayaCave_Neanderthal","site":"Chagyrskaya-Cave (Altai Krai, Krasnoshchyokovsky District)","country":"Russia","bp":80000,"year":-78050,"yr":"78,050 BCE","date":"98050-58050 BCE","sex":"U","y":"","mt":"","pub":"MafessoniPääboPNAS2020","first_pub":"MafessoniPääboPNAS2020","pub_year":2020,"lat":51.442,"lon":83.155,"culture":"Archaic (Neanderthal, Denisovan)"},{"id":"Mezmaiskaya1","group":"Mezmaiskayacave_Neanderthal","site":"Mezmaiskaya-cave (Krasnodar Krai, Apsheronsky District)","country":"Russia","bp":65000,"year":-63050,"yr":"63,050 BCE","date":"68050-58050 BCE","sex":"F","y":"","mt":"","pub":"PrüferPääboScience2017","first_pub":"GreenPääboScience2010","pub_year":2010,"lat":44.134,"lon":40.007,"culture":"Archaic (Neanderthal, Denisovan)"},{"id":"Denisova","group":"Russia_Denisova","site":"Denisova-Cave (Altai Krai, Soloneshensky District)","country":"Russia","bp":63900,"year":-61950,"yr":"61,950 BCE","date":"74250-49650 BCE","sex":"F","y":"","mt":"","pub":"MeyerPääboScience2012","first_pub":"ReichPääboNature2010","pub_year":2010,"lat":51.398,"lon":84.676,"culture":"Archaic (Neanderthal, Denisovan)"},{"id":"Mandrin_1600","group":"France_GrotteMandrin_Neanderthal","site":"Grotte Mandrin (Rhone-Alpes)","country":"France","bp":53950,"year":-52000,"yr":"52,000 BCE","date":"54000-50000 BCE","sex":"M","y":"P1","mt":"","pub":"SlimakSikoraCellGenom2024","first_pub":"SlimakSikoraCellGenom2024","pub_year":2024,"lat":44.466,"lon":4.766,"culture":"Archaic (Neanderthal, Denisovan)"},{"id":"Vindija","group":"VindijaCave_Neanderthal","site":"Vindija Cave (Varaždin County, Općina Donja Voća)","country":"Croatia","bp":50000,"year":-48050,"yr":"48,050 BCE","date":">43500 calBCE (45300±2300 BP, OxA-32278)","sex":"F","y":"","mt":"","pub":"PrüferPääboScience2017","first_pub":"GreenPääboScience2010","pub_year":2010,"lat":46.299,"lon":16.071,"culture":"Archaic (Neanderthal, Denisovan)"}],"archaic_failed":[{"id":"VindijaG1_final","group":"VindijaCave_Neanderthal","site":"Vindija Cave (Varaždin County, Općina Donja Voća)","country":"Croatia","bp":50000,"year":-48050,"yr":"48,050 BCE","date":">45000 calBCE (OxA-X-2634-52)","sex":"F","y":"","mt":"","pub":"HajdinjakKelsoNature2018","first_pub":"HajdinjakKelsoNature2018","pub_year":2018,"lat":46.299,"lon":16.071,"culture":"Archaic (Neanderthal, Denisovan)"},{"id":"Mezmaiskaya2_final","group":"Mezmaiskayacave_Neanderthal","site":"Mezmaiskaya-cave (Krasnodar Krai, Apsheronsky District)","country":"Russia","bp":43449,"year":-41499,"yr":"41,499 BCE","date":"43015-40206 calBCE (39700±1100 BP, OxA-21839)","sex":"M","y":"F3","mt":"","pub":"HajdinjakKelsoNature2018","first_pub":"HajdinjakKelsoNature2018","pub_year":2018,"lat":44.134,"lon":40.007,"culture":"Archaic (Neanderthal, Denisovan)"},{"id":"Les_Cottes_final","group":"LesCottescave_Neanderthal","site":"Les Cottés cave (Nouvelle-Aquitaine, Vienne, Montmorillon, Journet)","country":"France","bp":42846,"year":-40896,"yr":"40,896 BCE","date":"41201-40596 calBCE (39485±271 BP, MAMS-26196)","sex":"F","y":"","mt":"","pub":"HajdinjakKelsoNature2018","first_pub":"HajdinjakKelsoNature2018","pub_year":2018,"lat":46.445,"lon":0.963,"culture":"Archaic (Neanderthal, Denisovan)"},{"id":"Goyet_final","group":"GoyetCave_Neanderthal","site":"Goyet Cave (Wallonia Region, Namur Province, Gesves Municipality, Troisième caverne)","country":"Belgium","bp":42436,"year":-40486,"yr":"40,486 BCE","date":"40782-40217 calBCE (38440±340 BP, GrA-46170)","sex":"F","y":"","mt":"","pub":"HajdinjakKelsoNature2018","first_pub":"HajdinjakKelsoNature2018","pub_year":2018,"lat":50.446,"lon":5.008,"culture":"Archaic (Neanderthal, Denisovan)"},{"id":"Spy_final","group":"SpyCave_Neanderthal","site":"Spy Cave (Wallonne Gewest, Namen)","country":"Belgium","bp":40922,"year":-38972,"yr":"38,972 BCE","date":"39431-38495 calBCE (35810±260 BP, GrA-32623)","sex":"M","y":"A0","mt":"","pub":"HajdinjakKelsoNature2018","first_pub":"HajdinjakKelsoNature2018","pub_year":2018,"lat":50.482,"lon":4.669,"culture":"Archaic (Neanderthal, Denisovan)"}],"time":{"oldest_bp":45875,"oldest_year":-43925,"oldest_id":"RNI085","oldest_group":"Germany_Ranis_IUP","youngest_bp":60,"youngest_year":1890,"archaic_oldest_bp":185000,"median_year":-450,"n_before_10000bce":102,"n_before_5000bce":1460,"pct_after_3000bce":79.53,"pct_after_1bce":42.14,"pct_last_10000":98.75,"n_over_40000bp":12,"n_over_20000bp":58,"oldest_k":45000},"millennia":[{"a":-45000,"b":-44000,"n":0},{"a":-44000,"b":-43000,"n":10},{"a":-43000,"b":-42000,"n":1},{"a":-42000,"b":-41000,"n":1},{"a":-41000,"b":-40000,"n":0},{"a":-40000,"b":-39000,"n":0},{"a":-39000,"b":-38000,"n":1},{"a":-38000,"b":-37000,"n":1},{"a":-37000,"b":-36000,"n":1},{"a":-36000,"b":-35000,"n":0},{"a":-35000,"b":-34000,"n":2},{"a":-34000,"b":-33000,"n":1},{"a":-33000,"b":-32000,"n":6},{"a":-32000,"b":-31000,"n":2},{"a":-31000,"b":-30000,"n":3},{"a":-30000,"b":-29000,"n":3},{"a":-29000,"b":-28000,"n":5},{"a":-28000,"b":-27000,"n":3},{"a":-27000,"b":-26000,"n":3},{"a":-26000,"b":-25000,"n":7},{"a":-25000,"b":-24000,"n":3},{"a":-24000,"b":-23000,"n":1},{"a":-23000,"b":-22000,"n":2},{"a":-22000,"b":-21000,"n":1},{"a":-21000,"b":-20000,"n":0},{"a":-20000,"b":-19000,"n":0},{"a":-19000,"b":-18000,"n":1},{"a":-18000,"b":-17000,"n":1},{"a":-17000,"b":-16000,"n":3},{"a":-16000,"b":-15000,"n":1},{"a":-15000,"b":-14000,"n":1},{"a":-14000,"b":-13000,"n":9},{"a":-13000,"b":-12000,"n":12},{"a":-12000,"b":-11000,"n":7},{"a":-11000,"b":-10000,"n":10},{"a":-10000,"b":-9000,"n":25},{"a":-9000,"b":-8000,"n":83},{"a":-8000,"b":-7000,"n":91},{"a":-7000,"b":-6000,"n":299},{"a":-6000,"b":-5000,"n":860},{"a":-5000,"b":-4000,"n":872},{"a":-4000,"b":-3000,"n":1043},{"a":-3000,"b":-2000,"n":1908},{"a":-2000,"b":-1000,"n":1740},{"a":-1000,"b":0,"n":2517},{"a":0,"b":1000,"n":4366},{"a":1000,"b":2000,"n":2582}],"half_millennia":[{"a":-10000,"b":-9500,"n":12},{"a":-9500,"b":-9000,"n":13},{"a":-9000,"b":-8500,"n":31},{"a":-8500,"b":-8000,"n":52},{"a":-8000,"b":-7500,"n":49},{"a":-7500,"b":-7000,"n":42},{"a":-7000,"b":-6500,"n":131},{"a":-6500,"b":-6000,"n":168},{"a":-6000,"b":-5500,"n":257},{"a":-5500,"b":-5000,"n":603},{"a":-5000,"b":-4500,"n":446},{"a":-4500,"b":-4000,"n":426},{"a":-4000,"b":-3500,"n":459},{"a":-3500,"b":-3000,"n":584},{"a":-3000,"b":-2500,"n":962},{"a":-2500,"b":-2000,"n":946},{"a":-2000,"b":-1500,"n":996},{"a":-1500,"b":-1000,"n":744},{"a":-1000,"b":-500,"n":1112},{"a":-500,"b":0,"n":1405},{"a":0,"b":500,"n":1349},{"a":500,"b":1000,"n":3017},{"a":1000,"b":1500,"n":1985},{"a":1500,"b":2000,"n":597}],"periods":[{"name":"Before 10,000 BCE","n":102},{"name":"10,000 to 6000 BCE","n":498},{"name":"6000 to 4000 BCE","n":1732},{"name":"4000 to 2500 BCE","n":2005},{"name":"2500 to 1000 BCE","n":2686},{"name":"1000 BCE to 1 CE","n":2523},{"name":"1 to 1000 CE","n":4360},{"name":"After 1000 CE","n":2582}],"cultures":[{"name":"Archaic (Neanderthal, Denisovan)","n":8},{"name":"Upper Palaeolithic","n":110},{"name":"Mesolithic and hunter-gatherers","n":321},{"name":"Neolithic","n":2403},{"name":"Copper Age","n":1001},{"name":"Yamnaya","n":264},{"name":"Corded Ware","n":101},{"name":"Bell Beaker","n":223},{"name":"Bronze Age","n":2384},{"name":"Iron Age","n":2629},{"name":"Roman","n":803},{"name":"Late Antiquity and Medieval","n":3431},{"name":"Viking","n":442},{"name":"Early modern and historic","n":422},{"name":"Other or regional label","n":1954}],"pubs":{"years":[{"y":2010,"n":4},{"y":2011,"n":0},{"y":2012,"n":1},{"y":2013,"n":2},{"y":2014,"n":35},{"y":2015,"n":257},{"y":2016,"n":119},{"y":2017,"n":224},{"y":2018,"n":1305},{"y":2019,"n":1295},{"y":2020,"n":1511},{"y":2021,"n":2081},{"y":2022,"n":2015},{"y":2023,"n":1457},{"y":2024,"n":2098},{"y":2025,"n":3757},{"y":2026,"n":59}],"since2020":12978,"since2020_pct":80.01,"before2015":42,"y2025":3757,"no_year":276,"first_year":2010,"top":[{"pub":"PattersonReichNature2021","n":741},{"pub":"McCollWillerslevBioRxiv2025","n":712},{"pub":"LazaridisReichScience2022","n":668},{"pub":"WangHofmanováNature2025","n":666},{"pub":"AkbariReichNature2026","n":483},{"pub":"NarasimhanReichScience2019","n":423},{"pub":"Gnecchi-RusconeHofmanováNature2024","n":423},{"pub":"MargaryanWillerslevNature2020","n":423},{"pub":"BenekerKivisildGenomeBiol2025","n":332},{"pub":"GretzingerSchiffelsNature2022","n":315}]},"countries":[{"country":"Russia","n":1394,"pct":8.45},{"country":"Hungary","n":1317,"pct":7.98},{"country":"United Kingdom","n":1151,"pct":6.98},{"country":"China","n":865,"pct":5.24},{"country":"Austria","n":784,"pct":4.75},{"country":"Italy","n":698,"pct":4.23},{"country":"Denmark","n":653,"pct":3.96},{"country":"Germany","n":617,"pct":3.74},{"country":"Spain","n":594,"pct":3.6},{"country":"France","n":537,"pct":3.26},{"country":"Turkey","n":476,"pct":2.89},{"country":"Belgium","n":453,"pct":2.75},{"country":"Czechia","n":452,"pct":2.74},{"country":"Poland","n":437,"pct":2.65},{"country":"Sweden","n":374,"pct":2.27},{"country":"Ukraine","n":325,"pct":1.97},{"country":"Croatia","n":270,"pct":1.64},{"country":"Mongolia","n":264,"pct":1.6},{"country":"Argentina","n":258,"pct":1.56},{"country":"Kazakhstan","n":239,"pct":1.45},{"country":"USA","n":229,"pct":1.39},{"country":"Armenia","n":213,"pct":1.29},{"country":"Serbia","n":199,"pct":1.21},{"country":"Romania","n":195,"pct":1.18},{"country":"Greece","n":160,"pct":0.97},{"country":"Bulgaria","n":148,"pct":0.9},{"country":"Portugal","n":136,"pct":0.82},{"country":"Netherlands","n":133,"pct":0.81},{"country":"Dominican Republic","n":128,"pct":0.78},{"country":"Pakistan","n":127,"pct":0.77},{"country":"Norway","n":116,"pct":0.7},{"country":"Mexico","n":115,"pct":0.7},{"country":"Iran","n":114,"pct":0.69},{"country":"Slovakia","n":109,"pct":0.66},{"country":"Israel","n":101,"pct":0.61},{"country":"Guam","n":96,"pct":0.58},{"country":"Kenya","n":94,"pct":0.57},{"country":"Ireland","n":91,"pct":0.55},{"country":"Estonia","n":84,"pct":0.51},{"country":"Switzerland","n":80,"pct":0.48},{"country":"Peru","n":74,"pct":0.45},{"country":"Kyrgyzstan","n":67,"pct":0.41},{"country":"Turkmenistan","n":65,"pct":0.39},{"country":"Sudan","n":65,"pct":0.39},{"country":"Uzbekistan","n":60,"pct":0.36},{"country":"Tunisia","n":56,"pct":0.34},{"country":"Moldova","n":53,"pct":0.32},{"country":"Brazil","n":51,"pct":0.31},{"country":"India","n":47,"pct":0.28},{"country":"Taiwan","n":46,"pct":0.28},{"country":"Papua New Guinea","n":41,"pct":0.25},{"country":"Thailand","n":40,"pct":0.24},{"country":"Iceland","n":40,"pct":0.24},{"country":"Nepal","n":39,"pct":0.24},{"country":"Jordan","n":38,"pct":0.23},{"country":"Cuba","n":36,"pct":0.22},{"country":"Yemen","n":36,"pct":0.22},{"country":"Lebanon","n":35,"pct":0.21},{"country":"Latvia","n":33,"pct":0.2},{"country":"Vanuatu","n":32,"pct":0.19},{"country":"Japan","n":32,"pct":0.19},{"country":"Bahamas","n":31,"pct":0.19},{"country":"Slovenia","n":30,"pct":0.18},{"country":"Lithuania","n":29,"pct":0.18},{"country":"Albania","n":27,"pct":0.16},{"country":"North Macedonia","n":25,"pct":0.15},{"country":"Montenegro","n":25,"pct":0.15},{"country":"Tanzania","n":23,"pct":0.14},{"country":"Belize","n":22,"pct":0.13},{"country":"Colombia","n":21,"pct":0.13},{"country":"Bolivia","n":21,"pct":0.13},{"country":"Greenland","n":20,"pct":0.12},{"country":"South Africa","n":20,"pct":0.12},{"country":"Indonesia","n":19,"pct":0.12},{"country":"Georgia","n":19,"pct":0.12},{"country":"Morocco","n":18,"pct":0.11},{"country":"Vietnam","n":18,"pct":0.11},{"country":"Chile","n":17,"pct":0.1},{"country":"Palau","n":17,"pct":0.1},{"country":"Faroe Islands","n":17,"pct":0.1},{"country":"Syria","n":16,"pct":0.1},{"country":"Canada","n":15,"pct":0.09},{"country":"Republic of Korea","n":15,"pct":0.09},{"country":"Puerto Rico","n":15,"pct":0.09},{"country":"Channel Islands","n":13,"pct":0.08},{"country":"Crimea","n":12,"pct":0.07},{"country":"Tajikistan","n":11,"pct":0.07},{"country":"Federated States of Micronesia","n":11,"pct":0.07},{"country":"Panama","n":11,"pct":0.07},{"country":"Finland","n":9,"pct":0.05},{"country":"Australia","n":9,"pct":0.05},{"country":"Malawi","n":9,"pct":0.05},{"country":"Saint Lucia","n":9,"pct":0.05},{"country":"Venezuela","n":8,"pct":0.05},{"country":"Azerbaijan","n":7,"pct":0.04},{"country":"Honduras","n":7,"pct":0.04},{"country":"Iraq","n":6,"pct":0.04},{"country":"Curacao","n":5,"pct":0.03},{"country":"Algeria","n":5,"pct":0.03},{"country":"Democratic Republic of the Congo","n":5,"pct":0.03},{"country":"Bahrain","n":4,"pct":0.02},{"country":"Cameroon","n":4,"pct":0.02},{"country":"Gibraltar","n":4,"pct":0.02},{"country":"Malaysia","n":4,"pct":0.02},{"country":"Guadeloupe","n":3,"pct":0.02},{"country":"Cyprus","n":3,"pct":0.02},{"country":"Tonga","n":3,"pct":0.02},{"country":"Laos","n":3,"pct":0.02},{"country":"Botswana","n":3,"pct":0.02},{"country":"Saint Helena","n":3,"pct":0.02},{"country":"Sint Maarten","n":3,"pct":0.02},{"country":"French Polynesia","n":3,"pct":0.02},{"country":"Canary Islands","n":3,"pct":0.02},{"country":"Uruguay","n":2,"pct":0.01},{"country":"Haiti","n":2,"pct":0.01},{"country":"Egypt","n":2,"pct":0.01},{"country":"Malta","n":2,"pct":0.01},{"country":"Afghanistan","n":1,"pct":0.01},{"country":"Zambia","n":1,"pct":0.01},{"country":"Paraguay","n":1,"pct":0.01},{"country":"Cambodia","n":1,"pct":0.01},{"country":"Bosnia-Herzegovina","n":1,"pct":0.01},{"country":"Luxembourg","n":1,"pct":0.01},{"country":"Solomon Islands","n":1,"pct":0.01},{"country":"Uganda","n":1,"pct":0.01},{"country":"Philippines","n":1,"pct":0.01},{"country":"Ethiopia","n":1,"pct":0.01}],"top_countries":[{"country":"Russia","n":1394,"pct":8.45},{"country":"Hungary","n":1317,"pct":7.98},{"country":"United Kingdom","n":1151,"pct":6.98},{"country":"China","n":865,"pct":5.24},{"country":"Austria","n":784,"pct":4.75},{"country":"Italy","n":698,"pct":4.23},{"country":"Denmark","n":653,"pct":3.96},{"country":"Germany","n":617,"pct":3.74},{"country":"Spain","n":594,"pct":3.6},{"country":"France","n":537,"pct":3.26},{"country":"Turkey","n":476,"pct":2.89},{"country":"Belgium","n":453,"pct":2.75},{"country":"Czechia","n":452,"pct":2.74},{"country":"Poland","n":437,"pct":2.65},{"country":"Sweden","n":374,"pct":2.27},{"country":"Ukraine","n":325,"pct":1.97},{"country":"Croatia","n":270,"pct":1.64},{"country":"Mongolia","n":264,"pct":1.6},{"country":"Argentina","n":258,"pct":1.56},{"country":"Kazakhstan","n":239,"pct":1.45}],"n_countries_100":35,"sites":[{"site":"Mödling-An der Goldenen Stiege (Lower Austria, Mödling District)","n":447,"country":"Austria","lat":48.082,"lon":16.285,"y0":725,"y1":725,"group":"Austria_Avar","culture":"Late Antiquity and Medieval"},{"site":"Rákóczifalva-Bagi-földek (Jász-Nagykun-Szolnok Coiunty, Szolnok)","n":330,"country":"Hungary","lat":47.075,"lon":20.226,"y0":580,"y1":832,"group":"Hungary_LateAvar-oLowEastAsia","culture":"Late Antiquity and Medieval"},{"site":"Sint-Truiden Groenmarkt (Flemish Region, Limburg, of Hasselt Arrondissement)","n":287,"country":"Belgium","lat":50.815,"lon":5.186,"y0":724,"y1":1791,"group":"Belgium_HighMedieval","culture":"Late Antiquity and Medieval"},{"site":"Cambridgeshire (England)","n":229,"country":"United Kingdom","lat":52.205,"lon":0.122,"y0":1250,"y1":1725,"group":"England_Cambridgeshire_Medieval","culture":"Late Antiquity and Medieval"},{"site":"Leobersdorf (Lower Austria, Baden District)","n":136,"country":"Austria","lat":47.917,"lon":16.217,"y0":725,"y1":725,"group":"Austria_Avar","culture":"Late Antiquity and Medieval"},{"site":"Çatalhöyük (Konya, Çumra)","n":119,"country":"Turkey","lat":37.666,"lon":32.826,"y0":-6888,"y1":-5775,"group":"Turkey_Catalhoyuk_MN","culture":"Neolithic"},{"site":"Gurgy Les Noisats (Bourgogne-Franche-Comté Region, Yonne Department, Auxerre Arrondissement)","n":112,"country":"France","lat":47.97,"lon":3.56,"y0":-4982,"y1":-200,"group":"France_Yonne_N","culture":"Neolithic"},{"site":"Naton Beach Site (Guam, Tamuning-Tumon-Harmon Municipality, Tamuning)","n":92,"country":"Guam","lat":13.52,"lon":144.807,"y0":-792,"y1":1585,"group":"Guam_Latte","culture":"Other or regional label"},{"site":"Asparn Schletz (Niederösterreich, Mistelbach)","n":84,"country":"Austria","lat":48.58,"lon":16.469,"y0":-5578,"y1":-4125,"group":"Austria_N_LBK","culture":"Neolithic"},{"site":"Csokorgasse (Vienna)","n":78,"country":"Austria","lat":48.152,"lon":16.47,"y0":700,"y1":700,"group":"Austria_Avar","culture":"Late Antiquity and Medieval"},{"site":"Urziceni (Satu Mare County, Urziceni)","n":75,"country":"Romania","lat":47.747,"lon":22.395,"y0":-5212,"y1":-3619,"group":"Romania_C_Bodrogkeresztur","culture":"Copper Age"},{"site":"La Almoloya (Murcia, Pliego)","n":67,"country":"Spain","lat":37.953,"lon":-1.508,"y0":-2000,"y1":-1630,"group":"Spain_EBA","culture":"Bronze Age"},{"site":"La Caleta (Santo Domingo, Boca Chica)","n":61,"country":"Dominican Republic","lat":18.451,"lon":-69.686,"y0":649,"y1":1486,"group":"DominicanRepublic_Ceramic","culture":"Other or regional label"},{"site":"Kunszállás-Fülöpjakab (Bács-Kiskun County, Kecskemét)","n":59,"country":"Hungary","lat":46.751,"lon":19.738,"y0":600,"y1":775,"group":"Hungary_LateAvar-oHighEastAsia","culture":"Late Antiquity and Medieval"},{"site":"Baligang (Nanyang, Dengzhou)","n":58,"country":"China","lat":32.692,"lon":112.135,"y0":-5000,"y1":-570,"group":"China_Baligang_LN_Yangshao","culture":"Neolithic"}],"avar_sites":{"y0":580,"y1":832},"sites_one":1641,"sites_n":3630,"sites_one_pct":45.21,"bias":{"Europe":{"cont":"Europe","n":11217,"pct":68.4,"pop_pct":9.22,"land_pct":7.45,"per_10m_people":158.5,"per_100k_km2":112.1},"Asia":{"cont":"Asia","n":3571,"pct":21.77,"pop_pct":59.98,"land_pct":32.82,"per_10m_people":7.8,"per_100k_km2":8.1},"Africa":{"cont":"Africa","n":308,"pct":1.88,"pop_pct":17.06,"land_pct":22.25,"per_10m_people":2.4,"per_100k_km2":1.0},"North America":{"cont":"North America","n":595,"pct":3.63,"pop_pct":7.62,"land_pct":18.05,"per_10m_people":10.2,"per_100k_km2":2.5},"South America":{"cont":"South America","n":449,"pct":2.74,"pop_pct":5.56,"land_pct":13.1,"per_10m_people":10.5,"per_100k_km2":2.5},"Oceania":{"cont":"Oceania","n":260,"pct":1.59,"pop_pct":0.55,"land_pct":6.33,"per_10m_people":61.3,"per_100k_km2":3.1}},"bias_list":[{"cont":"Europe","n":11217,"pct":68.4,"pop_pct":9.22,"land_pct":7.45,"per_10m_people":158.5,"per_100k_km2":112.1},{"cont":"Asia","n":3571,"pct":21.77,"pop_pct":59.98,"land_pct":32.82,"per_10m_people":7.8,"per_100k_km2":8.1},{"cont":"Africa","n":308,"pct":1.88,"pop_pct":17.06,"land_pct":22.25,"per_10m_people":2.4,"per_100k_km2":1.0},{"cont":"North America","n":595,"pct":3.63,"pop_pct":7.62,"land_pct":18.05,"per_10m_people":10.2,"per_100k_km2":2.5},{"cont":"South America","n":449,"pct":2.74,"pop_pct":5.56,"land_pct":13.1,"per_10m_people":10.5,"per_100k_km2":2.5},{"cont":"Oceania","n":260,"pct":1.59,"pop_pct":0.55,"land_pct":6.33,"per_10m_people":61.3,"per_100k_km2":3.1}],"bias_sum":{"n_located":16400,"eu_pct":68.4,"eu_pop_pct":9.22,"eu_land_pct":7.45,"eu_x_pop":7.4,"eu_x_land":9.2,"africa_pct":1.88,"africa_pop_pct":17.06,"asia_pct":21.77,"asia_pop_pct":59.98,"eu_vs_africa_per_person":66,"rus_west_pop_share":73.2,"pop_year":2019},"bias_period":[{"name":"Before 10,000 BCE","n":102,"eu_pct":70.59},{"name":"10,000 to 6000 BCE","n":498,"eu_pct":41.57},{"name":"6000 to 4000 BCE","n":1731,"eu_pct":81.8},{"name":"4000 to 2500 BCE","n":1996,"eu_pct":73.35},{"name":"2500 to 1000 BCE","n":2673,"eu_pct":64.57},{"name":"1000 BCE to 1 CE","n":2505,"eu_pct":57.25},{"name":"1 to 1000 CE","n":4341,"eu_pct":79.01},{"name":"After 1000 CE","n":2554,"eu_pct":57.48}],"y":{"men":8599,"resolved":7750,"too_broad":523,"no_call":326,"clades":{"R1b":1841,"R1a":710,"I1":327,"I2":955,"G2":580,"J1":221,"J2":491,"E1b":342,"N":259,"Q":837,"C":314,"O":289,"H":111,"T":115,"L":52,"D":48,"Other":258},"resolved_pct":90.13},"mt":{"n":12520,"pct":75.93,"clades":{"H":2837,"HV and V":484,"U":2373,"K":1074,"J":879,"T":1135,"W, X, I and other N":940,"A":398,"B":261,"C":573,"D":482,"Other M":513,"F and other R":371,"L (African)":200}},"steppe":{"Britain":{"desc":"England, Scotland and Wales","men":541,"bins":[{"a":-7000,"b":-6500,"n":0,"r1b":0,"r1a":0,"r1b_pct":null,"r1a_pct":null,"steppe_pct":null,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":0,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-6500,"b":-6000,"n":0,"r1b":0,"r1a":0,"r1b_pct":null,"r1a_pct":null,"steppe_pct":null,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":0,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-6000,"b":-5500,"n":0,"r1b":0,"r1a":0,"r1b_pct":null,"r1a_pct":null,"steppe_pct":null,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":0,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-5500,"b":-5000,"n":0,"r1b":0,"r1a":0,"r1b_pct":null,"r1a_pct":null,"steppe_pct":null,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":0,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-5000,"b":-4500,"n":0,"r1b":0,"r1a":0,"r1b_pct":null,"r1a_pct":null,"steppe_pct":null,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":0,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-4500,"b":-4000,"n":0,"r1b":0,"r1a":0,"r1b_pct":null,"r1a_pct":null,"steppe_pct":null,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":0,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-4000,"b":-3500,"n":43,"r1b":0,"r1a":0,"r1b_pct":0.0,"r1a_pct":0.0,"steppe_pct":0.0,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":40,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":3}},{"a":-3500,"b":-3000,"n":25,"r1b":0,"r1a":0,"r1b_pct":0.0,"r1a_pct":0.0,"steppe_pct":0.0,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":23,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":2}},{"a":-3000,"b":-2500,"n":6,"r1b":0,"r1a":0,"r1b_pct":0.0,"r1a_pct":0.0,"steppe_pct":0.0,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":6,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-2500,"b":-2000,"n":33,"r1b":30,"r1a":0,"r1b_pct":90.91,"r1a_pct":0.0,"steppe_pct":90.91,"clades":{"R1b":30,"R1a":0,"I1":0,"I2":3,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-2000,"b":-1500,"n":23,"r1b":20,"r1a":0,"r1b_pct":86.96,"r1a_pct":0.0,"steppe_pct":86.96,"clades":{"R1b":20,"R1a":0,"I1":0,"I2":3,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-1500,"b":-1000,"n":26,"r1b":19,"r1a":0,"r1b_pct":73.08,"r1a_pct":0.0,"steppe_pct":73.08,"clades":{"R1b":19,"R1a":0,"I1":0,"I2":7,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-1000,"b":-500,"n":17,"r1b":17,"r1a":0,"r1b_pct":100.0,"r1a_pct":0.0,"steppe_pct":100.0,"clades":{"R1b":17,"R1a":0,"I1":0,"I2":0,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-500,"b":0,"n":145,"r1b":130,"r1a":0,"r1b_pct":89.66,"r1a_pct":0.0,"steppe_pct":89.66,"clades":{"R1b":130,"R1a":0,"I1":0,"I2":8,"G2":7,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":0,"b":500,"n":40,"r1b":35,"r1a":0,"r1b_pct":87.5,"r1a_pct":0.0,"steppe_pct":87.5,"clades":{"R1b":35,"R1a":0,"I1":0,"I2":3,"G2":1,"J1":0,"J2":1,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":500,"b":1000,"n":123,"r1b":63,"r1a":4,"r1b_pct":51.22,"r1a_pct":3.25,"steppe_pct":54.47,"clades":{"R1b":63,"R1a":4,"I1":39,"I2":10,"G2":1,"J1":0,"J2":1,"E1b":1,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":4}},{"a":1000,"b":1500,"n":57,"r1b":30,"r1a":6,"r1b_pct":52.63,"r1a_pct":10.53,"steppe_pct":63.16,"clades":{"R1b":30,"R1a":6,"I1":8,"I2":2,"G2":0,"J1":0,"J2":1,"E1b":3,"N":0,"Q":1,"C":0,"O":0,"H":1,"T":0,"L":2,"D":0,"Other":3}},{"a":1500,"b":2000,"n":1,"r1b":1,"r1a":0,"r1b_pct":100.0,"r1a_pct":0.0,"steppe_pct":100.0,"clades":{"R1b":1,"R1a":0,"I1":0,"I2":0,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}}],"pre3000_n":70,"pre3000_r":0,"pre3000_pct":0.0,"ba_n":56,"ba_r":50,"ba_pct":89.29,"ba_r1b_pct":89.29,"ba_r1a_pct":0.0,"first50":-2500},"Iberia":{"desc":"Spain, Portugal and Gibraltar","men":335,"bins":[{"a":-7000,"b":-6500,"n":0,"r1b":0,"r1a":0,"r1b_pct":null,"r1a_pct":null,"steppe_pct":null,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":0,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-6500,"b":-6000,"n":0,"r1b":0,"r1a":0,"r1b_pct":null,"r1a_pct":null,"steppe_pct":null,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":0,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-6000,"b":-5500,"n":4,"r1b":0,"r1a":0,"r1b_pct":0.0,"r1a_pct":0.0,"steppe_pct":0.0,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":2,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":2,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-5500,"b":-5000,"n":7,"r1b":1,"r1a":0,"r1b_pct":14.29,"r1a_pct":0.0,"steppe_pct":14.29,"clades":{"R1b":1,"R1a":0,"I1":0,"I2":4,"G2":2,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-5000,"b":-4500,"n":0,"r1b":0,"r1a":0,"r1b_pct":null,"r1a_pct":null,"steppe_pct":null,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":0,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-4500,"b":-4000,"n":0,"r1b":0,"r1a":0,"r1b_pct":null,"r1a_pct":null,"steppe_pct":null,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":0,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-4000,"b":-3500,"n":10,"r1b":0,"r1a":0,"r1b_pct":0.0,"r1a_pct":0.0,"steppe_pct":0.0,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":5,"G2":1,"J1":0,"J2":0,"E1b":0,"N":1,"Q":0,"C":0,"O":0,"H":2,"T":0,"L":0,"D":0,"Other":1}},{"a":-3500,"b":-3000,"n":25,"r1b":0,"r1a":0,"r1b_pct":0.0,"r1a_pct":0.0,"steppe_pct":0.0,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":19,"G2":3,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":2,"T":0,"L":0,"D":0,"Other":1}},{"a":-3000,"b":-2500,"n":53,"r1b":1,"r1a":0,"r1b_pct":1.89,"r1a_pct":0.0,"steppe_pct":1.89,"clades":{"R1b":1,"R1a":0,"I1":0,"I2":31,"G2":10,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":5,"T":1,"L":0,"D":0,"Other":5}},{"a":-2500,"b":-2000,"n":32,"r1b":16,"r1a":0,"r1b_pct":50.0,"r1a_pct":0.0,"steppe_pct":50.0,"clades":{"R1b":16,"R1a":0,"I1":0,"I2":11,"G2":1,"J1":0,"J2":0,"E1b":2,"N":0,"Q":0,"C":0,"O":0,"H":1,"T":0,"L":0,"D":0,"Other":1}},{"a":-2000,"b":-1500,"n":58,"r1b":56,"r1a":0,"r1b_pct":96.55,"r1a_pct":0.0,"steppe_pct":96.55,"clades":{"R1b":56,"R1a":0,"I1":0,"I2":1,"G2":1,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-1500,"b":-1000,"n":9,"r1b":9,"r1a":0,"r1b_pct":100.0,"r1a_pct":0.0,"steppe_pct":100.0,"clades":{"R1b":9,"R1a":0,"I1":0,"I2":0,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-1000,"b":-500,"n":6,"r1b":4,"r1a":0,"r1b_pct":66.67,"r1a_pct":0.0,"steppe_pct":66.67,"clades":{"R1b":4,"R1a":0,"I1":0,"I2":0,"G2":0,"J1":0,"J2":0,"E1b":1,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":1,"Other":0}},{"a":-500,"b":0,"n":28,"r1b":18,"r1a":1,"r1b_pct":64.29,"r1a_pct":3.57,"steppe_pct":67.86,"clades":{"R1b":18,"R1a":1,"I1":0,"I2":1,"G2":0,"J1":1,"J2":2,"E1b":2,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":1,"L":0,"D":0,"Other":2}},{"a":0,"b":500,"n":12,"r1b":5,"r1a":0,"r1b_pct":41.67,"r1a_pct":0.0,"steppe_pct":41.67,"clades":{"R1b":5,"R1a":0,"I1":0,"I2":0,"G2":1,"J1":1,"J2":2,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":2,"L":1,"D":0,"Other":0}},{"a":500,"b":1000,"n":45,"r1b":31,"r1a":0,"r1b_pct":68.89,"r1a_pct":0.0,"steppe_pct":68.89,"clades":{"R1b":31,"R1a":0,"I1":1,"I2":0,"G2":1,"J1":2,"J2":1,"E1b":4,"N":0,"Q":0,"C":1,"O":0,"H":0,"T":0,"L":1,"D":0,"Other":3}},{"a":1000,"b":1500,"n":36,"r1b":13,"r1a":1,"r1b_pct":36.11,"r1a_pct":2.78,"steppe_pct":38.89,"clades":{"R1b":13,"R1a":1,"I1":0,"I2":0,"G2":0,"J1":0,"J2":6,"E1b":11,"N":0,"Q":1,"C":1,"O":0,"H":0,"T":1,"L":0,"D":0,"Other":2}},{"a":1500,"b":2000,"n":6,"r1b":2,"r1a":0,"r1b_pct":33.33,"r1a_pct":0.0,"steppe_pct":33.33,"clades":{"R1b":2,"R1a":0,"I1":0,"I2":1,"G2":0,"J1":1,"J2":0,"E1b":2,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}}],"pre3000_n":50,"pre3000_r":1,"pre3000_pct":2.0,"ba_n":90,"ba_r":72,"ba_pct":80.0,"ba_r1b_pct":80.0,"ba_r1a_pct":0.0,"first50":-2500},"Scandinavia":{"desc":"Denmark, Sweden and Norway","men":597,"bins":[{"a":-7000,"b":-6500,"n":0,"r1b":0,"r1a":0,"r1b_pct":null,"r1a_pct":null,"steppe_pct":null,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":0,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-6500,"b":-6000,"n":1,"r1b":0,"r1a":0,"r1b_pct":0.0,"r1a_pct":0.0,"steppe_pct":0.0,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":1,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-6000,"b":-5500,"n":7,"r1b":0,"r1a":0,"r1b_pct":0.0,"r1a_pct":0.0,"steppe_pct":0.0,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":7,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-5500,"b":-5000,"n":7,"r1b":0,"r1a":0,"r1b_pct":0.0,"r1a_pct":0.0,"steppe_pct":0.0,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":5,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":2}},{"a":-5000,"b":-4500,"n":4,"r1b":0,"r1a":0,"r1b_pct":0.0,"r1a_pct":0.0,"steppe_pct":0.0,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":4,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-4500,"b":-4000,"n":7,"r1b":1,"r1a":0,"r1b_pct":14.29,"r1a_pct":0.0,"steppe_pct":14.29,"clades":{"R1b":1,"R1a":0,"I1":0,"I2":5,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":1}},{"a":-4000,"b":-3500,"n":9,"r1b":0,"r1a":0,"r1b_pct":0.0,"r1a_pct":0.0,"steppe_pct":0.0,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":7,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":2}},{"a":-3500,"b":-3000,"n":50,"r1b":1,"r1a":1,"r1b_pct":2.0,"r1a_pct":2.0,"steppe_pct":4.0,"clades":{"R1b":1,"R1a":1,"I1":0,"I2":39,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":2,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":7}},{"a":-3000,"b":-2500,"n":45,"r1b":8,"r1a":4,"r1b_pct":17.78,"r1a_pct":8.89,"steppe_pct":26.67,"clades":{"R1b":8,"R1a":4,"I1":0,"I2":29,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":4}},{"a":-2500,"b":-2000,"n":30,"r1b":10,"r1a":8,"r1b_pct":33.33,"r1a_pct":26.67,"steppe_pct":60.0,"clades":{"R1b":10,"R1a":8,"I1":10,"I2":2,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-2000,"b":-1500,"n":17,"r1b":5,"r1a":1,"r1b_pct":29.41,"r1a_pct":5.88,"steppe_pct":35.29,"clades":{"R1b":5,"R1a":1,"I1":10,"I2":1,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-1500,"b":-1000,"n":17,"r1b":2,"r1a":8,"r1b_pct":11.76,"r1a_pct":47.06,"steppe_pct":58.82,"clades":{"R1b":2,"R1a":8,"I1":5,"I2":1,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":1}},{"a":-1000,"b":-500,"n":9,"r1b":2,"r1a":2,"r1b_pct":22.22,"r1a_pct":22.22,"steppe_pct":44.44,"clades":{"R1b":2,"R1a":2,"I1":0,"I2":3,"G2":0,"J1":0,"J2":0,"E1b":0,"N":1,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":1}},{"a":-500,"b":0,"n":20,"r1b":5,"r1a":6,"r1b_pct":25.0,"r1a_pct":30.0,"steppe_pct":55.0,"clades":{"R1b":5,"R1a":6,"I1":6,"I2":2,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":1}},{"a":0,"b":500,"n":102,"r1b":32,"r1a":13,"r1b_pct":31.37,"r1a_pct":12.75,"steppe_pct":44.12,"clades":{"R1b":32,"R1a":13,"I1":39,"I2":12,"G2":1,"J1":0,"J2":0,"E1b":0,"N":2,"Q":0,"C":0,"O":0,"H":1,"T":0,"L":0,"D":0,"Other":2}},{"a":500,"b":1000,"n":154,"r1b":44,"r1a":31,"r1b_pct":28.57,"r1a_pct":20.13,"steppe_pct":48.7,"clades":{"R1b":44,"R1a":31,"I1":51,"I2":8,"G2":4,"J1":0,"J2":2,"E1b":5,"N":7,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":1,"D":0,"Other":1}},{"a":1000,"b":1500,"n":91,"r1b":32,"r1a":14,"r1b_pct":35.16,"r1a_pct":15.38,"steppe_pct":50.55,"clades":{"R1b":32,"R1a":14,"I1":26,"I2":6,"G2":2,"J1":0,"J2":2,"E1b":1,"N":4,"Q":1,"C":0,"O":0,"H":0,"T":1,"L":0,"D":0,"Other":2}},{"a":1500,"b":2000,"n":20,"r1b":5,"r1a":4,"r1b_pct":25.0,"r1a_pct":20.0,"steppe_pct":45.0,"clades":{"R1b":5,"R1a":4,"I1":8,"I2":0,"G2":0,"J1":0,"J2":0,"E1b":0,"N":2,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":1}}],"pre3000_n":92,"pre3000_r":3,"pre3000_pct":3.26,"ba_n":47,"ba_r":24,"ba_pct":51.06,"ba_r1b_pct":31.91,"ba_r1a_pct":19.15,"first50":-2500},"Central Europe":{"desc":"Germany, Czechia, Austria, Switzerland, Poland and Slovakia","men":1143,"bins":[{"a":-7000,"b":-6500,"n":1,"r1b":0,"r1a":0,"r1b_pct":0.0,"r1a_pct":0.0,"steppe_pct":0.0,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":1,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-6500,"b":-6000,"n":2,"r1b":0,"r1a":0,"r1b_pct":0.0,"r1a_pct":0.0,"steppe_pct":0.0,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":1,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":1}},{"a":-6000,"b":-5500,"n":3,"r1b":0,"r1a":0,"r1b_pct":0.0,"r1a_pct":0.0,"steppe_pct":0.0,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":2,"G2":1,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-5500,"b":-5000,"n":111,"r1b":0,"r1a":0,"r1b_pct":0.0,"r1a_pct":0.0,"steppe_pct":0.0,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":5,"G2":50,"J1":0,"J2":6,"E1b":1,"N":0,"Q":0,"C":26,"O":0,"H":17,"T":4,"L":0,"D":0,"Other":2}},{"a":-5000,"b":-4500,"n":8,"r1b":0,"r1a":0,"r1b_pct":0.0,"r1a_pct":0.0,"steppe_pct":0.0,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":0,"G2":3,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":3,"O":0,"H":1,"T":0,"L":0,"D":0,"Other":1}},{"a":-4500,"b":-4000,"n":9,"r1b":0,"r1a":0,"r1b_pct":0.0,"r1a_pct":0.0,"steppe_pct":0.0,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":4,"G2":5,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-4000,"b":-3500,"n":20,"r1b":8,"r1a":0,"r1b_pct":40.0,"r1a_pct":0.0,"steppe_pct":40.0,"clades":{"R1b":8,"R1a":0,"I1":0,"I2":5,"G2":1,"J1":0,"J2":1,"E1b":0,"N":0,"Q":0,"C":2,"O":0,"H":1,"T":1,"L":0,"D":0,"Other":1}},{"a":-3500,"b":-3000,"n":45,"r1b":2,"r1a":0,"r1b_pct":4.44,"r1a_pct":0.0,"steppe_pct":4.44,"clades":{"R1b":2,"R1a":0,"I1":1,"I2":27,"G2":12,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":1,"T":0,"L":0,"D":0,"Other":2}},{"a":-3000,"b":-2500,"n":68,"r1b":16,"r1a":7,"r1b_pct":23.53,"r1a_pct":10.29,"steppe_pct":33.82,"clades":{"R1b":16,"R1a":7,"I1":0,"I2":18,"G2":23,"J1":0,"J2":1,"E1b":0,"N":0,"Q":1,"C":0,"O":0,"H":2,"T":0,"L":0,"D":0,"Other":0}},{"a":-2500,"b":-2000,"n":150,"r1b":99,"r1a":31,"r1b_pct":66.0,"r1a_pct":20.67,"steppe_pct":86.67,"clades":{"R1b":99,"R1a":31,"I1":0,"I2":18,"G2":2,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}},{"a":-2000,"b":-1500,"n":61,"r1b":35,"r1a":8,"r1b_pct":57.38,"r1a_pct":13.11,"steppe_pct":70.49,"clades":{"R1b":35,"R1a":8,"I1":0,"I2":15,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":1,"O":0,"H":0,"T":0,"L":0,"D":1,"Other":1}},{"a":-1500,"b":-1000,"n":32,"r1b":16,"r1a":6,"r1b_pct":50.0,"r1a_pct":18.75,"steppe_pct":68.75,"clades":{"R1b":16,"R1a":6,"I1":0,"I2":9,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":1}},{"a":-1000,"b":-500,"n":28,"r1b":13,"r1a":0,"r1b_pct":46.43,"r1a_pct":0.0,"steppe_pct":46.43,"clades":{"R1b":13,"R1a":0,"I1":0,"I2":4,"G2":8,"J1":0,"J2":1,"E1b":1,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":1}},{"a":-500,"b":0,"n":42,"r1b":30,"r1a":3,"r1b_pct":71.43,"r1a_pct":7.14,"steppe_pct":78.57,"clades":{"R1b":30,"R1a":3,"I1":0,"I2":3,"G2":2,"J1":0,"J2":0,"E1b":1,"N":1,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":2}},{"a":0,"b":500,"n":59,"r1b":18,"r1a":4,"r1b_pct":30.51,"r1a_pct":6.78,"steppe_pct":37.29,"clades":{"R1b":18,"R1a":4,"I1":11,"I2":4,"G2":9,"J1":0,"J2":3,"E1b":3,"N":2,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":5}},{"a":500,"b":1000,"n":368,"r1b":57,"r1a":51,"r1b_pct":15.49,"r1a_pct":13.86,"steppe_pct":29.35,"clades":{"R1b":57,"R1a":51,"I1":12,"I2":42,"G2":19,"J1":13,"J2":12,"E1b":54,"N":2,"Q":0,"C":63,"O":1,"H":0,"T":31,"L":2,"D":1,"Other":8}},{"a":1000,"b":1500,"n":127,"r1b":18,"r1a":70,"r1b_pct":14.17,"r1a_pct":55.12,"steppe_pct":69.29,"clades":{"R1b":18,"R1a":70,"I1":7,"I2":4,"G2":1,"J1":3,"J2":5,"E1b":7,"N":4,"Q":0,"C":0,"O":0,"H":0,"T":1,"L":0,"D":0,"Other":7}},{"a":1500,"b":2000,"n":0,"r1b":0,"r1a":0,"r1b_pct":null,"r1a_pct":null,"steppe_pct":null,"clades":{"R1b":0,"R1a":0,"I1":0,"I2":0,"G2":0,"J1":0,"J2":0,"E1b":0,"N":0,"Q":0,"C":0,"O":0,"H":0,"T":0,"L":0,"D":0,"Other":0}}],"pre3000_n":208,"pre3000_r":10,"pre3000_pct":4.81,"ba_n":211,"ba_r":173,"ba_pct":81.99,"ba_r1b_pct":63.51,"ba_r1a_pct":18.48,"first50":-2500}},"britain":{"pre_n":76,"pre_r1b":0,"pre_r1a":0,"pre_i2":71,"pre_i2_pct":93.42,"post_n":56,"post_r1b":50,"post_r1b_pct":89.29,"first_r1b_id":"I3071","first_r1b_group":"England_BellBeaker-ohighEEF","first_r1b_year":-2383,"first_r1b_date":"2468-2294 calBCE (3900±30 BP, SUERC-32210)","first_r1b_site":"Canada Farm (England, Dorset, Sixpenny Handley)","men":541,"neo_n":74,"ia_n":169,"ia_r1b_pct":91.12,"em_n":136,"em_r1b_pct":50.0,"em_i1_pct":30.15,"beaker_n":20,"beaker_r1b":19},"europe_y":{"early":{"a":-5000,"b":-3000,"men":761,"r_pct":7.88,"r1b":53,"r1a":7,"i2g2_pct":68.07},"late":{"a":-2500,"b":-1500,"men":639,"r_pct":64.95,"r1b":352,"r1a":63,"i2g2_pct":17.84}},"scand_i1":{"men":256,"i1_pct":35.16},"yamnaya":{"men":163,"r1b":128,"r1a":1,"r1b_pct":78.53,"r1a_pct":0.61,"all":264,"q10":-3052,"q90":-2672},"corded":{"men":46,"r1b":19,"r1a":23,"r1b_pct":41.3,"r1a_pct":50.0,"all":101,"q10":-2768,"q90":-2319},"beaker":{"men":114,"r1b":108,"r1a":1,"r1b_pct":94.74,"r1a_pct":0.88,"all":223,"q10":-2374,"q90":-2081},"neo_y":{"men":901,"g2_pct":25.75,"i2_pct":44.62,"r_pct":8.66},"anatolia_y":{"men":80,"top":"G2","top_pct":25.0,"g2_pct":25.0},"neolithic":{"countries":[{"country":"Turkey","n":175,"year":-8750,"yr":"8750 BCE","id":"I8432","group":"Turkey_PPNA","site":"Boncuklu Tarla (Southeast, Mardin, Dargeçit, Ilısu)","lat":37.526,"lon":41.845,"km":794,"date":"9000-8500 BCE","median_year":-6550},{"country":"Greece","n":14,"year":-6366,"yr":"6366 BCE","id":"Rev5","group":"Greece_North_N","site":"Revenia (Epirus-Western Macedonia, Ipeiroy)","lat":39.489,"lon":20.918,"km":1054,"date":"6434-6257 calBCE (7505±25 BP, MAMS-23036)","median_year":-5954},{"country":"Serbia","n":19,"year":-6143,"yr":"6143 BCE","id":"LEPE52","group":"Serbia_EMN","site":"Lepenski-Vir (Bor District, Majdanpek Municipality, Boljetin)","lat":44.553,"lon":22.028,"km":1184,"date":"6223-6064 calBCE (7265±30 BP,","median_year":-5700},{"country":"Italy","n":40,"year":-6031,"yr":"6031 BCE","id":"R2","group":"Italy_Abruzzo_N","site":"Grotta Continenza (Abruzzo, L'Aquila)","lat":41.958,"lon":13.544,"km":1711,"date":"6068-5993 calBCE (7165±20 BP, UCIAMS-198574)","median_year":-4778},{"country":"Romania","n":19,"year":-6021,"yr":"6021 BCE","id":"I6174","group":"Romania_EN_Starcevo","site":"Teleor-3 (Teleorman County, Măgura)","lat":44.027,"lon":25.392,"km":943,"date":"6074-5927 calBCE (7155±35 BP, PSUAMS-3903)","median_year":-5461},{"country":"Hungary","n":186,"year":-5990,"yr":"5990 BCE","id":"I29877","group":"Hungary_EN_LBK_DVK","site":"Egerág-Gyilkos-tó (Baranya County, Northwest of Egerág Village, HT 156)","lat":45.98,"lon":18.15,"km":1524,"date":"6069-5909 calBCE (7120±40 BP, PSUAMS-15083)","median_year":-5122},{"country":"Bulgaria","n":22,"year":-5950,"yr":"5950 BCE","id":"I0698","group":"Bulgaria_Yabalkovo_N","site":"Yabalkovo (Haskovo Province, Dimitrovgrad Municipality)","lat":42.077,"lon":25.451,"km":797,"date":"6000-5900 BCE","median_year":-5664},{"country":"Croatia","n":33,"year":-5913,"yr":"5913 BCE","id":"I3948","group":"Croatia_N_Cardial","site":"Zemunica Cave (Split-Dalmatia County, Općina Dugopolje, Vladovići)","lat":43.589,"lon":16.648,"km":1512,"date":"6007-5803 calBCE (7030±40 BP, PSUAMS-2224)","median_year":-4635},{"country":"Austria","n":88,"year":-5578,"yr":"5578 BCE","id":"Asp6","group":"Austria_N_LBK","site":"Asparn Schletz (Niederösterreich, Mistelbach)","lat":48.58,"lon":16.469,"km":1792,"date":"5626-5525 calBCE (6646±21 BP)","median_year":-5150},{"country":"France","n":187,"year":-5413,"yr":"5413 BCE","id":"PEN003","group":"France_EN","site":"Pendimoun (Provence-Alpes-Côte d'Azur Region, Alpes-Maritimes Department, Nice Arrondissement)","lat":43.81,"lon":7.51,"km":2230,"date":"5479-5331 calBCE (6450±40 BP, GrA-32061)","median_year":-4500},{"country":"Spain","n":63,"year":-5395,"yr":"5395 BCE","id":"CB13","group":"Spain_EN","site":"Cova Bonica (Catalonia, Barcelona, Vallirana)","lat":41.37,"lon":1.89,"km":2671,"date":"5474-5318 calBCE (6410±30 BP, Beta-384724)","median_year":-3577},{"country":"Portugal","n":22,"year":-5352,"yr":"5352 BCE","id":"NEO632","group":"Portugal_EN_Cardial","site":"Gruta do Caldeirão (Santarém, Além da Ribeira e Pedreira)","lat":39.648,"lon":-8.415,"km":3556,"date":"5474-5320 calBCE (6415±36 BP, UBA-40088)","median_year":-3075},{"country":"Czechia","n":41,"year":-5250,"yr":"5250 BCE","id":"I15818","group":"Czechia_EN_LBK","site":"Bžany (Ústecký Region, Teplice District)","lat":50.591,"lon":13.876,"km":2075,"date":"5500-5000 BCE","median_year":-3663},{"country":"Germany","n":157,"year":-5249,"yr":"5249 BCE","id":"XN191","group":"Germany_StuttgartMuhlhausen2_EN","site":"Stuttgart-Mühlhausen-2 (Baden-Württemberg, Stuttgart-Stadtkreis)","lat":48.78,"lon":9.18,"km":2265,"date":"5316-5081 calBCE (6267±30 BP, MAMS-25931)","median_year":-5097},{"country":"Slovakia","n":57,"year":-5150,"yr":"5150 BCE","id":"I11866","group":"Slovakia_N_LBK","site":"Nitra-Horné-Krškany (Nitra Region, Nitra District, Nitra)","lat":48.283,"lon":18.085,"km":1677,"date":"5400-4900 BCE","median_year":-5150},{"country":"Poland","n":52,"year":-4441,"yr":"4441 BCE","id":"poz252","group":"Poland_N_LLBK_LLengyel","site":"Siniarzewo-1 (Kuyavian-Pomeranian Province, Aleksandrów County, Zakrzewo)","lat":52.732,"lon":18.686,"km":2001,"date":"4531-4353 calBCE (5605±35 BP, Poz-87727)","median_year":-3000},{"country":"Switzerland","n":50,"year":-4405,"yr":"4405 BCE","id":"TU877(SX11)","group":"Switzerland_LN","site":"Niederried Ursisbalm (Bern, Seeland)","lat":47.012,"lon":7.251,"km":2331,"date":"4455-4355 calBCE (5587±22 BP, BE-8011.1.1)","median_year":-2948},{"country":"Channel Islands","n":6,"year":-4141,"yr":"4141 BCE","id":"I16437","group":"ChannelIslands_MN","site":"Le Déhus (Guernsey, Vale)","lat":49.497,"lon":-2.506,"km":3098,"date":"4241-4050 calBCE (5315±21 BP)","median_year":-3542},{"country":"Denmark","n":58,"year":-4110,"yr":"4110 BCE","id":"NEO960","group":"Denmark_EN_N_TRB","site":"Ravnsbjerggard II (Zealand Region)","lat":55.581,"lon":11.578,"km":2548,"date":"4315-3995 calBCE (5308±43 BP, AAR-10993; BCH198:4a+b)","median_year":-3229},{"country":"United Kingdom","n":113,"year":-3981,"yr":"3981 BCE","id":"I12438","group":"England_EN_Megalithic","site":"Hazleton North (England, Gloucestershire, Cheltenham)","lat":51.861,"lon":-1.883,"km":3120,"date":"4045-3946 calBCE (5165±25 BP, PSUAMS-14097)","median_year":-3573},{"country":"Ireland","n":50,"year":-3796,"yr":"3796 BCE","id":"PN10_PN113","group":"Ireland_EN","site":"Poulnabrone (Clare County)","lat":53.049,"lon":-9.14,"km":3629,"date":"3945-3656 calBCE (5004±31 BP, OxA-25950)","median_year":-3492},{"country":"Sweden","n":116,"year":-3796,"yr":"3796 BCE","id":"Kvarlov5164","group":"Sweden_MN","site":"Skåne (Gävleborgs län, Hudiksvall)","lat":61.658,"lon":17.004,"km":2883,"date":"3945-3647 calBCE","median_year":-3022},{"country":"Netherlands","n":5,"year":-3700,"yr":"3700 BCE","id":"I35542","group":"Netherlands_MN","site":"Tiel-Medel (Gelderland)","lat":51.917,"lon":5.469,"km":2652,"date":"3800-3600 BCE","median_year":-3700},{"country":"Belgium","n":18,"year":-3203,"yr":"3203 BCE","id":"I13627","group":"Belgium_N","site":"Trou Al'Wesse (Liège Province, Modave)","lat":50.431,"lon":5.295,"km":2595,"date":"3334-3028 calBCE (4466±21 BP, OxA-39060)","median_year":-2800}],"n_countries":24,"n_ind":1597,"slope_yr_per_km":0.884,"km_per_year":1.13,"drop":{"mixed_label":47,"after":1597,"before":1747},"r":0.75,"r2":0.56,"intercept":-6933,"first":{"country":"Turkey","n":175,"year":-8750,"yr":"8750 BCE","id":"I8432","group":"Turkey_PPNA","site":"Boncuklu Tarla (Southeast, Mardin, Dargeçit, Ilısu)","lat":37.526,"lon":41.845,"km":794,"date":"9000-8500 BCE","median_year":-6550},"last":{"country":"Belgium","n":18,"year":-3203,"yr":"3203 BCE","id":"I13627","group":"Belgium_N","site":"Trou Al'Wesse (Liège Province, Modave)","lat":50.431,"lon":5.295,"km":2595,"date":"3334-3028 calBCE (4466±21 BP, OxA-39060)","median_year":-2800},"excluded":["Belarus","Estonia","Finland","Latvia","Lithuania","Moldova","Russia","Ukraine"],"turkey_year":-8750,"span_years":5547,"ireland_gap":4954,"by_country":{"Austria":{"country":"Austria","n":88,"year":-5578,"yr":"5578 BCE","id":"Asp6","group":"Austria_N_LBK","site":"Asparn Schletz (Niederösterreich, Mistelbach)","lat":48.58,"lon":16.469,"km":1792,"date":"5626-5525 calBCE (6646±21 BP)","median_year":-5150},"Belgium":{"country":"Belgium","n":18,"year":-3203,"yr":"3203 BCE","id":"I13627","group":"Belgium_N","site":"Trou Al'Wesse (Liège Province, Modave)","lat":50.431,"lon":5.295,"km":2595,"date":"3334-3028 calBCE (4466±21 BP, OxA-39060)","median_year":-2800},"Bulgaria":{"country":"Bulgaria","n":22,"year":-5950,"yr":"5950 BCE","id":"I0698","group":"Bulgaria_Yabalkovo_N","site":"Yabalkovo (Haskovo Province, Dimitrovgrad Municipality)","lat":42.077,"lon":25.451,"km":797,"date":"6000-5900 BCE","median_year":-5664},"Channel Islands":{"country":"Channel Islands","n":6,"year":-4141,"yr":"4141 BCE","id":"I16437","group":"ChannelIslands_MN","site":"Le Déhus (Guernsey, Vale)","lat":49.497,"lon":-2.506,"km":3098,"date":"4241-4050 calBCE (5315±21 BP)","median_year":-3542},"Croatia":{"country":"Croatia","n":33,"year":-5913,"yr":"5913 BCE","id":"I3948","group":"Croatia_N_Cardial","site":"Zemunica Cave (Split-Dalmatia County, Općina Dugopolje, Vladovići)","lat":43.589,"lon":16.648,"km":1512,"date":"6007-5803 calBCE (7030±40 BP, PSUAMS-2224)","median_year":-4635},"Czechia":{"country":"Czechia","n":41,"year":-5250,"yr":"5250 BCE","id":"I15818","group":"Czechia_EN_LBK","site":"Bžany (Ústecký Region, Teplice District)","lat":50.591,"lon":13.876,"km":2075,"date":"5500-5000 BCE","median_year":-3663},"Denmark":{"country":"Denmark","n":58,"year":-4110,"yr":"4110 BCE","id":"NEO960","group":"Denmark_EN_N_TRB","site":"Ravnsbjerggard II (Zealand Region)","lat":55.581,"lon":11.578,"km":2548,"date":"4315-3995 calBCE (5308±43 BP, AAR-10993; BCH198:4a+b)","median_year":-3229},"France":{"country":"France","n":187,"year":-5413,"yr":"5413 BCE","id":"PEN003","group":"France_EN","site":"Pendimoun (Provence-Alpes-Côte d'Azur Region, Alpes-Maritimes Department, Nice Arrondissement)","lat":43.81,"lon":7.51,"km":2230,"date":"5479-5331 calBCE (6450±40 BP, GrA-32061)","median_year":-4500},"Germany":{"country":"Germany","n":157,"year":-5249,"yr":"5249 BCE","id":"XN191","group":"Germany_StuttgartMuhlhausen2_EN","site":"Stuttgart-Mühlhausen-2 (Baden-Württemberg, Stuttgart-Stadtkreis)","lat":48.78,"lon":9.18,"km":2265,"date":"5316-5081 calBCE (6267±30 BP, MAMS-25931)","median_year":-5097},"Greece":{"country":"Greece","n":14,"year":-6366,"yr":"6366 BCE","id":"Rev5","group":"Greece_North_N","site":"Revenia (Epirus-Western Macedonia, Ipeiroy)","lat":39.489,"lon":20.918,"km":1054,"date":"6434-6257 calBCE (7505±25 BP, MAMS-23036)","median_year":-5954},"Hungary":{"country":"Hungary","n":186,"year":-5990,"yr":"5990 BCE","id":"I29877","group":"Hungary_EN_LBK_DVK","site":"Egerág-Gyilkos-tó (Baranya County, Northwest of Egerág Village, HT 156)","lat":45.98,"lon":18.15,"km":1524,"date":"6069-5909 calBCE (7120±40 BP, PSUAMS-15083)","median_year":-5122},"Ireland":{"country":"Ireland","n":50,"year":-3796,"yr":"3796 BCE","id":"PN10_PN113","group":"Ireland_EN","site":"Poulnabrone (Clare County)","lat":53.049,"lon":-9.14,"km":3629,"date":"3945-3656 calBCE (5004±31 BP, OxA-25950)","median_year":-3492},"Italy":{"country":"Italy","n":40,"year":-6031,"yr":"6031 BCE","id":"R2","group":"Italy_Abruzzo_N","site":"Grotta Continenza (Abruzzo, L'Aquila)","lat":41.958,"lon":13.544,"km":1711,"date":"6068-5993 calBCE (7165±20 BP, UCIAMS-198574)","median_year":-4778},"Netherlands":{"country":"Netherlands","n":5,"year":-3700,"yr":"3700 BCE","id":"I35542","group":"Netherlands_MN","site":"Tiel-Medel (Gelderland)","lat":51.917,"lon":5.469,"km":2652,"date":"3800-3600 BCE","median_year":-3700},"Poland":{"country":"Poland","n":52,"year":-4441,"yr":"4441 BCE","id":"poz252","group":"Poland_N_LLBK_LLengyel","site":"Siniarzewo-1 (Kuyavian-Pomeranian Province, Aleksandrów County, Zakrzewo)","lat":52.732,"lon":18.686,"km":2001,"date":"4531-4353 calBCE (5605±35 BP, Poz-87727)","median_year":-3000},"Portugal":{"country":"Portugal","n":22,"year":-5352,"yr":"5352 BCE","id":"NEO632","group":"Portugal_EN_Cardial","site":"Gruta do Caldeirão (Santarém, Além da Ribeira e Pedreira)","lat":39.648,"lon":-8.415,"km":3556,"date":"5474-5320 calBCE (6415±36 BP, UBA-40088)","median_year":-3075},"Romania":{"country":"Romania","n":19,"year":-6021,"yr":"6021 BCE","id":"I6174","group":"Romania_EN_Starcevo","site":"Teleor-3 (Teleorman County, Măgura)","lat":44.027,"lon":25.392,"km":943,"date":"6074-5927 calBCE (7155±35 BP, PSUAMS-3903)","median_year":-5461},"Serbia":{"country":"Serbia","n":19,"year":-6143,"yr":"6143 BCE","id":"LEPE52","group":"Serbia_EMN","site":"Lepenski-Vir (Bor District, Majdanpek Municipality, Boljetin)","lat":44.553,"lon":22.028,"km":1184,"date":"6223-6064 calBCE (7265±30 BP,","median_year":-5700},"Slovakia":{"country":"Slovakia","n":57,"year":-5150,"yr":"5150 BCE","id":"I11866","group":"Slovakia_N_LBK","site":"Nitra-Horné-Krškany (Nitra Region, Nitra District, Nitra)","lat":48.283,"lon":18.085,"km":1677,"date":"5400-4900 BCE","median_year":-5150},"Spain":{"country":"Spain","n":63,"year":-5395,"yr":"5395 BCE","id":"CB13","group":"Spain_EN","site":"Cova Bonica (Catalonia, Barcelona, Vallirana)","lat":41.37,"lon":1.89,"km":2671,"date":"5474-5318 calBCE (6410±30 BP, Beta-384724)","median_year":-3577},"Sweden":{"country":"Sweden","n":116,"year":-3796,"yr":"3796 BCE","id":"Kvarlov5164","group":"Sweden_MN","site":"Skåne (Gävleborgs län, Hudiksvall)","lat":61.658,"lon":17.004,"km":2883,"date":"3945-3647 calBCE","median_year":-3022},"Switzerland":{"country":"Switzerland","n":50,"year":-4405,"yr":"4405 BCE","id":"TU877(SX11)","group":"Switzerland_LN","site":"Niederried Ursisbalm (Bern, Seeland)","lat":47.012,"lon":7.251,"km":2331,"date":"4455-4355 calBCE (5587±22 BP, BE-8011.1.1)","median_year":-2948},"Turkey":{"country":"Turkey","n":175,"year":-8750,"yr":"8750 BCE","id":"I8432","group":"Turkey_PPNA","site":"Boncuklu Tarla (Southeast, Mardin, Dargeçit, Ilısu)","lat":37.526,"lon":41.845,"km":794,"date":"9000-8500 BCE","median_year":-6550},"United Kingdom":{"country":"United Kingdom","n":113,"year":-3981,"yr":"3981 BCE","id":"I12438","group":"England_EN_Megalithic","site":"Hazleton North (England, Gloucestershire, Cheltenham)","lat":51.861,"lon":-1.883,"km":3120,"date":"4045-3946 calBCE (5165±25 BP, PSUAMS-14097)","median_year":-3573}},"lat_bands":[{"lat0":35,"lat1":40,"n":209,"year":-8750,"yr":"8750 BCE","country":"Turkey","site":"Boncuklu Tarla (Southeast, Mardin, Dargeçit, Ilısu)","group":"Turkey_PPNA"},{"lat0":40,"lat1":45,"n":212,"year":-6613,"yr":"6613 BCE","country":"Turkey","site":"Aktopraklık (Bursa, Nilüfer)","group":"Turkey_LN"},{"lat0":45,"lat1":50,"n":604,"year":-6035,"yr":"6035 BCE","country":"Serbia","site":"Bac-Topole-unknown-site-2 (South Bačka District, Bač Municipality, Topole)","group":"Serbia_EN_Starcevo"},{"lat0":50,"lat1":55,"n":357,"year":-5250,"yr":"5250 BCE","country":"Czechia","site":"Bžany (Ústecký Region, Teplice District)","group":"Czechia_EN_LBK"},{"lat0":55,"lat1":60,"n":213,"year":-4110,"yr":"4110 BCE","country":"Denmark","site":"Ravnsbjerggard II (Zealand Region)","group":"Denmark_EN_N_TRB"}],"lon_bands":[{"lon0":-10,"lon1":0,"n":251,"year":-5352,"yr":"5352 BCE","country":"Portugal","site":"Gruta do Caldeirão (Santarém, Além da Ribeira e Pedreira)"},{"lon0":0,"lon1":10,"n":366,"year":-5413,"yr":"5413 BCE","country":"France","site":"Pendimoun (Provence-Alpes-Côte d'Azur Region, Alpes-Maritimes Department, Nice Arrondissement)"},{"lon0":10,"lon1":20,"n":596,"year":-6035,"yr":"6035 BCE","country":"Serbia","site":"Bac-Topole-unknown-site-2 (South Bačka District, Bač Municipality, Topole)"},{"lon0":20,"lon1":30,"n":243,"year":-6613,"yr":"6613 BCE","country":"Turkey","site":"Aktopraklık (Bursa, Nilüfer)"},{"lon0":30,"lon1":40,"n":140,"year":-8600,"yr":"8600 BCE","country":"Turkey","site":"Boncuklu (Konya, Karatay)"}]},"famous":[{"id":"Iceman","group":"Italy_TrentinoSouthTyrol_North_MN","site":"Oetz Valley (Trentino-South Tyrol, Bolzano)","country":"Italy","bp":5195,"year":-3245,"yr":"3245 BCE","date":"3371-3103 calBCE (4550±27 BP; ETH-8345.1-2)","sex":"M","y":"G2a2a1a2a1a1","mt":"","pub":"WangKrauseCellGenom2023","first_pub":"KellerZinkNatComm2012","pub_year":2012,"lat":46.769,"lon":10.8,"culture":"Neolithic","name":"Ötzi the Iceman","note":"Found in 1991 melting out of a glacier in the Ötztal Alps","ok":1,"assessment":"Pass"},{"id":"Ust_Ishim","group":"Russia_UstIshim_IUP","site":"Ust'-Ishim (Omsk Oblast, Ust-Ishimsky District)","country":"Russia","bp":44366,"year":-42416,"yr":"42,416 BCE","date":"43980-40954 calBCE (41400±953 BP)","sex":"M","y":"K2","mt":"R*","pub":"FuPääboNature2014","first_pub":"FuPääboNature2014","pub_year":2014,"lat":57.7,"lon":71.1,"culture":"Upper Palaeolithic","name":"Ust'-Ishim man","note":"A thigh bone found on the bank of the Irtysh river in Siberia in 2008","ok":1,"assessment":"Pass"},{"id":"ZKU002","group":"Czechia_Zlatykun_IUP","site":"Zlatý-kůň (Central Bohemian Region, Beroun District, Koněprusy Caves)","country":"Czechia","bp":45875,"year":-43925,"yr":"43,925 BCE","date":"47600-40250 BCE","sex":"U","y":"","mt":"","pub":"SümerKrauseNature2024","first_pub":"PrüferKrauseNatEcolEvol2021","pub_year":2021,"lat":49.916,"lon":14.066,"culture":"Upper Palaeolithic","name":"The woman from Zlatý kůň","note":"A skull from a cave in Bohemia","ok":1,"assessment":"Pass"},{"id":"Oase1","group":"Romania_IUP","site":"Oase Cave (Caraș-Severin, Anina)","country":"Romania","bp":39982,"year":-38032,"yr":"38,032 BCE","date":"39956-35756 calBCE (34950±990 BP)","sex":"M","y":"A0-T","mt":"","pub":"HajdinjakPääboNature2021","first_pub":"FuPääboNature2015","pub_year":2015,"lat":45.12,"lon":21.9,"culture":"Upper Palaeolithic","name":"Oase 1","note":"A jawbone from a cave in Romania","ok":1,"assessment":"Pass"},{"id":"Kostenki14","group":"Russia_Kostenki_UP","site":"Kostenki (Voronezh Oblast, Liskinsky District, Starokhvorostanskoye)","country":"Russia","bp":38052,"year":-36102,"yr":"36,102 BCE","date":"37426-34726 calBCE (33250±500 BP, OxA-X-2395-15)","sex":"M","y":"CF","mt":"","pub":"FuReichNature2016","first_pub":"Seguin-OrlandoWillerslevScience2014","pub_year":2014,"lat":51.23,"lon":39.3,"culture":"Upper Palaeolithic","name":"Kostenki 14","note":"A man buried on the Don river","ok":1,"assessment":"Pass"},{"id":"Tianyuan","group":"China_TianyuanCave_UP","site":"Tianyuan Cave (Beijing)","country":"China","bp":39565,"year":-37615,"yr":"37,615 BCE","date":"38896-36130 calBCE (34430±510 BP, BA-03222)","sex":"M","y":"K2b","mt":"B","pub":"YangFuCurrBiol2017","first_pub":"YangFuCurrBiol2017","pub_year":2017,"lat":39.39,"lon":115.52,"culture":"Upper Palaeolithic","name":"Tianyuan man","note":"From a cave near Beijing","ok":1,"assessment":"Pass"},{"id":"Sunghir1","group":"Russia_Sunghir_UP","site":"Sunghir (Vladimir Oblast, Vlaidmir Municipality)","country":"Russia","bp":33209,"year":-31259,"yr":"31,259 BCE","date":"32326-30080 calBCE (28890±430 BP, OxA-X-2464-12)","sex":"M","y":"C1a","mt":"U8c","pub":"SikoraWillerslevScience2017","first_pub":"SikoraWillerslevScience2017","pub_year":2017,"lat":56.176,"lon":40.502,"culture":"Upper Palaeolithic","name":"Sunghir 1","note":"One of the richly beaded burials at Sunghir, east of Moscow","ok":1,"assessment":"Pass"},{"id":"MA1","group":"Russia_Malta_UP","site":"Mal'ta (Irkutsk Oblast, Usol District, Sredninskoe, Stepnoy)","country":"Russia","bp":24320,"year":-22370,"yr":"22,370 BCE","date":"22621-22171 calBCE (20240±60 BP, UCIAMS-79666)","sex":"M","y":"R","mt":"U","pub":"RaghavanWillerslevNature2013","first_pub":"RaghavanWillerslevNature2013","pub_year":2013,"lat":52.9,"lon":103.5,"culture":"Upper Palaeolithic","name":"The Mal'ta boy","note":"A child buried near Lake Baikal","ok":0,"assessment":"Questionable"},{"id":"Loschbour","group":"Luxembourg_Loschbour_Mesolithic","site":"Loschbour (Echternach)","country":"Luxembourg","bp":8025,"year":-6075,"yr":"6075 BCE","date":"6221-5986 calBCE (7205±50 BP, OxA-7738)","sex":"M","y":"","mt":"U5b1a","pub":"LazaridisKrauseNature2014","first_pub":"LazaridisKrauseNature2014","pub_year":2014,"lat":49.81,"lon":6.4,"culture":"Mesolithic and hunter-gatherers","name":"Loschbour man","note":"A hunter from Luxembourg","ok":1,"assessment":"Pass"},{"id":"LaBrana1","group":"Spain_Mesolithic","site":"La Braña-Arintero (Castilla y León, León, La Braña)","country":"Spain","bp":7811,"year":-5861,"yr":"5861 BCE","date":"5982-5741 calBCE (6980±50 BP, Beta-226472)","sex":"M","y":"C1a","mt":"","pub":"AkbariReichNature2026","first_pub":"OlaldeLalueza-FoxNature2014","pub_year":2014,"lat":42.911,"lon":-5.378,"culture":"Mesolithic and hunter-gatherers","name":"La Braña 1","note":"A hunter from the mountains of León","ok":1,"assessment":"Pass"},{"id":"Stuttgart","group":"Germany_ViesenhaeuserHof_EN","site":"Viesenhaeuser Hof (Baden-Württemberg, Stuttgart-Stadtkreis)","country":"Germany","bp":7168,"year":-5218,"yr":"5218 BCE","date":"5307-5071 calBCE (6246±30 BP, MAMS-24635)","sex":"F","y":"","mt":"T2c1d1","pub":"AkbariReichNature2026","first_pub":"LazaridisKrauseNature2014","pub_year":2014,"lat":48.78,"lon":9.18,"culture":"Neolithic","name":"Stuttgart woman","note":"An early farmer from Baden-Württemberg","ok":1,"assessment":"Pass"},{"id":"I3016","group":"England_Mesolithic","site":"Gough's Cave (England, Somerset, Cheddar)","country":"United Kingdom","bp":10280,"year":-8330,"yr":"8330 BCE","date":"8615-7966 calBCE (9100±100 BP, OxA-814)","sex":"M","y":"I2a1b2a","mt":"U5b1","pub":"BraceBarnesNatEcolEvol2019","first_pub":"BraceBarnesNatEcolEvol2019","pub_year":2019,"lat":51.282,"lon":-2.766,"culture":"Mesolithic and hunter-gatherers","name":"The man from Gough's Cave, Cheddar","note":"Gough's Cave in Cheddar Gorge, Somerset, is where Cheddar Man was found in 1903","ok":1,"assessment":"Pass"},{"id":"mota","group":"Ethiopia_MotaCave_4500BP","site":"Mota Cave (Gamo Highlands)","country":"Ethiopia","bp":4470,"year":-2520,"yr":"2520 BCE","date":"2576-2465 calBCE (3997±29 BP, OxA-29631)","sex":"M","y":"E1b1a2b2","mt":"L3x2a","pub":"LipsonPrendergastNature2022","first_pub":"LlorenteManicaScience2015","pub_year":2015,"lat":6.797,"lon":38.208,"culture":"Other or regional label","name":"Mota man","note":"From Mota Cave in the Ethiopian highlands","ok":1,"assessment":"MERGE_PASS"},{"id":"Inuk","group":"Greenland_Saqqaq","site":"Qeqertasussuk (Qeqertalik, Qeqertarsuaq)","country":"Greenland","bp":3885,"year":-1935,"yr":"1935 BCE","date":"2220-1650 calBCE (4044±31 BP, OxA-20656)","sex":"M","y":"Q1a1b","mt":"D2a1","pub":"RasmussenWillerslevNature2010","first_pub":"RasmussenWillerslevNature2010","pub_year":2010,"lat":69.244,"lon":-53.541,"culture":"Other or regional label","name":"Inuk, the Saqqaq man","note":"Known from a tuft of hair preserved in Greenland's permafrost","ok":1,"assessment":"Pass"},{"id":"Anzick","group":"USA_Anzick_12700BP","site":"Anzick Ranch (Montana)","country":"USA","bp":12712,"year":-10762,"yr":"10,762 BCE","date":"10797-10726 calBCE (10705±35 BP, CAMS-80538)","sex":"M","y":"Q1b1a2b","mt":"D4h3a","pub":"RasmussenWillerslevNature2014","first_pub":"RasmussenWillerslevNature2014","pub_year":2014,"lat":45.993,"lon":-110.661,"culture":"Other or regional label","name":"The Anzick child","note":"The only known Clovis burial, in Montana","ok":0,"assessment":"Questionable"},{"id":"kennewick","group":"USA_WA_Kennewick_8800BP","site":"Columbia River (Washington State, Kennewick)","country":"USA","bp":8752,"year":-6802,"yr":"6802 BCE","date":"7250-6390 calBCE (8410±60 BP, UCR3476/CAMS-29578)","sex":"M","y":"Q1b1a1a","mt":"X2a","pub":"RasmussenWillerslevNature2015","first_pub":"RasmussenWillerslevNature2015","pub_year":2015,"lat":46.211,"lon":-119.136,"culture":"Other or regional label","name":"Kennewick Man","note":"Found on the bank of the Columbia River in 1996","ok":0,"assessment":"Questionable"}],"iceman":{"year":-3245,"yr":"3245 BCE","date":"3371-3103 calBCE (4550±27 BP; ETH-8345.1-2)","y":"G2a2a1a2a1a1","group":"Italy_TrentinoSouthTyrol_North_MN","site":"Oetz Valley (Trentino-South Tyrol, Bolzano)","y_clade":"G2","bp":5195},"meta":{"page":"https://maps.tristanhotham.com/ancient-dna/","repo":"https://github.com/Tristan-Hotham/ancient-dna","doi":"10.5281/zenodo.23872993","blog":"https://blog.tristanhotham.com/2026/10/31/ancient-dna/","slug":"ancient-dna","aadr_url":"https://doi.org/10.7910/DVN/FFIDCW"},"source":{"rows":23089,"present_day_rows":3970,"ancient_rows":19118,"ancient_individuals":17629,"kept":16496,"failed":1133,"strict_kept":16267,"rescued":229,"archaic":8,"modern":16488,"no_coords":88,"mapped":16408,"mapped_modern":16400,"failed_mapped":1132,"kept_pct":93.57,"n_groups":3467,"n_sites":3664,"n_countries":127,"n_pubs":334,"version":"v66.p1","doi":"10.7910/DVN/FFIDCW","paper_doi":"10.1038/s41597-024-03031-7","assess":{"Pass":14850,"PROVISIONAL_PASS":1577,"MERGE_PASS":69},"multi_rows":1489,"y_manual":224}};
+const SITE = {"y":[["R1b","#C8322B"],["R1a","#E8833A"],["I1","#2F5FA7"],["I2","#6C9BD2"],["G2","#2E9A8C"],["J1","#8C6BB1"],["J2","#B48FD8"],["E1b","#C9A227"],["N","#5B8C3A"],["Q","#D46A8C"],["C","#7A4E2D"],["O","#3B3B3B"],["H","#9DB84A"],["T","#E6B8A2"],["L","#8FB7B0"],["D","#A0522D"],["Other","#B9B2A6"],["Too broad","#E4E0D8"]],"mt":[["H","#C8322B"],["HV and V","#E8833A"],["U","#2F5FA7"],["K","#6C9BD2"],["J","#2E9A8C"],["T","#8FCFC0"],["W, X, I and other N","#8C6BB1"],["A","#C9A227"],["B","#D46A8C"],["C","#7A4E2D"],["D","#5B8C3A"],["Other M","#3B3B3B"],["F and other R","#B48FD8"],["L (African)","#A0522D"]],"cu":[["Archaic (Neanderthal, Denisovan)","#111111"],["Upper Palaeolithic","#5A3A22"],["Mesolithic and hunter-gatherers","#8C6B3E"],["Neolithic","#5B8C3A"],["Copper Age","#A2643A"],["Yamnaya","#C8322B"],["Corded Ware","#E8833A"],["Bell Beaker","#E0B13E"],["Bronze Age","#C9A227"],["Iron Age","#8C6BB1"],["Roman","#B03A64"],["Late Antiquity and Medieval","#2F5FA7"],["Viking","#1F2F4D"],["Early modern and historic","#7A8A99"],["Other or regional label","#C9C2B6"]],"pe":[["Before 10,000 BCE","#3B2A1A"],["10,000 to 6000 BCE","#6E4A2E"],["6000 to 4000 BCE","#A2643A"],["4000 to 2500 BCE","#D08A3C"],["2500 to 1000 BCE","#E0B13E"],["1000 BCE to 1 CE","#8DB06A"],["1 to 1000 CE","#3F8F8A"],["After 1000 CE","#2F5FA7"]],"regions":[["Britain","#C8322B","England, Scotland and Wales"],["Iberia","#E0A11B","Spain, Portugal and Gibraltar"],["Scandinavia","#2F5FA7","Denmark, Sweden and Norway"],["Central Europe","#2E9A8C","Germany, Czechia, Austria, Switzerland, Poland and Slovakia"]],"anatolia":[37.667,32.828]};
+const fmt = n => n == null || n === "" ? "n/a" : Math.round(n).toLocaleString("en-GB");
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const tip = document.getElementById("tip");
+function showTip(h, x, y) { tip.innerHTML = h; tip.style.display = "block"; const w = tip.offsetWidth; x = Math.max(w / 2 + 8, Math.min(innerWidth - w / 2 - 8, x)); tip.style.left = x + scrollX + "px"; tip.style.top = y + scrollY + "px"; }
+function hideTip() { tip.style.display = "none"; }
+document.addEventListener("click", hideTip);
+const NS = "http://www.w3.org/2000/svg";
+const el = (t, a, p) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; };
+const lbl = (svg, x, y, s, cls = "lab", anchor = "start") => { const t = el("text", { x, y, class: cls, "text-anchor": anchor }, svg); t.textContent = s; return t; };
+const redraws = [];
+function resp(box, render) { let last = 0; const go = force => { const w = Math.max(280, Math.round(box.clientWidth)); if (!force && Math.abs(w - last) < 4) return; last = w; box.innerHTML = ""; render(w, w < 560); }; new ResizeObserver(() => go()).observe(box); go(); redraws.push(() => go(true)); }
+const isDark = () => { const r = document.documentElement; return r.dataset.theme ? r.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches; };
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const small = () => innerWidth < 900;
+const yr = y => { y = Math.round(y); return y < 1 ? (Math.max(1, -y) >= 10000 ? Math.max(1, -y).toLocaleString("en-GB") : Math.max(1, -y)) + " BCE" : y + " CE"; };
+const PAL = { pe: SITE.pe, cu: SITE.cu, yc: SITE.y, mc: SITE.mt };
+const PNAME = { pe: "Period", cu: "Culture label", yc: "Y line", mc: "mtDNA line" };
+const FAM = R.famous;
+
+/* hero mark: a double helix with a map pin */
+(function () {
+  const g = document.getElementById("heroMark");
+  const N = 9, pts1 = [], pts2 = [];
+  for (let i = 0; i <= 40; i++) { const t = i / 40, y = 10 + t * 100, x = 46 + 26 * Math.sin(t * Math.PI * 2.4); pts1.push([x, y]); pts2.push([92 - x, y]); }
+  for (let i = 1; i < N; i++) { const k = Math.round(i * 40 / N), a = pts1[k], b = pts2[k]; el("line", { x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: i % 2 ? "#C9A227" : "#2F5FA7", "stroke-width": 3.2, "stroke-linecap": "round" }, g); }
+  el("path", { d: "M" + pts1.map(p => p.join(" ")).join(" L"), stroke: "#B5402A", "stroke-width": 4, fill: "none", "stroke-linecap": "round" }, g);
+  el("path", { d: "M" + pts2.map(p => p.join(" ")).join(" L"), stroke: "currentColor", "stroke-width": 4, fill: "none", "stroke-linecap": "round" }, g);
+  el("path", { d: "M100 70 C100 58 116 58 116 70 C116 79 108 86 108 92 C108 86 100 79 100 70 Z", fill: "#B5402A", stroke: "currentColor", "stroke-width": 1.6 }, g);
+  el("circle", { cx: 108, cy: 70, r: 3, fill: "#FFFEFA" }, g);
+})();
+
+/* ---------- time scale: stretched so recent millennia get room ---------- */
+const OFF = 800, BPMAX = 46000;
+const U0 = Math.log(BPMAX + OFF), U1 = Math.log(OFF);
+const bpOf = v => Math.exp(U0 + (U1 - U0) * v / 1000) - OFF;
+const vOf = bp => 1000 * (Math.log(Math.max(0, bp) + OFF) - U0) / (U1 - U0);
+const WIN = [0, .035, .07, .14];
+const S = { v: 1000, w: 0, col: "pe", hide: { pe: new Set(), cu: new Set(), yc: new Set(), mc: new Set() }, play: null };
+function windowBP() {
+  const u = U0 + (U1 - U0) * S.v / 1000;
+  if (S.w === 0) return [bpOf(S.v), 1e9];
+  const h = WIN[S.w]; return [Math.max(0, Math.exp(u - h) - OFF), Math.exp(u + h) - OFF];
+}
+function niceYear(y, span) { const st = span > 4000 ? 500 : span > 1500 ? 100 : span > 400 ? 50 : 10; return Math.round(y / st) * st; }
+function winText() {
+  const [lo, hi] = windowBP();
+  if (S.w === 0) return S.v >= 999.5 ? ["All", "everyone, to " + yr(R.time.youngest_year)] : ["To " + yr(niceYear(1950 - lo, lo)), "everyone who lived up to then"];
+  const span = hi - lo, a = niceYear(1950 - hi, span), b = niceYear(1950 - lo, span);
+  return [yr((a + b) / 2).replace(/^(\d)/, "c. $1"), yr(a) + " to " + yr(b)];
+}
+(function ticks() {
+  const box = document.getElementById("ticks");
+  const T = [[-40000, "40,000 BCE"], [-20000, "20,000"], [-10000, "10,000"], [-5000, "5000"], [-3000, "3000"], [-1000, "1000 BCE"], [1000, "1000 CE"]];
+  const render = () => { box.innerHTML = ""; const r = document.getElementById("tt"), w = r.clientWidth, x0 = r.offsetLeft - box.offsetLeft;
+    T.forEach(([y, s], i) => { if (innerWidth < 600 ? [1, 3, 5].includes(i) : small() && (i === 1 || i === 4)) return; const v = vOf(1950 - y); const sp = document.createElement("span"); sp.style.left = (x0 + 12 + (w - 24) * v / 1000) + "px"; sp.textContent = s; if (i === 0) sp.style.transform = "translateX(-12px)"; box.appendChild(sp); }); };
+  new ResizeObserver(render).observe(document.getElementById("tt")); render();
+})();
+
+/* ---------- map ---------- */
+const OFM = "https://tiles.openfreemap.org";
+const ESRI = "https://server.arcgisonline.com/ArcGIS/rest/services/";
+const LYDEF = { base: "plain", hills: true, hillK: 35, places: true, cnames: true, borders: true, size: 3, ghost: true, archaic: true, failed: false };
+const LY = { ...LYDEF };
+try { Object.assign(LY, JSON.parse(localStorage.getItem("adna_layers") || "{}")); } catch (e) {}
+const saveLY = () => { try { localStorage.setItem("adna_layers", JSON.stringify(LY)); } catch (e) {} };
+const HOME = () => small() ? { center: [20, 35], zoom: 0.6 } : { center: [25, 32], zoom: 1.35 };
+let IND = null, map = null, ready = false;
+const C = {};   // column index
+function colours() { return { sea: css("--sea"), land: css("--land"), border: css("--border"), fg: css("--fg"), bg: css("--bg"), nocall: css("--nocall"), ghost: css("--ghost") }; }
+function colorExpr() {
+  const key = S.col, pal = PAL[key], nc = css("--nocall"), e = ["match", ["get", key]];
+  pal.forEach(([n, c], i) => { if (key === "yc" && n === "Too broad") e.push(i, nc); else e.push(i, c); });
+  e.push(nc); return e;
+}
+function radiusExpr(k = 1) { const s = LY.size / 3 * k; return ["interpolate", ["linear"], ["zoom"], 0, 2.1 * s, 3, 3.2 * s, 6, 5 * s, 10, 7.5 * s]; }
+function baseStyle() {
+  const c = colours();
+  return {
+    version: 8, glyphs: OFM + "/fonts/{fontstack}/{range}.pbf",
+    sources: {
+      world: { type: "geojson", data: { type: "FeatureCollection", features: [] } },
+      hills: { type: "raster", tiles: [ESRI + "Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}"], tileSize: 256, maxzoom: 16, attribution: "Hillshade: Esri, USGS, NASA, CGIAR" },
+      relief: { type: "raster", tiles: [ESRI + "World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}"], tileSize: 256, maxzoom: 13, attribution: "Relief: Esri" },
+      sat: { type: "raster", tiles: [ESRI + "World_Imagery/MapServer/tile/{z}/{y}/{x}"], tileSize: 256, maxzoom: 18, attribution: "Imagery: Esri, Maxar, Earthstar Geographics" },
+      ind: { type: "geojson", data: { type: "FeatureCollection", features: [] } }
+    },
+    layers: [
+      { id: "bg", type: "background", paint: { "background-color": c.sea } },
+      { id: "relief", type: "raster", source: "relief", layout: { visibility: "none" }, paint: { "raster-opacity": .85 } },
+      { id: "sat", type: "raster", source: "sat", layout: { visibility: "none" } },
+      { id: "land", type: "fill", source: "world", paint: { "fill-color": c.land, "fill-opacity": 1 } },
+      { id: "hills", type: "raster", source: "hills", paint: { "raster-opacity": .35 } },
+      { id: "borders", type: "line", source: "world", paint: { "line-color": c.border, "line-width": .6 } },
+      { id: "ghost", type: "circle", source: "ind", filter: ["==", ["get", "ok"], 2], paint: { "circle-radius": radiusExpr(.6), "circle-color": c.ghost, "circle-opacity": .28 } },
+      { id: "failed", type: "circle", source: "ind", filter: ["==", ["get", "ok"], 2], paint: { "circle-radius": radiusExpr(.9), "circle-color": "rgba(0,0,0,0)", "circle-stroke-color": c.fg, "circle-stroke-width": 1.1, "circle-stroke-opacity": .7 } },
+      { id: "dots", type: "circle", source: "ind", filter: ["==", ["get", "ok"], 2], paint: { "circle-radius": radiusExpr(), "circle-color": colorExpr(), "circle-opacity": .9, "circle-stroke-color": isDark() ? "rgba(0,0,0,.55)" : "rgba(255,255,255,.75)", "circle-stroke-width": ["interpolate", ["linear"], ["zoom"], 0, .3, 5, .8] } },
+      { id: "archaic-c", type: "circle", source: "ind", filter: ["==", ["get", "arch"], 2], paint: { "circle-radius": radiusExpr(1.25), "circle-color": c.fg, "circle-stroke-color": c.bg, "circle-stroke-width": 1.5 } }
+    ]
+  };
+}
+/* labels come from OpenFreeMap vector tiles, added after load so that the map works even if they cannot be reached */
+function labelLayers() {
+  const c = colours();
+  return [
+      { id: "places", type: "symbol", source: "ofm", "source-layer": "place", minzoom: 3, filter: ["in", ["get", "class"], ["literal", ["city", "town"]]], layout: { "text-field": ["coalesce", ["get", "name:en"], ["get", "name"]], "text-font": ["Noto Sans Regular"], "text-size": ["interpolate", ["linear"], ["zoom"], 3, 10, 8, 13], "symbol-sort-key": ["get", "rank"] }, paint: { "text-color": c.fg, "text-halo-color": c.bg, "text-halo-width": 1.4, "text-opacity": .85 } },
+      { id: "cnames", type: "symbol", source: "ofm", "source-layer": "place", maxzoom: 7, filter: ["==", ["get", "class"], "country"], layout: { "text-field": ["coalesce", ["get", "name:en"], ["get", "name"]], "text-font": ["Noto Sans Bold"], "text-size": ["interpolate", ["linear"], ["zoom"], 1, 9, 5, 12], "text-transform": "uppercase", "text-letter-spacing": .08, "text-max-width": 7 }, paint: { "text-color": c.fg, "text-opacity": .55, "text-halo-color": c.bg, "text-halo-width": 1.2 } }
+  ];
+}
+function addLabels() {
+  try {
+    map.addSource("ofm", { type: "vector", url: OFM + "/planet", attribution: '<a href="https://openfreemap.org">OpenFreeMap</a> © <a href="https://www.openmaptiles.org/">OpenMapTiles</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' });
+    labelLayers().forEach(l => map.addLayer(l));
+  } catch (e) { console.warn("labels unavailable", e); }
+}
+function feats() {
+  const f = [];
+  IND.rows.forEach((r, i) => f.push({ type: "Feature", id: i, geometry: { type: "Point", coordinates: [r[C.lon], r[C.lat]] },
+    properties: { i, bp: r[C.bp], ok: r[C.ok], arch: r[C.arch], yc: r[C.yc], mc: r[C.mc], cu: r[C.cu], pe: r[C.pe] } }));
+  return { type: "FeatureCollection", features: f };
+}
+function hiddenFilter() { const h = [...S.hide[S.col]]; return h.length ? ["!", ["in", ["get", S.col], ["literal", h]]] : true; }
+function applyFilters() {
+  if (!ready) return;
+  const [lo, hi] = windowBP(), hf = hiddenFilter();
+  map.setFilter("dots", ["all", ["==", ["get", "ok"], 1], ["==", ["get", "arch"], 0], [">=", ["get", "bp"], lo], ["<=", ["get", "bp"], hi], hf]);
+  map.setFilter("ghost", LY.ghost && S.w > 0 ? ["all", ["==", ["get", "ok"], 1], ["==", ["get", "arch"], 0], [">", ["get", "bp"], hi]] : ["==", ["get", "ok"], 2]);
+  map.setFilter("failed", LY.failed ? ["all", ["==", ["get", "ok"], 0], ["==", ["get", "arch"], 0], [">=", ["get", "bp"], lo], ["<=", ["get", "bp"], hi]] : ["==", ["get", "ok"], 2]);
+  const af = LY.archaic && (S.w === 0 || hi > 40000) ? ["all", ["==", ["get", "arch"], 1], LY.failed ? true : ["==", ["get", "ok"], 1]] : ["==", ["get", "arch"], 2];
+  map.setFilter("archaic-c", af);
+}
+function applyLayers() {
+  if (!ready) return;
+  const c = colours(), vis = (id, on) => map.setLayoutProperty(id, "visibility", on ? "visible" : "none");
+  vis("relief", LY.base === "relief"); vis("sat", LY.base === "satellite"); vis("land", LY.base === "plain");
+  vis("hills", LY.hills); map.setPaintProperty("hills", "raster-opacity", Math.min(1, LY.hillK / 100));
+  const has = id => !!map.getLayer(id);
+  vis("borders", LY.borders); if (has("places")) vis("places", LY.places); if (has("cnames")) vis("cnames", LY.cnames);
+  map.setPaintProperty("bg", "background-color", c.sea); map.setPaintProperty("land", "fill-color", c.land); map.setPaintProperty("borders", "line-color", c.border);
+  ["places", "cnames"].filter(has).forEach(id => { map.setPaintProperty(id, "text-color", LY.base === "satellite" ? "#fff" : c.fg); map.setPaintProperty(id, "text-halo-color", LY.base === "satellite" ? "rgba(0,0,0,.7)" : c.bg); });
+  map.setPaintProperty("ghost", "circle-color", c.ghost); map.setPaintProperty("failed", "circle-stroke-color", LY.base === "satellite" ? "#fff" : c.fg);
+  map.setPaintProperty("archaic-c", "circle-color", c.fg); map.setPaintProperty("archaic-c", "circle-stroke-color", c.bg);
+  map.setPaintProperty("dots", "circle-color", colorExpr()); map.setPaintProperty("dots", "circle-stroke-color", isDark() ? "rgba(0,0,0,.55)" : "rgba(255,255,255,.75)");
+  ["dots", "ghost", "failed", "archaic-c"].forEach((id, k) => map.setPaintProperty(id, "circle-radius", radiusExpr([1, .6, .9, 1.25][k])));
+  applyFilters();
+}
+function popupHTML(i) {
+  const r = IND.rows[i], g = IND.groups[r[C.group]], s = IND.sites[r[C.site]], y = 1950 - r[C.bp];
+  const sx = { M: "male", F: "female", U: "unknown" }[r[C.sex]];
+  const yc = r[C.yc] >= 0 ? SITE.y[r[C.yc]][0] : "", mc = r[C.mc] >= 0 ? SITE.mt[r[C.mc]][0] : "";
+  return `<b class="t">${esc(r[C.id])}</b>${esc(g)}<br><small>${esc(s)}, ${esc(IND.countries[r[C.country]])}</small><br>` +
+    `<b>${esc(yr(y))}</b> <small>(mean; ${esc(r[C.date])})</small><br>Molecular sex: ${sx}` +
+    (r[C.sex] === "M" ? `<br>Y line: ${r[C.y] ? esc(r[C.y]) + (yc ? ` <small>(${esc(yc)})</small>` : "") : "<small>no call</small>"}` : "") +
+    `<br>mtDNA line: ${r[C.mt] ? esc(r[C.mt]) + (mc ? ` <small>(${esc(mc)})</small>` : "") : "<small>no call</small>"}` +
+    `<br>Label: ${esc(SITE.cu[r[C.cu]][0])}<br><small>Published: ${esc(IND.pubs[r[C.pub]])}</small>` +
+    (r[C.ok] ? "" : `<br><b style="color:var(--hot)">Did not pass the archive's quality checks</b>`) + (r[C.arch] ? `<br><b>Archaic human</b>` : "");
+}
+let popup = null;
+function openPerson(i, fly) {
+  const r = IND.rows[i]; if (!r) return;
+  if (!r[C.ok] && !LY.failed) { LY.failed = true; saveLY(); syncLayers(); applyLayers(); }
+  if (fly) map.flyTo({ center: [r[C.lon], r[C.lat]], zoom: Math.max(map.getZoom(), 5.5), speed: 1.6 });
+  if (popup) popup.remove();
+  popup = new maplibregl.Popup({ maxWidth: "300px", offset: 8 }).setLngLat([r[C.lon], r[C.lat]]).setHTML(popupHTML(i)).addTo(map);
+}
+function setTimeBP(bp, w) { stop(); if (w != null) setWin(w); S.v = Math.max(0, Math.min(1000, vOf(bp))); document.getElementById("tt").value = S.v; update(); }
+function toMap() { if (small()) document.getElementById("mapbox").scrollIntoView({ behavior: "smooth", block: "start" }); }
+let syncLayers = () => {};
+function layerPanel() {
+  const box = document.createElement("div"); box.className = "lyrWrap";
+  box.innerHTML = `<button class="lyrBtn" aria-expanded="false">Map layers</button>
+<div class="lyrPanel" hidden>
+ <div class="row"><label style="font-weight:600">Base map</label><div class="sub"><select data-k="base" aria-label="Base map"><option value="plain">Plain paper</option><option value="relief">Shaded relief</option><option value="satellite">Satellite</option></select></div></div>
+ <div class="row"><label><input type="checkbox" data-k="hills"> Hills and mountains</label><div class="sub"><span>strength</span><input type="range" data-k="hillK" min="10" max="100" step="5" aria-label="Hill shading strength"></div></div>
+ <div class="row"><label><input type="checkbox" data-k="places"> Place names (zoom in)</label></div>
+ <div class="row"><label><input type="checkbox" data-k="cnames"> Country names</label></div>
+ <div class="row"><label><input type="checkbox" data-k="borders"> Borders</label></div>
+ <div class="hd">People</div>
+ <div class="row"><label style="font-weight:600">Dot size</label><div class="sub"><span>size</span><input type="range" data-k="size" min="1" max="7" step=".5" aria-label="Dot size"></div></div>
+ <div class="row"><label><input type="checkbox" data-k="ghost"> Earlier people (faint, in windows)</label></div>
+ <div class="row"><label><input type="checkbox" data-k="archaic"> Neanderthals and Denisovans (with Everyone)</label></div>
+ <div class="row"><label><input type="checkbox" data-k="failed"> People who did not pass the checks (rings)</label></div>
+ <button class="reset">Reset layers</button>
+</div>`;
+  ["click", "dblclick", "mousedown", "touchstart", "wheel"].forEach(t => box.addEventListener(t, e => e.stopPropagation(), { passive: t !== "click" }));
+  document.getElementById("map").appendChild(box);
+  const btn = box.querySelector(".lyrBtn"), pan = box.querySelector(".lyrPanel");
+  btn.onclick = () => { const o = pan.hidden; pan.hidden = !o; btn.setAttribute("aria-expanded", o); };
+  const sync = () => pan.querySelectorAll("[data-k]").forEach(i => { const k = i.dataset.k; if (i.type === "checkbox") i.checked = LY[k]; else i.value = LY[k]; });
+  pan.querySelectorAll("[data-k]").forEach(i => i.addEventListener(i.type === "range" ? "input" : "change", () => {
+    const k = i.dataset.k; LY[k] = i.type === "checkbox" ? i.checked : (k === "base" ? i.value : +i.value);
+    if (k === "hillK") LY.hills = true;
+    sync(); saveLY(); applyLayers(); side(); legend();
+  }));
+  pan.querySelector(".reset").onclick = () => { Object.assign(LY, LYDEF); saveLY(); sync(); applyLayers(); side(); legend(); };
+  sync(); syncLayers = sync;
+}
+
+/* ---------- counts in the window ---------- */
+function inWindow() {
+  const [lo, hi] = windowBP(), out = [];
+  if (!IND) return out;
+  IND.rows.forEach((r, i) => { if (r[C.ok] && !r[C.arch] && r[C.bp] >= lo && r[C.bp] <= hi) out.push(i); });
+  return out;
+}
+function legend() {
+  const box = document.getElementById("legend"), key = S.col, pal = PAL[key], w = inWindow();
+  const cnt = new Array(pal.length).fill(0); let none = 0;
+  w.forEach(i => { const v = IND.rows[i][C[key]]; if (v >= 0) cnt[v]++; else none++; });
+  let h = `<span style="font-weight:500;color:var(--fg)">${PNAME[key]}:</span>`;
+  pal.forEach(([n, c], k) => { const col = key === "yc" && n === "Too broad" ? css("--nocall") : c;
+    h += `<button data-k="${k}" aria-pressed="${!S.hide[key].has(k)}" title="Show or hide"><i style="background:${col}"></i>${esc(n)}<small>${fmt(cnt[k])}</small></button>`; });
+  if (key === "yc" || key === "mc") h += `<span><i style="background:${css("--nocall")}"></i>${key === "yc" ? "no call, or not male" : "no call"} <small style="margin-left:5px">${fmt(none)}</small></span>`;
+  h += `<span><i style="background:transparent;border:1.5px solid var(--fg)"></i>did not pass checks (layer)</span><span><i style="background:var(--fg)"></i>Neanderthal or Denisovan</span>`;
+  box.innerHTML = h;
+  box.querySelectorAll("button[data-k]").forEach(b => b.onclick = () => { const k = +b.dataset.k, hs = S.hide[key]; hs.has(k) ? hs.delete(k) : hs.add(k); legend(); applyFilters(); side(); });
+}
+function side() {
+  const box = document.getElementById("side"); if (!IND) { box.innerHTML = "<p class='sub'>Loading...</p>"; return; }
+  const w = inWindow(), key = S.col, pal = PAL[key], [a, b] = winText();
+  const cnt = new Array(pal.length).fill(0); w.forEach(i => { const v = IND.rows[i][C[key]]; if (v >= 0) cnt[v]++; });
+  const shown = w.filter(i => !S.hide[key].has(IND.rows[i][C[key]]));
+  let h = `<h4>On the map now</h4><div class="big">${fmt(shown.length)}</div><p class="sub">people, ${esc(b)}</p>`;
+  const tot = cnt.reduce((x, y) => x + y, 0);
+  h += `<table>` + pal.map(([n, c], k) => cnt[k] ? `<tr><td><i style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${key === "yc" && n === "Too broad" ? css("--nocall") : c};margin-right:6px"></i>${esc(n)}</td><td class="num">${fmt(cnt[k])} <small>${Math.round(100 * cnt[k] / Math.max(1, tot))}%</small></td></tr>` : "").join("") + `</table>`;
+  if (key === "yc") h += `<p class="sub">Men with a Y call; women and people of unknown sex have none.</p>`;
+  const gc = {}; shown.forEach(i => { const g = IND.rows[i][C.group]; gc[g] = (gc[g] || 0) + 1; });
+  const tg = Object.entries(gc).sort((x, y) => y[1] - x[1]).slice(0, 7);
+  h += `<h4>Biggest groups in view</h4><ol>` + tg.map(([g, n]) => `<li><span class="go" data-g="${g}">${esc(IND.groups[g])}</span> <small>${fmt(n)}</small></li>`).join("") + `</ol>`;
+  h += `<h4>Famous people</h4><ul>` + FAM.map(f => `<li><span class="go" data-f="${esc(f.id)}">${esc(f.name)}</span> <small>${esc(f.yr)}${f.ok ? "" : ", not passed"}</small></li>`).join("") + `</ul>`;
+  h += `<p class="sub">Press play, or drag the slider. Click a dot for the person; click a legend entry to hide or show it.</p>`;
+  box.innerHTML = h;
+  box.querySelectorAll("[data-g]").forEach(e => e.onclick = () => pickGroup(+e.dataset.g));
+  box.querySelectorAll("[data-f]").forEach(e => e.onclick = () => pickFamous(e.dataset.f));
+}
+function note() {
+  const [a, b] = winText(), n = document.getElementById("mapnote");
+  n.innerHTML = `<b>${esc(a)}</b>${S.w ? " · " + esc(b) : ""}`;
+}
+let lastSide = 0;
+function update() {
+  const [a, b] = winText(); document.getElementById("yv").innerHTML = `${esc(a)}<small id="ylab">${esc(b)}</small>`;
+  applyFilters(); note();
+  const t = performance.now(); if (!S.play || t - lastSide > 300 || S.v >= 1000) { lastSide = t; legend(); side(); }
+}
+function idxOf(id) { return IND.rows.findIndex(r => r[C.id] === id); }
+function pickFamous(id) { const i = idxOf(id); if (i < 0) return; const r = IND.rows[i]; setTimeBP(r[C.bp], S.w || 2); document.getElementById("atlas").scrollIntoView({ behavior: "smooth" }); setTimeout(() => openPerson(i, true), 350); }
+function pickGroup(g) {
+  const rs = IND.rows.filter(r => r[C.group] === g); if (!rs.length) return;
+  const bps = rs.map(r => r[C.bp]).sort((a, b) => a - b); setTimeBP(bps[Math.floor(bps.length / 2)], S.w || 3);
+  const lo = rs.map(r => r[C.lon]), la = rs.map(r => r[C.lat]);
+  map.fitBounds([[Math.min(...lo) - 1, Math.min(...la) - 1], [Math.max(...lo) + 1, Math.max(...la) + 1]], { maxZoom: 7, duration: 900 }); toMap();
+}
+function pickSite(name) {
+  const k = IND.sites.indexOf(name); const rs = IND.rows.filter(r => r[C.site] === k); if (!rs.length) return;
+  const bps = rs.map(r => r[C.bp]).sort((a, b) => a - b); setTimeBP(bps[Math.floor(bps.length / 2)], S.w || 3);
+  map.flyTo({ center: [rs[0][C.lon], rs[0][C.lat]], zoom: 8 }); toMap();
+}
+
+/* ---------- controls ---------- */
+const tt = document.getElementById("tt");
+tt.addEventListener("input", () => { S.v = +tt.value; if (S.v < 999.5 && S.w === 0 && S.play) {} update(); });
+function press(row, b) { document.querySelectorAll(row + " .btn").forEach(x => x.setAttribute("aria-pressed", x === b)); }
+function setWin(w) { S.w = w; press("#winRow", document.querySelector(`#winRow [data-w="${w}"]`)); }
+document.querySelectorAll("#winRow .btn").forEach(b => b.onclick = () => { setWin(+b.dataset.w); update(); });
+document.querySelectorAll("#colRow .btn").forEach(b => b.onclick = () => { S.col = b.dataset.c; press("#colRow", b); if (ready) map.setPaintProperty("dots", "circle-color", colorExpr()); update(); });
+function stop() { if (S.play) { cancelAnimationFrame(S.play); S.play = null; document.getElementById("play").innerHTML = "&#9654;"; } }
+document.getElementById("play").onclick = () => {
+  if (S.play) { stop(); return; }
+  if (S.w === 0) setWin(2);
+  if (S.v >= 999) S.v = 0;
+  document.getElementById("play").innerHTML = "&#10074;&#10074;"; let t0 = null;
+  const step = t => { if (t0 == null) t0 = t; const dt = t - t0; t0 = t; S.v = Math.min(1000, S.v + dt * 1000 / 42000); tt.value = S.v; update(); if (S.v >= 1000) { stop(); return; } S.play = requestAnimationFrame(step); };
+  S.play = requestAnimationFrame(step);
+};
+(function focusRow() {
+  const row = document.getElementById("focusRow");
+  const F = [["World", null], ["Europe", [[-12, 34], [45, 66]]], ["Britain and Ireland", [[-11, 49.5], [2.5, 59.5]]], ["Iberia", [[-10, 35.5], [4.5, 44]]], ["Scandinavia", [[4, 54], [26, 68]]],
+    ["The steppe", [[28, 41], [90, 58]]], ["Anatolia and the Near East", [[24, 28], [60, 43]]], ["East Asia", [[92, 18], [145, 52]]], ["The Americas", [[-130, -56], [-30, 62]]], ["Africa", [[-20, -36], [52, 36]]]];
+  F.forEach(([n, b]) => { const x = document.createElement("button"); x.className = "btn"; x.textContent = n; x.onclick = () => { if (!ready) return; if (popup) popup.remove(); if (!b) map.flyTo(HOME()); else map.fitBounds(b, { padding: 20 }); toMap(); }; row.appendChild(x); });
+})();
+(function search() {
+  const inp = document.getElementById("q"), sug = document.getElementById("sug"); let opts = [], k = -1;
+  const norm = s => String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  function build(q) {
+    const nq = norm(q); if (nq.length < 2 || !IND) return [];
+    const out = [];
+    FAM.forEach(f => { if (norm(f.name).includes(nq) || norm(f.id) === nq) out.push({ t: "f", n: f.name, id: f.id, s: 10 }); });
+    IND.groups.forEach((g, i) => { const n = norm(g); if (n.includes(nq)) out.push({ t: "g", n: g, i, s: n.startsWith(nq) ? 6 : 4 }); });
+    IND.sites.forEach((g, i) => { const n = norm(g); if (n.includes(nq)) out.push({ t: "s", n: g, s: n.startsWith(nq) ? 5 : 3 }); });
+    let m = 0; for (let i = 0; i < IND.rows.length && m < 60; i++) { const n = norm(IND.rows[i][C.id]); if (n === nq || (nq.length > 3 && n.startsWith(nq))) { out.push({ t: "p", n: IND.rows[i][C.id], i, s: n === nq ? 9 : 2 }); m++; } }
+    return out.sort((a, b) => b.s - a.s).slice(0, 12);
+  }
+  const lab = o => o.t === "f" ? `${esc(o.n)} <span>famous person</span>` : o.t === "g" ? `${esc(o.n)} <span>group</span>` : o.t === "s" ? `${esc(o.n)} <span>site</span>` : `${esc(o.n)} <span>${esc(IND.groups[IND.rows[o.i][C.group]])}</span>`;
+  const show = () => { sug.innerHTML = opts.map((o, i) => `<li role="option" aria-selected="${i === k}" data-i="${i}">${lab(o)}</li>`).join(""); sug.style.display = opts.length ? "block" : "none"; };
+  const choose = o => { sug.style.display = "none"; inp.value = o.n; inp.blur();
+    if (o.t === "f") pickFamous(o.id); else if (o.t === "g") pickGroup(o.i); else if (o.t === "s") pickSite(o.n);
+    else { const r = IND.rows[o.i]; setTimeBP(r[C.bp], S.w || 2); setTimeout(() => openPerson(o.i, true), 300); toMap(); } };
+  inp.addEventListener("input", () => { opts = build(inp.value); k = -1; show(); });
+  inp.addEventListener("keydown", e => { if (e.key === "ArrowDown") { k = Math.min(opts.length - 1, k + 1); show(); e.preventDefault(); } else if (e.key === "ArrowUp") { k = Math.max(0, k - 1); show(); e.preventDefault(); } else if (e.key === "Enter" && opts.length) { choose(opts[Math.max(0, k)]); } else if (e.key === "Escape") { sug.style.display = "none"; } });
+  sug.addEventListener("click", e => { const li = e.target.closest("li"); if (li) choose(opts[+li.dataset.i]); });
+  document.addEventListener("click", e => { if (!e.target.closest(".searchbox")) sug.style.display = "none"; });
+})();
+
+function startMap() {
+  map = new maplibregl.Map({ container: "map", style: baseStyle(), ...HOME(), minZoom: 0, maxZoom: 14, renderWorldCopies: false, attributionControl: { compact: true }, fadeDuration: 0, cooperativeGestures: false });
+  window.map = map;
+  map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
+  map.addControl(new maplibregl.ScaleControl({ unit: "metric" }), "bottom-right");
+  map.on("error", e => { if (e && e.error && /Failed to fetch|NetworkError|AJAXError|404|Could not load/.test(String(e.error.message || e.error))) return; console.warn(e && e.error); });
+  layerPanel();
+  map.on("load", async () => {
+    fetch("data/world.json").then(r => r.json()).then(w => map.getSource("world").setData(w)).catch(() => {});
+    map.getSource("ind").setData(feats()); addLabels(); ready = true; document.getElementById("loading").remove();
+    applyLayers(); update();
+  });
+  const pick = e => { const f = e.features && e.features[0]; if (f) openPerson(f.properties.i, false); };
+  ["dots", "failed", "archaic-c"].forEach(id => { map.on("click", id, pick); map.on("mouseenter", id, () => map.getCanvas().style.cursor = "pointer"); map.on("mouseleave", id, () => map.getCanvas().style.cursor = ""); });
+}
+
+/* ---------- charts ---------- */
+function bars(boxId, data, opt) {
+  resp(document.getElementById(boxId), (w, sm) => {
+    const h = sm ? 230 : 280, m = { l: 46, r: 10, t: 16, b: 30 }, svg = el("svg", { viewBox: `0 0 ${w} ${h}`, role: "img", "aria-label": opt.aria }, document.getElementById(boxId));
+    const mx = opt.max || Math.max(...data.map(d => d.n)) * 1.08, bw = (w - m.l - m.r) / data.length, Y = v => h - m.b - (h - m.t - m.b) * v / mx;
+    const step = opt.step;
+    for (let v = 0; v <= mx; v += step) { el("line", { x1: m.l, x2: w - m.r, y1: Y(v), y2: Y(v), stroke: css("--rule") }, svg); lbl(svg, m.l - 6, Y(v) + 4, fmt(v), "lab s m", "end"); }
+    data.forEach((d, i) => { const x = m.l + i * bw, r = el("rect", { x: x + 1, y: Y(d.n), width: Math.max(1, bw - 2), height: Y(0) - Y(d.n), fill: opt.col(d, i) }, svg);
+      r.addEventListener("mousemove", ev => showTip(opt.tip(d), ev.clientX + scrollX * 0, ev.clientY)); r.addEventListener("mouseleave", hideTip);
+      if (opt.lab(d, i, sm)) lbl(svg, x + bw / 2, h - 10, opt.lab(d, i, sm), "lab s m", "middle"); });
+  });
+}
+function pubChart() {
+  const D = R.pubs.years.map(d => ({ ...d }));
+  bars("pubChart", D, { aria: "Bar chart of ancient genomes by year of first publication", step: 1000, col: d => d.y >= 2020 ? css("--hot") : css("--ink"),
+    tip: d => `<b>${d.y}</b><br>${fmt(d.n)} people first published${d.y === 2026 ? " (to the archive's release)" : ""}`, lab: (d, i, sm) => (sm ? d.y % 4 === 2 : d.y % 2 === 0) ? d.y : "" });
+}
+function timeChart() {
+  const D = R.half_millennia;
+  bars("timeChart", D, { aria: "Bar chart of ancient individuals per 500 years since 10,000 BCE", step: 500, col: d => d.a < -2500 ? css("--ink") : d.a < 0 ? css("--gold") : css("--cool"),
+    tip: d => `<b>${yr(d.a)} to ${yr(d.b)}</b><br>${fmt(d.n)} people`, lab: (d, i, sm) => d.a % (sm ? 4000 : 2000) === 0 ? (d.a === 0 ? "1 CE" : yr(d.a)) : "" });
+}
+function biasChart() {
+  const D = R.bias_list, K = [["pct", "Ancient genomes", css("--hot")], ["pop_pct", "People today", css("--cool")], ["land_pct", "Land", css("--gold")]];
+  resp(document.getElementById("biasChart"), (w, sm) => {
+    const rowH = sm ? 52 : 46, m = { l: sm ? 100 : 130, r: 44, t: 6 }, h = m.t + D.length * rowH + 20, svg = el("svg", { viewBox: `0 0 ${w} ${h}`, role: "img", "aria-label": "Share of ancient genomes, present-day population and land by continent" }, document.getElementById("biasChart"));
+    const X = v => m.l + (w - m.l - m.r) * v / 75;
+    [0, 25, 50, 75].forEach(v => { el("line", { x1: X(v), x2: X(v), y1: m.t, y2: h - 18, stroke: css("--rule") }, svg); lbl(svg, X(v), h - 4, v + "%", "lab s m", "middle"); });
+    D.forEach((d, i) => { const y0 = m.t + i * rowH; lbl(svg, m.l - 8, y0 + rowH / 2 + 4, d.cont, "lab b", "end");
+      K.forEach(([k, n, c], j) => { const bh = (rowH - 10) / 3, y = y0 + 4 + j * bh; const r = el("rect", { x: X(0), y, width: Math.max(1, X(d[k]) - X(0)), height: bh - 2, fill: c }, svg);
+        lbl(svg, X(d[k]) + 4, y + bh - 4, (d[k] < 10 ? d[k].toFixed(1) : Math.round(d[k])) + "%", "lab s");
+        r.addEventListener("mousemove", ev => showTip(`<b>${esc(d.cont)}</b><br>${fmt(d.n)} genomes (${d.pct.toFixed(1)}%)<br>${d.pop_pct.toFixed(1)}% of people, ${d.land_pct.toFixed(1)}% of land<br>${d.per_10m_people} genomes per 10 million people`, ev.clientX, ev.clientY)); r.addEventListener("mouseleave", hideTip); }); });
+  });
+  document.getElementById("biasLegend").innerHTML = K.map(([k, n, c]) => `<span><i class="sq" style="background:${c}"></i>${n}</span>`).join("");
+}
+function neoChart() {
+  const D = R.neolithic.countries, NL = R.neolithic;
+  resp(document.getElementById("neoChart"), (w, sm) => {
+    const h = sm ? 360 : 440, m = { l: 74, r: 16, t: 14, b: 40 }, svg = el("svg", { viewBox: `0 0 ${w} ${h}`, role: "img", "aria-label": "Scatter of the earliest Neolithic burial in each country against distance from central Anatolia" }, document.getElementById("neoChart"));
+    const X = v => m.l + (w - m.l - m.r) * v / 4000, Y = y => m.t + (h - m.t - m.b) * (y + 9000) / 6000;
+    for (let y = -9000; y <= -3000; y += 1000) { el("line", { x1: m.l, x2: w - m.r, y1: Y(y), y2: Y(y), stroke: css("--rule") }, svg); lbl(svg, m.l - 6, Y(y) + 4, yr(y), "lab s m", "end"); }
+    for (let k = 0; k <= 4000; k += 1000) lbl(svg, X(k), h - 20, fmt(k), "lab s m", "middle");
+    lbl(svg, (m.l + w - m.r) / 2, h - 4, "km from Çatalhöyük, central Anatolia", "lab s m", "middle");
+    const f = k => NL.intercept + NL.slope_yr_per_km * k;
+    el("line", { x1: X(500), x2: X(3800), y1: Y(f(500)), y2: Y(f(3800)), stroke: css("--hot"), "stroke-width": 1.6, "stroke-dasharray": "5 4" }, svg);
+    const boxes = [];
+    const ov = b => boxes.some(o => b[0] < o[2] && b[2] > o[0] && b[1] < o[3] && b[3] > o[1]);
+    D.forEach(d => { const x = X(d.km), y = Y(d.year); boxes.push([x - 5, y - 5, x + 5, y + 5]); });
+    D.forEach(d => { const x = X(d.km), y = Y(d.year), c = el("circle", { cx: x, cy: y, r: 5, fill: css("--ink"), stroke: css("--bg"), "stroke-width": 1.2 }, svg);
+      c.addEventListener("mousemove", ev => showTip(`<b>${esc(d.country)}</b>: ${esc(d.yr)}<br>${esc(d.id)}, ${esc(d.group)}<br>${esc(d.site)}<br>${esc(d.date)}<br>${fmt(d.km)} km; ${d.n} Neolithic people`, ev.clientX, ev.clientY)); c.addEventListener("mouseleave", hideTip);
+      const nm = d.country === "United Kingdom" ? "Britain" : d.country === "Channel Islands" ? "Channel Is." : d.country === "North Macedonia" ? "N. Macedonia" : d.country, tw = nm.length * 6.6;
+      for (const [dx, dy, a] of [[8, 4, "start"], [-8, 4, "end"], [0, -9, "middle"], [0, 15, "middle"], [8, -7, "start"], [-8, 14, "end"], [8, 14, "start"], [-8, -7, "end"]]) {
+        const x0 = a === "start" ? x + dx : a === "end" ? x + dx - tw : x - tw / 2, b = [x0, y + dy - 10, x0 + tw, y + dy + 2];
+        if (b[0] < m.l || b[2] > w - 2 || ov(b)) continue; boxes.push(b); lbl(svg, x + dx, y + dy, nm, "lab s", a); break; } });
+  });
+}
+function regionButtons() {
+  const row = document.getElementById("regRow");
+  SITE.regions.forEach(([n], k) => { const b = document.createElement("button"); b.className = "btn"; b.textContent = n; b.setAttribute("aria-pressed", k === 0); b.onclick = () => { press("#regRow", b); steppeReg = n; redrawSteppe(); }; row.appendChild(b); });
+}
+let steppeReg = "Britain", redrawSteppe = () => {};
+function steppeChart() {
+  const box = document.getElementById("steppeChart"), YC = SITE.y.filter(([n]) => n !== "Too broad");
+  const render = () => { box.innerHTML = ""; const w = Math.max(280, box.clientWidth), sm = w < 560, B = R.steppe[steppeReg].bins.filter(b => b.a >= -6000);
+    const h = sm ? 300 : 360, m = { l: 40, r: 8, t: 22, b: 32 }, svg = el("svg", { viewBox: `0 0 ${w} ${h}`, role: "img", "aria-label": "Stacked bars of Y haplogroup shares per 500 years in " + steppeReg }, box);
+    const bw = (w - m.l - m.r) / B.length, Y = v => m.t + (h - m.t - m.b) * (1 - v);
+    [0, .25, .5, .75, 1].forEach(v => { el("line", { x1: m.l, x2: w - m.r, y1: Y(v), y2: Y(v), stroke: css("--rule") }, svg); lbl(svg, m.l - 5, Y(v) + 4, Math.round(v * 100) + "%", "lab s m", "end"); });
+    B.forEach((b, i) => { const x = m.l + i * bw; let acc = 0; const op = b.n >= 5 ? 1 : .35;
+      if (b.n) YC.forEach(([n, c]) => { const v = (b.clades[n] || 0) / b.n; if (!v) return; const r = el("rect", { x: x + 1, y: Y(acc + v), width: Math.max(1, bw - 2), height: Y(acc) - Y(acc + v), fill: c, opacity: op }, svg); acc += v;
+        r.addEventListener("mousemove", ev => showTip(`<b>${esc(steppeReg)}, ${yr(b.a)} to ${yr(b.b)}</b><br>${esc(n)}: ${b.clades[n]} of ${b.n} men (${Math.round(100 * v)}%)<br>R1b or R1a: ${b.steppe_pct == null ? "n/a" : Math.round(b.steppe_pct) + "%"}`, ev.clientX, ev.clientY)); r.addEventListener("mouseleave", hideTip); });
+      if (b.n && (!sm || i % 2 === 0)) lbl(svg, x + bw / 2, m.t - 6, b.n, "lab s m", "middle");
+      if (b.a % (sm ? 2000 : 1000) === 0) lbl(svg, x, h - 12, b.a === 0 ? "1 CE" : yr(b.a), "lab s m", "middle"); });
+    const xb = m.l + B.findIndex(b => b.a === -2500) * bw; el("line", { x1: xb, x2: xb, y1: m.t - 2, y2: h - m.b + 4, stroke: css("--fg"), "stroke-width": 1.4, "stroke-dasharray": "3 3" }, svg);
+  };
+  new ResizeObserver(render).observe(box); render(); redrawSteppe = render; redraws.push(render);
+  const used = new Set(); Object.values(R.steppe).forEach(s => s.bins.forEach(b => Object.entries(b.clades).forEach(([k, v]) => v && used.add(k))));
+  document.getElementById("steppeLegend").innerHTML = YC.filter(([n]) => used.has(n)).map(([n, c]) => `<span><i class="sq" style="background:${c}"></i>${esc(n)}</span>`).join("") + `<span>dashed line: 2500 BCE</span>`;
+}
+function steppeLines() {
+  resp(document.getElementById("steppeLines"), (w, sm) => {
+    const h = sm ? 260 : 320, m = { l: 40, r: 10, t: 12, b: 30 }, svg = el("svg", { viewBox: `0 0 ${w} ${h}`, role: "img", "aria-label": "Lines of the share of men carrying R1b or R1a over time in four regions" }, document.getElementById("steppeLines"));
+    const X = y => m.l + (w - m.l - m.r) * (y + 5000) / 6500, Y = v => m.t + (h - m.t - m.b) * (1 - v / 100);
+    [0, 25, 50, 75, 100].forEach(v => { el("line", { x1: m.l, x2: w - m.r, y1: Y(v), y2: Y(v), stroke: css("--rule") }, svg); lbl(svg, m.l - 5, Y(v) + 4, v + "%", "lab s m", "end"); });
+    for (let y = -5000; y <= 1500; y += sm ? 2000 : 1000) lbl(svg, X(y), h - 10, y === 0 ? "1 CE" : yr(y), "lab s m", "middle");
+    el("line", { x1: X(-2500), x2: X(-2500), y1: m.t, y2: h - m.b, stroke: css("--fg"), "stroke-dasharray": "3 3" }, svg);
+    SITE.regions.forEach(([n, c]) => { const B = R.steppe[n].bins.filter(b => b.n >= 5 && b.a >= -5000 && b.a < 1500); const pts = B.map(b => [X((b.a + b.b) / 2), Y(b.steppe_pct)]);
+      el("path", { d: "M" + pts.map(p => p.map(v => v.toFixed(1)).join(" ")).join(" L"), stroke: c, "stroke-width": 2.4, fill: "none" }, svg);
+      B.forEach((b, i) => { const q = el("circle", { cx: pts[i][0], cy: pts[i][1], r: 3.6, fill: c, stroke: css("--bg"), "stroke-width": 1 }, svg);
+        q.addEventListener("mousemove", ev => showTip(`<b>${esc(n)}, ${yr(b.a)} to ${yr(b.b)}</b><br>R1b ${b.r1b} and R1a ${b.r1a} of ${b.n} men: ${Math.round(b.steppe_pct)}%`, ev.clientX, ev.clientY)); q.addEventListener("mouseleave", hideTip); }); });
+  });
+  document.getElementById("linesLegend").innerHTML = SITE.regions.map(([n, c, d]) => `<span><i class="sq" style="background:${c}"></i>${esc(n)} <small style="margin-left:4px">(${esc(d)})</small></span>`).join("");
+}
+function tables() {
+  const t1 = document.getElementById("countryTable"), T = R.countries.slice(0, 30);
+  t1.innerHTML = `<thead><tr><th>Country or territory</th><th class="r">People</th><th class="r">Share</th></tr></thead><tbody>` + T.map((c, i) => `<tr data-i="${i}"><td>${esc(c.country)}</td><td class="r">${fmt(c.n)}</td><td class="r">${c.pct.toFixed(1)}%</td></tr>`).join("") + `</tbody>`;
+  t1.querySelectorAll("tr[data-i]").forEach(r => r.onclick = () => { if (!IND) return; const c = IND.countries.indexOf(T[+r.dataset.i].country); const rs = IND.rows.filter(x => x[C.country] === c && x[C.ok]);
+    const lo = rs.map(x => x[C.lon]).sort((a, b) => a - b), la = rs.map(x => x[C.lat]).sort((a, b) => a - b), q = (a, p) => a[Math.floor(p * (a.length - 1))];
+    setTimeBP(0, 0); document.getElementById("atlas").scrollIntoView({ behavior: "smooth" }); setTimeout(() => map.fitBounds([[q(lo, .02) - 1, q(la, .02) - 1], [q(lo, .98) + 1, q(la, .98) + 1]], { maxZoom: 7 }), 300); });
+  const t2 = document.getElementById("siteTable"), ST = R.sites;
+  t2.innerHTML = `<thead><tr><th>Site</th><th class="r">People</th><th>Dates</th></tr></thead><tbody>` + ST.map((s, i) => `<tr data-i="${i}"><td>${esc(s.site)}<br><small>${esc(s.country)} · ${esc(s.group)}</small></td><td class="r">${fmt(s.n)}</td><td>${s.y0 === s.y1 ? yr(s.y0) : yr(s.y0) + " to " + yr(s.y1)}</td></tr>`).join("") + `</tbody>`;
+  t2.querySelectorAll("tr[data-i]").forEach(r => r.onclick = () => { document.getElementById("atlas").scrollIntoView({ behavior: "smooth" }); setTimeout(() => pickSite(ST[+r.dataset.i].site), 300); });
+  const t3 = document.getElementById("famousTable");
+  t3.innerHTML = `<thead><tr><th>Who</th><th>Date</th><th>Lines</th><th>Grade</th></tr></thead><tbody>` + FAM.map((f, i) => `<tr data-i="${i}"><td>${esc(f.name)}<br><small>${esc(f.id)} · ${esc(f.group)} · ${esc(f.note)}</small></td><td>${esc(f.yr)}<br><small>${esc(f.date)}</small></td><td><small>Y</small> ${esc(f.y || "none")}<br><small>mt</small> ${esc(f.mt || "none")}</td><td>${esc(f.assessment)}</td></tr>`).join("") + `</tbody>`;
+  t3.querySelectorAll("tr[data-i]").forEach(r => r.onclick = () => pickFamous(FAM[+r.dataset.i].id));
+}
+function charts() { pubChart(); timeChart(); biasChart(); neoChart(); regionButtons(); steppeChart(); steppeLines(); tables(); }
+
+/* ---------- start ---------- */
+document.getElementById("theme").onclick = () => { const r = document.documentElement; r.dataset.theme = isDark() ? "light" : "dark"; applyLayers(); legend(); side(); redraws.forEach(f => f()); };
+charts(); side();
+fetch("data/individuals.json").then(r => r.json()).then(d => { IND = d; d.cols.forEach((c, i) => C[c] = i); if (typeof maplibregl === "undefined") { document.getElementById("loading").textContent = "The map library did not load."; legend(); side(); return; } startMap(); });
+</script>
+<!-- map-fullscreen v1 -->
+<style id="mfs-style">
+.mfs-btn{position:absolute;top:10px;right:10px;z-index:1001;width:34px;height:34px;border:2px solid rgba(0,0,0,.25);border-radius:4px;background:#fff;color:#222;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.mfs-btn:hover{background:#f2f2f2}
+.mfs-btn svg{width:18px;height:18px}
+.mfs-host.mfs-btn-left .mfs-btn{right:auto;left:54px}
+.mfs-fake{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;max-width:none!important;max-height:none!important;margin:0!important;z-index:100000!important;border-radius:0!important}
+html.mfs-lock,html.mfs-lock body{overflow:hidden!important}
+:fullscreen.mfs-host{width:100vw!important;height:100vh!important;max-width:none!important;max-height:none!important;margin:0!important;border-radius:0!important}
+</style>
+<script id="mfs-script">
+(function(){
+  var ICON_OPEN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>';
+  var ICON_CLOSE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>';
+  function poke(){setTimeout(function(){window.dispatchEvent(new Event('resize'));},60);setTimeout(function(){window.dispatchEvent(new Event('resize'));},400);}
+  function realFS(){return document.fullscreenElement||document.webkitFullscreenElement;}
+  function add(el){
+    if(el.__mfs)return; el.__mfs=1;
+    var cs=getComputedStyle(el); if(cs.position==='static')el.style.position='relative';
+    el.classList.add('mfs-host');
+    // avoid clashing with a top-right Leaflet control (e.g. "Map layers")
+    var tr=el.querySelector('.leaflet-top.leaflet-right');
+    if(tr&&tr.children.length){ el.classList.add('mfs-btn-left'); }
+    var b=document.createElement('button'); b.type='button'; b.className='mfs-btn';
+    b.title='Full screen map'; b.setAttribute('aria-label','Full screen map'); b.innerHTML=ICON_OPEN;
+    ['click','dblclick','mousedown','touchstart','wheel'].forEach(function(t){b.addEventListener(t,function(e){e.stopPropagation();},{passive:t!=='click'});});
+    function setIcon(on){b.innerHTML=on?ICON_CLOSE:ICON_OPEN;b.title=on?'Exit full screen':'Full screen map';b.setAttribute('aria-label',b.title);}
+    function exitFake(){el.classList.remove('mfs-fake');document.documentElement.classList.remove('mfs-lock');setIcon(false);poke();}
+    b.addEventListener('click',function(e){
+      e.preventDefault();
+      if(el.classList.contains('mfs-fake')){exitFake();return;}
+      if(realFS()){(document.exitFullscreen||document.webkitExitFullscreen).call(document);return;}
+      var req=el.requestFullscreen||el.webkitRequestFullscreen;
+      if(req){ try{ var p=req.call(el); if(p&&p.catch)p.catch(function(){el.classList.add('mfs-fake');document.documentElement.classList.add('mfs-lock');setIcon(true);poke();}); }catch(err){el.classList.add('mfs-fake');document.documentElement.classList.add('mfs-lock');setIcon(true);poke();} }
+      else { el.classList.add('mfs-fake');document.documentElement.classList.add('mfs-lock');setIcon(true);poke(); }
+    });
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&el.classList.contains('mfs-fake'))exitFake();});
+    ['fullscreenchange','webkitfullscreenchange'].forEach(function(t){document.addEventListener(t,function(){setIcon(realFS()===el);poke();});});
+    el.appendChild(b);
+  }
+  function scan(){
+    var els=document.querySelectorAll('[data-fullscreen-map], .leaflet-container, .maplibregl-map, .mapboxgl-map');
+    els.forEach(function(el){
+      if(el.closest('.mfs-host')&&!el.classList.contains('mfs-host'))return;
+      var r=el.getBoundingClientRect(); if(r.width<200||r.height<150)return;
+      add(el);
+    });
+  }
+  function start(){scan(); var n=0; var t=setInterval(function(){scan(); if(++n>20)clearInterval(t);},500);}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start); else start();
+})();
+</script>
+<!-- /map-fullscreen -->
+
+</body>
+</html>
