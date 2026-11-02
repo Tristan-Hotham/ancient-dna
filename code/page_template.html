@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ancient DNA on the Map</title>
+<meta name="description" content="An interactive map of {{source.kept|int}} ancient human genomes in the Allen Ancient DNA Resource, placed where and when each person lived: watch farmers spread out of Anatolia, steppe ancestry sweep across Europe after 2500 BCE, and see how heavily the archive leans towards Europe.">
+<meta property="og:title" content="Ancient DNA on the map: {{source.kept|int}} ancient genomes, placed where and when they lived">
+<meta property="og:description" content="Every published ancient human genome in the AADR on one map with a time slider. {{bias_sum.eu_pct|int}}% come from Europe, home to {{bias_sum.eu_pop_pct|int}}% of people. In Britain, none of {{britain.pre_n|int}} men before 2500 BCE carried R1b; {{britain.post_r1b_pct|int}}% did in the next thousand years.">
+<meta property="og:image" content="https://maps.tristanhotham.com/ancient-dna/header.png">
+<meta property="og:url" content="https://maps.tristanhotham.com/ancient-dna/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800;9..144,900&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<style>
+/* Bone and ochre: pale paper, red ochre, lapis blue, a burial-earth brown. */
+:root{
+  --bg:#F6F4EF; --panel:#EAE7DF; --fg:#1D2128; --muted:#636A72; --rule:#DDD8CC; --card:#FFFEFA; --border:#CBC5B8;
+  --hot:#B5402A; --cool:#2F5FA7; --gold:#C9A227; --ink:#3B2A1A; --land:#E6E1D5; --sea:#E3EAEE; --nocall:#CFC9BD; --ghost:#9A948A;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12151B; --panel:#1C2029; --fg:#ECEEF1; --muted:#A2A8B0; --rule:#30353F; --card:#171B22; --border:#444B57;
+  --hot:#F07A5E; --cool:#7DA7E6; --gold:#E8C454; --ink:#E2C9A6; --land:#262B33; --sea:#161A20; --nocall:#4A505B; --ghost:#6B7280; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12151B; --panel:#1C2029; --fg:#ECEEF1; --muted:#A2A8B0; --rule:#30353F; --card:#171B22; --border:#444B57;
+  --hot:#F07A5E; --cool:#7DA7E6; --gold:#E8C454; --ink:#E2C9A6; --land:#262B33; --sea:#161A20; --nocall:#4A505B; --ghost:#6B7280; color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 18px/1.62 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));overflow-x:hidden}
+.wrap{max-width:700px;margin:0 auto;padding-block:28px 64px}
+.wrap .bleed{width:min(1180px,calc(100vw - 32px));margin-left:calc((100% - min(1180px,100vw - 32px))/2);margin-right:0}
+a{color:inherit;text-decoration-color:var(--hot);text-underline-offset:3px}
+.kicker{font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.kicker b{background:var(--ink);color:var(--bg);padding:5px 8px;font-weight:500}
+header.hero{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px 24px;align-items:end;border-bottom:6px double var(--fg);padding-bottom:22px;margin-top:18px}
+h1{font:900 clamp(42px,10vw,88px)/.92 var(--display);letter-spacing:-.02em;margin:0;text-wrap:balance}
+h1 .a{color:var(--hot)} h1 .b{color:var(--cool)}
+.mark{width:clamp(70px,14vw,116px);height:auto;display:block;color:var(--fg)}
+.dek{grid-column:1/-1;font-size:21px;line-height:1.42;margin:8px 0 0;max-width:58ch}
+.byline{font:400 13px/1.4 var(--mono);color:var(--muted);margin-top:14px}
+h2{font:800 34px/1.04 var(--display);letter-spacing:-.01em;margin:54px 0 10px;text-wrap:balance}
+h2 .n{font:500 13px/1 var(--mono);color:var(--hot);display:block;letter-spacing:.1em;margin-bottom:10px}
+h3{font:600 20px/1.25 var(--display);margin:28px 0 6px}
+p{margin:0 0 16px}
+.lede::first-letter{font:900 72px/.8 var(--display);float:left;margin:6px 10px 0 0;color:var(--hot)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0 8px}
+.stats div{background:var(--card);padding:14px 12px}
+.stats b{display:block;font:900 clamp(22px,4.4vw,32px)/1 var(--display);letter-spacing:-.01em}
+.stats b.h{color:var(--hot)} .stats b.c{color:var(--cool)} .stats b.g{color:var(--gold)} .stats b.p{color:var(--ink)}
+.stats span{font:400 12px/1.35 var(--mono);color:var(--muted);display:block;margin-top:6px}
+@media (max-width:600px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.figure{margin:26px 0 30px}
+.fig-h{font:600 19px/1.25 var(--display);margin:0 0 4px}
+.fig-sub{font:400 13px/1.45 var(--mono);color:var(--muted);margin:0 0 12px}
+.src{font:400 12px/1.45 var(--mono);color:var(--muted);margin-top:10px}
+.chart{width:100%;position:relative}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+svg text{font-family:var(--mono);fill:var(--fg)}
+.lab{font-size:12px}.lab.m{fill:var(--muted)}.lab.b{font-weight:500}.lab.s{font-size:11px}
+.tip{position:absolute;pointer-events:none;background:var(--fg);color:var(--bg);font:400 12px/1.45 var(--mono);padding:8px 10px;border-radius:3px;max-width:300px;z-index:2000;transform:translate(-50%,calc(-100% - 12px));display:none}
+.tip b{font-weight:500}
+.controls{display:flex;gap:8px;align-items:center;margin:0 0 10px;flex-wrap:wrap}
+.scrollrow{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin;padding-bottom:2px;max-width:100%}
+.scrollrow .btn{flex:0 0 auto;white-space:nowrap}
+.ctl-l{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-right:2px;flex:0 0 auto;align-self:center}
+.btn{font:500 12px/1 var(--mono);background:var(--card);color:var(--fg);border:1px solid var(--border);border-radius:3px;padding:8px 10px;cursor:pointer;min-height:36px}
+.btn[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.btn:focus-visible,input:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--hot);outline-offset:2px}
+.searchbox{position:relative;flex:1 1 260px;min-width:0}
+input[type=search]{font:400 15px/1 var(--mono);background:var(--card);color:var(--fg);border:1px solid var(--border);border-radius:3px;padding:10px 11px;min-height:40px;width:100%}
+.suggest{position:absolute;left:0;right:0;top:100%;margin:2px 0 0;padding:0;list-style:none;background:var(--card);border:1px solid var(--border);z-index:1001;font:400 13px/1.3 var(--mono);display:none;max-height:340px;overflow:auto}
+.suggest li{padding:8px 10px;cursor:pointer;border-bottom:1px solid var(--rule)}
+.suggest li span{color:var(--muted)}
+.suggest li[aria-selected="true"],.suggest li:hover{background:var(--panel)}
+.timebox{display:grid;grid-template-columns:auto minmax(9ch,auto) minmax(0,1fr);gap:10px;align-items:center;margin:0 0 6px;font:500 13px/1 var(--mono)}
+.timebox .yv{font:800 22px/1.05 var(--display);color:var(--hot);white-space:nowrap}
+.timebox .yv small{display:block;font:400 11px/1.2 var(--mono);color:var(--muted);margin-top:3px}
+.timebox input[type=range]{width:100%;accent-color:var(--hot);height:28px}
+.ticks{position:relative;height:16px;margin:-4px 0 8px;font:400 10.5px/1 var(--mono);color:var(--muted)}
+.ticks span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.play{width:42px;height:38px;border-radius:3px;border:1px solid var(--fg);background:var(--fg);color:var(--bg);font:600 15px/1 var(--mono);cursor:pointer}
+.mapgrid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:14px;align-items:start}
+@media (max-width:900px){.mapgrid{grid-template-columns:1fr}}
+.side{background:var(--card);border:1px solid var(--border);padding:12px 12px 10px;font:400 13px/1.45 var(--mono);max-height:690px;overflow:auto}
+@media (max-width:900px){.side{max-height:none}}
+.side h4{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:14px 0 8px}
+.side h4:first-child{margin-top:2px}
+.side .big{font:800 26px/1.1 var(--display);margin:2px 0 4px}
+.side .sub{color:var(--muted);font-size:12px;margin:0 0 8px}
+.side ol,.side ul{margin:4px 0 8px;padding-left:20px}
+.side li{margin:3px 0}
+.side li small,.side td small{color:var(--muted)}
+.side table{width:100%;border-collapse:collapse;margin:4px 0 6px}
+.side td{padding:3px 4px 3px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+.side td.num{text-align:right;white-space:nowrap}
+.go{cursor:pointer;text-decoration:underline;text-decoration-color:var(--border);text-underline-offset:3px}
+#mapbox{position:relative;background:var(--bg)}
+.lmap{height:640px;border:1px solid var(--border);background:var(--sea);border-radius:2px}
+@media (max-width:600px){.lmap{height:min(64vh,480px)}}
+.timebox{padding-right:44px}
+@media (max-width:600px){.timebox{grid-template-columns:auto minmax(0,1fr)}.timebox input[type=range]{grid-column:1/-1}}
+#mapbox:fullscreen,#mapbox.mfs-fake{padding:10px 12px;overflow:auto;background:var(--bg)}
+#mapbox:fullscreen .lmap,#mapbox.mfs-fake .lmap{height:calc(100vh - 175px);height:calc(100dvh - 175px)}
+#mapbox:fullscreen .side,#mapbox.mfs-fake .side{max-height:calc(100dvh - 175px)}
+@media (max-width:900px){#mapbox:fullscreen .side,#mapbox.mfs-fake .side{display:none}#mapbox:fullscreen .lmap,#mapbox.mfs-fake .lmap{height:calc(100dvh - 230px)}}
+.maplibregl-map{font:400 12px/1.4 var(--mono)}
+.maplibregl-popup-content{background:var(--card);color:var(--fg);font:400 12.5px/1.45 var(--mono);padding:10px 12px;border-radius:3px;box-shadow:0 2px 10px rgba(0,0,0,.2);max-width:290px}
+.maplibregl-popup-content b.t{font:700 15px/1.2 var(--display);display:block;margin-bottom:2px}
+.maplibregl-popup-content small{color:var(--muted)}
+.maplibregl-popup-tip{border-top-color:var(--card)!important;border-bottom-color:var(--card)!important}
+.maplibregl-popup-close-button{color:var(--fg);font-size:18px;padding:0 6px}
+.maplibregl-ctrl-attrib{background:color-mix(in srgb,var(--card) 85%,transparent)!important;color:var(--muted)}
+.maplibregl-ctrl-attrib a{color:var(--fg)}
+.maplibregl-ctrl-group{background:var(--card)}
+.lyrWrap{position:absolute;top:10px;left:10px;z-index:3}
+.lyrBtn{background:var(--card,var(--bg));color:var(--fg);border:1px solid var(--border);border-radius:3px;font:600 12px/1 var(--mono);padding:9px 10px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.lyrBtn[aria-expanded="true"]{background:var(--fg);color:var(--bg)}
+.lyrPanel{background:var(--card,var(--bg));color:var(--fg);border:1px solid var(--border);border-radius:3px;padding:10px 12px 8px;margin-top:6px;width:260px;box-shadow:0 2px 10px rgba(0,0,0,.15);font:400 12px/1.3 var(--mono);max-height:min(70vh,520px);overflow:auto}
+.lyrPanel[hidden]{display:none}
+.lyrPanel .row{margin:0 0 9px}
+.lyrPanel label{display:flex;gap:6px;align-items:center;cursor:pointer;font-weight:600}
+.lyrPanel input[type=range]{width:100%;accent-color:var(--fg)}
+.lyrPanel select{font:400 12px var(--mono);background:var(--bg);color:var(--fg);border:1px solid var(--border);border-radius:2px;padding:2px 4px;width:100%;min-height:0}
+.lyrPanel .sub{display:flex;gap:6px;align-items:center;color:var(--muted);font-size:11px;margin-top:3px}
+.lyrPanel .sub span{flex:0 0 58px}
+.lyrPanel .hd{font:500 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:10px 0 7px;border-top:1px solid var(--rule);padding-top:9px}
+.lyrPanel .reset{font:400 11px var(--mono);color:var(--muted);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline}
+.mapnote{position:absolute;left:10px;bottom:28px;z-index:2;background:color-mix(in srgb,var(--card) 92%,transparent);border:1px solid var(--border);border-radius:3px;padding:6px 9px;font:400 12px/1.35 var(--mono);max-width:min(320px,70%);box-shadow:0 1px 4px rgba(0,0,0,.12);pointer-events:none}
+.mapnote:empty{display:none}
+.legend{display:flex;gap:6px 14px;flex-wrap:wrap;font:400 12px/1.3 var(--mono);color:var(--muted);margin-top:8px;align-items:center}
+.legend span{display:inline-flex;align-items:center}
+.legend button{font:400 12px/1.3 var(--mono);color:var(--fg);background:none;border:1px solid transparent;border-radius:3px;padding:3px 5px;cursor:pointer;display:inline-flex;align-items:center}
+.legend button[aria-pressed="false"]{opacity:.38;text-decoration:line-through}
+.legend button small{color:var(--muted);margin-left:5px}
+.legend i{display:inline-block;width:13px;height:13px;margin-right:6px;border-radius:50%;border:1px solid rgba(0,0,0,.15);flex:0 0 auto}
+.legend i.sq{border-radius:2px}
+.pull{font:600 26px/1.25 var(--display);border-left:6px solid var(--hot);padding:4px 0 4px 18px;margin:30px 0}
+.note{background:var(--panel);border:1px solid var(--rule);padding:14px 16px;font-size:16px;margin:22px 0}
+.note h3{margin-top:0}
+table.tbl{width:100%;border-collapse:collapse;font:400 13px/1.4 var(--mono)}
+table.tbl th{font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 6px 6px 0;border-bottom:2px solid var(--fg)}
+table.tbl td{padding:6px 6px 6px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+table.tbl td.r,table.tbl th.r{text-align:right;white-space:nowrap}
+table.tbl tr[data-i]{cursor:pointer}
+table.tbl tr[data-i]:hover td{background:var(--panel)}
+table.tbl td small{color:var(--muted)}
+.tablebox{max-height:460px;overflow:auto;border:1px solid var(--border);background:var(--card);padding:0 10px}
+details{margin:14px 0}
+summary{font:500 13px/1.4 var(--mono);cursor:pointer;color:var(--fg);padding:8px 0}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+.cta a{font:500 13px/1 var(--mono);text-decoration:none;border:1px solid var(--fg);padding:11px 14px;border-radius:3px}
+.cta a.p{background:var(--hot);border-color:var(--hot);color:#fff}
+footer{border-top:6px double var(--fg);margin-top:56px;padding-top:16px;font:400 13px/1.55 var(--mono);color:var(--muted)}
+footer p{margin:0 0 10px}
+.theme{position:fixed;right:12px;bottom:12px;z-index:1002}
+.loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:500 13px var(--mono);color:var(--muted);pointer-events:none;z-index:1}
+@media print{.theme,.controls{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="kicker"><b>Data study</b><span>Genetics and archaeology</span><span>World, {{time.oldest_year|yr}} to {{time.youngest_year|yr}}</span></div>
+<header class="hero">
+  <h1>Ancient <span class="a">DNA</span> on the <span class="b">map</span></h1>
+  <svg class="mark" viewBox="0 0 120 120" aria-hidden="true"><g id="heroMark"></g></svg>
+  <p class="dek">Every published ancient human genome in the Allen Ancient DNA Resource, {{source.kept|int}} people, placed where and when they lived. Press play and watch the first farmers spread out of Anatolia, people from the steppe sweep across Europe after 2500 BCE, and the archive's own blind spots appear.</p>
+</header>
+<div class="byline">Dr Tristan Hotham · Independent researcher · 2026 · Data: Allen Ancient DNA Resource (AADR) {{source.version|raw}}, Mallick et al., Harvard Dataverse, CC0; Natural Earth</div>
+
+<div class="stats">
+  <div><b class="p">{{source.kept|int}}</b><span>ancient people whose genomes pass the archive's quality checks</span></div>
+  <div><b class="c">{{bias_sum.eu_pct|int}}%</b><span>of them lived in Europe, home to {{bias_sum.eu_pop_pct|int}}% of people today</span></div>
+  <div><b class="h">0 of {{britain.pre_n|int}}</b><span>men in Britain before 2500 BCE carried the Y line R1b; {{britain.post_r1b_pct|int}}% did in the next thousand years</span></div>
+  <div><b class="g">{{neolithic.km_per_year|f1}} km</b><span>a year: the pace at which the earliest farmers in each country get further from Anatolia</span></div>
+</div>
+
+<p class="lede">Bones keep secrets for a very long time. In 2010 scientists published the first genome of an ancient human, read from a man who lived in Greenland around {{famous.13.yr|raw}}. Since then labs have read the DNA of thousands more: hunters from the last Ice Age, the first farmers, Bronze Age herders, Roman townspeople, Viking raiders, medieval villagers. The Allen Ancient DNA Resource (AADR), curated by Swapan Mallick, David Reich and colleagues at Harvard, gathers every published genome in one free file. Release {{source.version|raw}} describes {{source.ancient_individuals|int}} ancient individuals, and {{source.kept|int}} of them pass its quality checks.</p>
+<p>The map below puts each of them where they were buried, at the time they lived. Press play and the archive comes alive: a scatter of Ice Age hunters, then a wave of farmers moving from Anatolia into Europe after 7000 BCE, then, around 2500 BCE, a sudden change in the male lines across western Europe. Colour the dots by the Y chromosome to see it. Along the way the map also shows something about the science itself: where the bones come from, and where they do not.</p>
+
+<h2><span class="n">01 · The map</span>{{source.mapped|int}} people, {{time.oldest_k|int}} years</h2>
+<div class="bleed" id="atlas">
+<div id="mapbox" data-fullscreen-map>
+<div class="timebox"><button class="play" id="play" aria-label="Play through time">&#9654;</button><div class="yv" id="yv">All<small id="ylab">everyone, to {{time.youngest_year|yr}}</small></div><input type="range" id="tt" min="0" max="1000" step="1" value="1000" aria-label="Time"></div>
+<div class="ticks" id="ticks" aria-hidden="true"></div>
+<div class="controls">
+  <div class="scrollrow" id="winRow"><span class="ctl-l">Show</span><button class="btn" data-w="0" aria-pressed="true">Everyone up to then</button><button class="btn" data-w="1" aria-pressed="false">Narrow window</button><button class="btn" data-w="2" aria-pressed="false">Medium window</button><button class="btn" data-w="3" aria-pressed="false">Wide window</button></div>
+</div>
+<div class="controls"><div class="scrollrow" id="colRow"><span class="ctl-l">Colour by</span><button class="btn" data-c="pe" aria-pressed="true">Period</button><button class="btn" data-c="cu" aria-pressed="false">Culture label</button><button class="btn" data-c="yc" aria-pressed="false">Y line (fathers)</button><button class="btn" data-c="mc" aria-pressed="false">mtDNA line (mothers)</button></div></div>
+<div class="mapgrid">
+  <div><div style="position:relative"><div id="map" class="lmap" role="application" aria-label="World map of ancient individuals by place and date"></div><div class="loading" id="loading">Loading {{source.mapped|int}} people...</div><div class="mapnote" id="mapnote"></div></div>
+    <div class="legend" id="legend"></div></div>
+  <div class="side" id="side" aria-live="polite"></div>
+</div>
+</div>
+<div class="controls" style="margin-top:10px">
+  <div class="searchbox"><input type="search" id="q" placeholder="Search a person, a group or a site (Iceman, Yamnaya, Stonehenge...)" aria-label="Search a person, a group or a site" autocomplete="off"><ul class="suggest" id="sug" role="listbox"></ul></div>
+</div>
+<div class="controls"><div class="scrollrow" id="focusRow"><span class="ctl-l">Zoom to</span></div></div>
+<p class="src">Each dot is one person, at the place the archive gives for their burial and the mean of their date. The time slider runs on a stretched scale, so that the last few thousand years, where most genomes come from, get more room; a window shows people within a few centuries of the date at the top (wider for older periods). Faint grey dots (Earlier people, in Map layers) lived before the window. Click a dot for the person. Colours: broad period from the date; culture label from words in the archive's group name; Y and mtDNA lines grouped into major branches (pale: no call, or a woman for the Y line). Map layers also shows the {{source.archaic|int}} Neanderthal and Denisovan genomes and the {{source.failed|int}} people who did not pass the quality checks. Source: AADR {{source.version|raw}} (Mallick et al., doi:10.7910/DVN/FFIDCW), CC0. Outlines: Natural Earth. Labels: OpenFreeMap, © OpenMapTiles, © OpenStreetMap contributors. Relief and hillshade: Esri.</p>
+</div>
+
+<h2><span class="n">02 · The archive</span>From one genome to {{source.kept|int}} in sixteen years</h2>
+<p>The AADR file has {{source.rows|int}} rows. {{source.present_day_rows|int}} of them are people alive today, used by geneticists for comparison. The other {{source.ancient_rows|int}} describe {{source.ancient_individuals|int}} ancient individuals, many of them sequenced more than once. The archive grades each set of data, and I keep a person if at least one of theirs passes: {{source.kept|int}} people ({{source.kept_pct|pc}}), from {{source.n_sites|int}} sites in {{source.n_countries|int}} present-day countries and territories, reported in {{source.n_pubs|int}} publications. The other {{source.failed|int}} are flagged for contamination, low quality or other problems, and are left out of every count below.</p>
+<div class="figure"><p class="fig-h">Ancient genomes by the year they were first published</p><p class="fig-sub">People passing the quality checks, by the year in the label of the paper that first reported them. {{pubs.no_year|int}} have no year in the label. Hover a bar.</p><div class="chart" id="pubChart"></div></div>
+<p>The field is young and growing fast. {{pubs.since2020_pct|int}}% of these genomes were first published in 2020 or later, and {{pubs.y2025|int}} in 2025 alone. Single papers now report hundreds of people at a time: the largest, {{pubs.top.0.pub|raw}}, accounts for {{pubs.top.0.n|int}}.</p>
+<p>The oldest modern humans in the archive lived around {{time.oldest_year|yr}}: a group from the cave of Ranis in Thuringia, Germany, and a woman from Zlatý kůň in Czechia, given the same broad date. Ust'-Ishim man, from Siberia, follows at about {{famous.1.yr|raw}}. But the archive is overwhelmingly recent. Half of everyone in it lived after {{time.median_year|yr}}; {{time.pct_after_3000bce|int}}% lived after 3000 BCE; only {{time.n_before_10000bce|int}} people lived before 10,000 BCE, at the end of the last Ice Age.</p>
+<div class="figure"><p class="fig-h">How old are they?</p><p class="fig-sub">People in each 500 years, from 10,000 BCE to the present ({{time.n_before_10000bce|int}} older people are not shown). Hover a bar.</p><div class="chart" id="timeChart"></div></div>
+<p>Of the {{source.kept|int}}, molecular sex (read from the ratio of X and Y chromosome DNA, not from the skeleton) is male for {{sex.M|int}} ({{sex.M_pct|int}}%), female for {{sex.F|int}} ({{sex.F_pct|int}}%) and unknown for {{sex.U|int}}. That is {{sex.m_per_f|f2}} men for every woman, a skew that reflects which burials archaeologists dig up and labs choose to sample, not the people of the past.</p>
+<div class="note"><h3>Neanderthals and Denisovans</h3><p>The archive also holds our archaic cousins. {{source.archaic|int}} archaic genomes pass the quality checks, from the Denisova and Chagyrskaya caves in the Altai mountains of Siberia, Mezmaiskaya in the Caucasus, Vindija in Croatia and Grotte Mandrin in France. The oldest, Denisova 25, is dated to about {{archaic.0.yr|raw}}. They are on the map as large dark dots (Map layers) but left out of every count of modern humans here.</p></div>
+
+<h2><span class="n">03 · Who gets sampled</span>Europe has {{bias_sum.eu_pop_pct|int}}% of the people and {{bias_sum.eu_pct|int}}% of the genomes</h2>
+<p>Ancient DNA does not come evenly from the past. Of the {{bias_sum.n_located|int}} modern humans on the map, {{bias.Europe.n|int}} ({{bias_sum.eu_pct|pc}}) were buried in Europe, a continent with {{bias_sum.eu_pop_pct|pc1}} of the world's people and {{bias_sum.eu_land_pct|pc1}} of its land. Africa, where our species began, has {{bias.Africa.pct|pc1}} of the genomes for {{bias_sum.africa_pop_pct|int}}% of the people; Asia {{bias_sum.asia_pct|int}}% for {{bias_sum.asia_pop_pct|int}}%. Per head of today's population, Europe has about {{bias_sum.eu_vs_africa_per_person|int}} times as many ancient genomes as Africa.</p>
+<div class="figure"><p class="fig-h">Share of ancient genomes, people and land, by continent</p><p class="fig-sub">Genomes: modern humans passing the quality checks, by where they were buried. People: present-day population (Natural Earth estimates, {{bias_sum.pop_year|raw}}). Land: area without Antarctica. Russia west of 60°E (the Urals) counts as Europe. Hover a bar.</p><div class="chart" id="biasChart"></div><div class="legend" id="biasLegend"></div></div>
+<p>The reasons are partly natural and partly human. DNA survives best in cold, dry ground, and badly in the tropics. But money, laboratories and long traditions of excavation matter as much: the countries with the most people in the archive are Russia ({{top_countries.0.n|int}}), Hungary ({{top_countries.1.n|int}}) and the United Kingdom ({{top_countries.2.n|int}}). Europe's lead holds in almost every period: it has {{bias_period.2.eu_pct|int}}% of the people from 6000 to 4000 BCE and {{bias_period.6.eu_pct|int}}% from 1 to 1000 CE. A map of ancient DNA is, first of all, a map of where geneticists have looked.</p>
+<div class="figure"><p class="fig-h">The countries with the most ancient genomes</p><p class="fig-sub">People passing the quality checks, by the present-day country or territory the archive gives. {{n_countries_100|int}} have at least a hundred. Click a row to see it on the map.</p><div class="tablebox"><table class="tbl" id="countryTable"></table></div></div>
+
+<h2><span class="n">04 · The first farmers</span>Out of Anatolia at about a kilometre a year</h2>
+<p>Farming began in the Near East, and ancient DNA studies have shown that it reached Europe mostly with people who moved, not just as an idea that spread. The archive's dates trace that movement. The earliest people it labels Neolithic come from Turkey, from {{neolithic.first.yr|raw}}. Then, country by country, the first Neolithic burials get later the further they lie from Anatolia: Greece {{neolithic.by_country.Greece.yr|raw}}, Hungary {{neolithic.by_country.Hungary.yr|raw}}, France {{neolithic.by_country.France.yr|raw}}, Portugal {{neolithic.by_country.Portugal.yr|raw}}, Britain {{neolithic.by_country.United Kingdom.yr|raw}}, Ireland {{neolithic.by_country.Ireland.yr|raw}}.</p>
+<div class="figure"><p class="fig-h">The earliest Neolithic burial in each country, against its distance from central Anatolia</p><p class="fig-sub">For each country in Europe and Anatolia with at least three people labelled Neolithic: the earliest of them (by mean date) and its distance from Çatalhöyük. Line: least squares fit, Turkey left out. Hover a dot.</p><div class="chart" id="neoChart"></div></div>
+<p>Across {{neolithic.n_countries|int}} countries the earliest dates fall later by about {{neolithic.slope_yr_per_km|f2}} years for every kilometre from Çatalhöyük (correlation {{neolithic.r|f2}}). Put the other way round, the farming frontier, as the sampled burials record it, moved at about {{neolithic.km_per_year|f1}} km a year, roughly a lifetime to cross a county. The first Neolithic burial in Ireland comes {{neolithic.ireland_gap|int}} years after the first in Turkey. By latitude the story is the same: the first Neolithic burial north of 45°N is from {{neolithic.lat_bands.2.yr|raw}} ({{neolithic.lat_bands.2.country|raw}}), north of 50°N from {{neolithic.lat_bands.3.yr|raw}} ({{neolithic.lat_bands.3.country|raw}}), and north of 55°N from {{neolithic.lat_bands.4.yr|raw}} ({{neolithic.lat_bands.4.country|raw}}).</p>
+<p>Two cautions. The earliest sampled burial is not the moment farming arrived: it depends on which sites happen to have been dated and sequenced, so the true front was earlier, by an unknown amount. And "Neolithic" here is the archive's label. In the Baltic, Russia and Ukraine it often marks pottery-making hunter-gatherers, so I leave those countries out, along with groups whose labels also name hunter-gatherers and dates that are very uncertain or inconsistent ({{neolithic.n_ind|int}} people remain).</p>
+
+<h2><span class="n">05 · The steppe arrives</span>Britain before and after 2500 BCE</h2>
+<p>The Y chromosome passes from father to son almost unchanged, so its branches, or haplogroups, trace male lines. In the archive, men of the Yamnaya culture of the Pontic and Caspian steppe, most of them buried between {{yamnaya.q10|yr}} and {{yamnaya.q90|yr}}, mostly carry R1b ({{yamnaya.r1b_pct|int}}% of {{yamnaya.men|int}}). Men of the Corded Ware culture, which followed in northern and central Europe, carry R1a ({{corded.r1a_pct|int}}%) and R1b ({{corded.r1b_pct|int}}%). Men buried with Bell Beaker pots carry R1b ({{beaker.r1b_pct|int}}% of {{beaker.men|int}}). The earlier farmers of Europe mostly did not: among Neolithic men in Europe, {{neo_y.r_pct|pc1}} carry R1b or R1a.</p>
+<div class="figure"><p class="fig-h">Y lines over time, by region</p><p class="fig-sub">Share of men in each 500 years whose Y call reaches a major branch, by branch; the number above each bar is how many men. Calls too broad to place (such as R or CT) are left out. Pale bars: fewer than five men. Choose a region.</p><div class="controls"><div class="scrollrow" id="regRow"><span class="ctl-l">Region</span></div></div><div class="chart" id="steppeChart"></div><div class="legend" id="steppeLegend"></div></div>
+<p>Britain shows the change most starkly. Of the {{britain.pre_n|int}} men in Britain before 2500 BCE whose Y line the archive resolves, none carried R1b; {{britain.pre_i2|int}} ({{britain.pre_i2_pct|int}}%) carried I2. Of the {{britain.post_n|int}} from 2500 to 1500 BCE, {{britain.post_r1b|int}} ({{britain.post_r1b_pct|int}}%) carried R1b. The earliest R1b man in Britain in the archive, {{britain.first_r1b_id|raw}}, was buried with Beaker pottery at Canada Farm in Dorset, {{britain.first_r1b_date|raw}}. R1b still made up {{britain.ia_r1b_pct|int}}% of British men in the Iron Age, before the Romans came.</p>
+<p class="pull">In Britain, none of {{britain.pre_n|int}} men before 2500 BCE carried R1b. In the thousand years after, {{britain.post_r1b_pct|int}}% did.</p>
+<p>The same turn happens across western and central Europe within a few centuries. In every one of the four regions below, R1b and R1a together go from a small minority before 3000 BCE to at least half of all men from 2500 BCE: in Iberia from {{steppe.Iberia.pre3000_pct|int}}% to {{steppe.Iberia.ba_pct|int}}% (2500 to 1500 BCE), in central Europe from {{steppe.Central Europe.pre3000_pct|int}}% to {{steppe.Central Europe.ba_pct|int}}%, and in Scandinavia from {{steppe.Scandinavia.pre3000_pct|int}}% to {{steppe.Scandinavia.ba_pct|int}}%, where I1 also rises.</p>
+<div class="figure"><p class="fig-h">Men carrying R1b or R1a, four regions</p><p class="fig-sub">Share of men with a resolved Y line in each 500 years who carry R1b or R1a. Only periods with at least five men are drawn. Hover a point.</p><div class="chart" id="steppeLines"></div><div class="legend" id="linesLegend"></div></div>
+<p>Later movements leave marks too. In Britain from 400 to 1066 CE, {{britain.em_i1_pct|int}}% of men carry I1, a line that in the archive is commonest in Scandinavia ({{scand_i1.i1_pct|int}}% of men there from 1 to 1000 CE) and almost absent from earlier Britain. That fits the settlers from across the North Sea that historians and the genetic studies describe.</p>
+<div class="note"><h3>What a haplogroup can and cannot tell you</h3><p>A Y haplogroup is one line of descent, father to father, out of the thousands of ancestors each of us has; an mtDNA haplogroup is one line, mother to mother. They are a proxy for ancestry, not ancestry itself. A change in Y lines can happen because newcomers' sons outnumbered others', without the whole population being replaced, and the published studies behind this archive measure whole-genome ancestry to show how much changed. R1b is also an old and large branch: a few earlier men carry older forms of it ({{steppe.Central Europe.pre3000_r|int}} in central Europe before 3000 BCE), so R1b alone does not mark steppe ancestry. I only count branches; I do not measure ancestry here.</p></div>
+
+<h2><span class="n">06 · Faces in the record</span>Ötzi, Ust'-Ishim and a lot of Avars</h2>
+<p>Some of the archive's people are famous. Ötzi the Iceman, found in 1991 melting out of a glacier in the Alps, is here under the ID "Iceman", in the group {{iceman.group|raw}}, dated {{iceman.date|raw}}. His Y line is {{iceman.y|raw}}, part of G2, the commonest Y branch among Neolithic men in Anatolia in the archive ({{anatolia_y.g2_pct|int}}%). Not every famous name passes the checks. Kennewick Man, found by the Columbia River in Washington in 1996, and the Anzick child from Montana, the only known Clovis burial, are both in the archive but graded "Questionable", so they are not in the counts; turn on "People who did not pass the checks" in Map layers to see them.</p>
+<div class="figure"><p class="fig-h">Famous individuals in the archive</p><p class="fig-sub">Searched for by ID. Grade: the archive's own quality assessment. Click a row to see the person on the map.</p><div class="tablebox"><table class="tbl" id="famousTable"></table></div></div>
+<p>The busiest places are mostly cemeteries dug in large campaigns. The single most sampled site is {{sites.0.site|raw}}, with {{sites.0.n|int}} people, followed by {{sites.1.site|raw}} with {{sites.1.n|int}}; both are cemeteries of the Avar period, in Austria and Hungary, between {{avar_sites.y0|yr}} and {{avar_sites.y1|yr}}. Çatalhöyük, the great Neolithic town in central Anatolia, has {{sites.5.n|int}}. At the other end, {{sites_one|int}} of the {{sites_n|int}} sites ({{sites_one_pct|int}}%) have just one person.</p>
+<div class="figure"><p class="fig-h">The most sampled sites</p><p class="fig-sub">Places with the most people passing the quality checks. A few "sites" are whole counties where the archive gives no closer place. Click a row to see it on the map.</p><div class="tablebox"><table class="tbl" id="siteTable"></table></div></div>
+
+<h2><span class="n">07 · How I did this</span>Methods and caveats</h2>
+<p><b>Data.</b> The AADR release {{source.version|raw}} public 1240K annotation file ({{source.rows|int}} rows, 49 columns). Ancient means a date mean above 0 years before present (1950). An individual is one Individual ID; the {{source.ancient_rows|int}} ancient rows hold {{source.multi_rows|int}} extra rows for people sequenced more than once. A row passes if the archive's assessment begins "Pass", "PROVISIONAL_PASS" or "MERGE_PASS"; a person is kept if any of their rows passes, represented by the passing row with the most SNPs (if you take each person's richest row and then filter, {{source.strict_kept|int}} pass instead of {{source.kept|int}}). Dates are the archive's mean, from radiocarbon or from context; years are 1950 minus that mean. Places are the archive's coordinates; {{source.no_coords|int}} people have none and are not on the map.</p>
+<p><b>Labels.</b> Sex is the archive's molecular sex. Y lines are the archive's automatic ISOGG call, or its hand call where one exists ({{source.y_manual|int}} people), grouped by the leading letters into major branches (R1b, R1a, I1, I2, G2, J1, J2, E1b and the letters N, Q, C, O, H, T, L and D); calls above that level are "too broad". mtDNA lines are grouped by their leading letter. Broad periods come from the date. Culture labels come from words in the archive's group names (for example Yamnaya, CordedWare, BellBeaker, N for Neolithic, BA for Bronze Age, IA for Iron Age, Viking), with named cultures taking priority over broad periods; the full rules are in the code. They are a convenience, not a classification.</p>
+<p><b>Comparisons.</b> Continents are Natural Earth's, with Russia split at 60°E; population is Natural Earth's 2019 estimate (Russia's split in proportion to its town populations on each side, {{bias_sum.rus_west_pop_share|int}}% west), land is area without Antarctica. Present-day population is a yardstick for the sampling, not a claim about the past. Neolithic arrival uses the earliest dated individual per country, which depends on what has been sampled. Haplogroup shares count men, not ancestry.</p>
+<details><summary>Sources and licences</summary>
+<ul>
+<li>Mallick, S., Micco, A., Mah, M., Ringbauer, H., Lazaridis, I., Olalde, I., Patterson, N. and Reich, D. The Allen Ancient DNA Resource (AADR), version {{source.version|raw}}. Harvard Dataverse, doi:10.7910/DVN/FFIDCW. CC0 1.0.</li>
+<li>Mallick, S. et al. (2024) The Allen Ancient DNA Resource (AADR) a curated compendium of ancient human genomes. Scientific Data 11, 182. doi:10.1038/s41597-024-03031-7.</li>
+<li>Each genome comes from the publication named in its popup; the archive credits {{source.n_pubs|int}} of them.</li>
+<li>Natural Earth country outlines, land and populated places (public domain).</li>
+<li>Map labels and borders: OpenFreeMap, © OpenMapTiles, © OpenStreetMap contributors. Relief, hillshade and satellite tiles: Esri.</li>
+</ul></details>
+
+<div class="cta"><a class="p" href="https://doi.org/10.5281/zenodo.23872993">Read the paper</a><a href="https://github.com/Tristan-Hotham/ancient-dna">Data and code</a><a href="https://blog.tristanhotham.com/2026/10/31/ancient-dna/">Blog post</a></div>
+
+<footer>
+<p>Dr Tristan Hotham, Independent researcher. ORCID <a href="https://orcid.org/0000-0003-4931-9349">0000-0003-4931-9349</a>.</p>
+<p>Cite as: Hotham, T. (2026) Ancient DNA on the map: where and when the world's published ancient human genomes lived. Zenodo. <a href="https://doi.org/10.5281/zenodo.23872993">https://doi.org/10.5281/zenodo.23872993</a></p>
+<p>Data: Allen Ancient DNA Resource (AADR) {{source.version|raw}}, Mallick et al., Harvard Dataverse, doi:10.7910/DVN/FFIDCW (CC0 1.0). Licence: derived data and text CC BY 4.0, code MIT.</p>
+<p>I wrote the text, with drafting and editing assistance from Claude (Anthropic), which also helped prepare the analysis code. I reviewed and checked all text and results.</p>
+</footer>
+</div>
+<div class="tip" id="tip"></div>
+<button class="btn theme" id="theme" aria-label="Toggle dark mode">◐</button>
+<script src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script>
+const R = /*RESULTS*/;
+const SITE = /*SITE*/;
+const fmt = n => n == null || n === "" ? "n/a" : Math.round(n).toLocaleString("en-GB");
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const tip = document.getElementById("tip");
+function showTip(h, x, y) { tip.innerHTML = h; tip.style.display = "block"; const w = tip.offsetWidth; x = Math.max(w / 2 + 8, Math.min(innerWidth - w / 2 - 8, x)); tip.style.left = x + scrollX + "px"; tip.style.top = y + scrollY + "px"; }
+function hideTip() { tip.style.display = "none"; }
+document.addEventListener("click", hideTip);
+const NS = "http://www.w3.org/2000/svg";
+const el = (t, a, p) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; };
+const lbl = (svg, x, y, s, cls = "lab", anchor = "start") => { const t = el("text", { x, y, class: cls, "text-anchor": anchor }, svg); t.textContent = s; return t; };
+const redraws = [];
+function resp(box, render) { let last = 0; const go = force => { const w = Math.max(280, Math.round(box.clientWidth)); if (!force && Math.abs(w - last) < 4) return; last = w; box.innerHTML = ""; render(w, w < 560); }; new ResizeObserver(() => go()).observe(box); go(); redraws.push(() => go(true)); }
+const isDark = () => { const r = document.documentElement; return r.dataset.theme ? r.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches; };
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const small = () => innerWidth < 900;
+const yr = y => { y = Math.round(y); return y < 1 ? (Math.max(1, -y) >= 10000 ? Math.max(1, -y).toLocaleString("en-GB") : Math.max(1, -y)) + " BCE" : y + " CE"; };
+const PAL = { pe: SITE.pe, cu: SITE.cu, yc: SITE.y, mc: SITE.mt };
+const PNAME = { pe: "Period", cu: "Culture label", yc: "Y line", mc: "mtDNA line" };
+const FAM = R.famous;
+
+/* hero mark: a double helix with a map pin */
+(function () {
+  const g = document.getElementById("heroMark");
+  const N = 9, pts1 = [], pts2 = [];
+  for (let i = 0; i <= 40; i++) { const t = i / 40, y = 10 + t * 100, x = 46 + 26 * Math.sin(t * Math.PI * 2.4); pts1.push([x, y]); pts2.push([92 - x, y]); }
+  for (let i = 1; i < N; i++) { const k = Math.round(i * 40 / N), a = pts1[k], b = pts2[k]; el("line", { x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: i % 2 ? "#C9A227" : "#2F5FA7", "stroke-width": 3.2, "stroke-linecap": "round" }, g); }
+  el("path", { d: "M" + pts1.map(p => p.join(" ")).join(" L"), stroke: "#B5402A", "stroke-width": 4, fill: "none", "stroke-linecap": "round" }, g);
+  el("path", { d: "M" + pts2.map(p => p.join(" ")).join(" L"), stroke: "currentColor", "stroke-width": 4, fill: "none", "stroke-linecap": "round" }, g);
+  el("path", { d: "M100 70 C100 58 116 58 116 70 C116 79 108 86 108 92 C108 86 100 79 100 70 Z", fill: "#B5402A", stroke: "currentColor", "stroke-width": 1.6 }, g);
+  el("circle", { cx: 108, cy: 70, r: 3, fill: "#FFFEFA" }, g);
+})();
+
+/* ---------- time scale: stretched so recent millennia get room ---------- */
+const OFF = 800, BPMAX = 46000;
+const U0 = Math.log(BPMAX + OFF), U1 = Math.log(OFF);
+const bpOf = v => Math.exp(U0 + (U1 - U0) * v / 1000) - OFF;
+const vOf = bp => 1000 * (Math.log(Math.max(0, bp) + OFF) - U0) / (U1 - U0);
+const WIN = [0, .035, .07, .14];
+const S = { v: 1000, w: 0, col: "pe", hide: { pe: new Set(), cu: new Set(), yc: new Set(), mc: new Set() }, play: null };
+function windowBP() {
+  const u = U0 + (U1 - U0) * S.v / 1000;
+  if (S.w === 0) return [bpOf(S.v), 1e9];
+  const h = WIN[S.w]; return [Math.max(0, Math.exp(u - h) - OFF), Math.exp(u + h) - OFF];
+}
+function niceYear(y, span) { const st = span > 4000 ? 500 : span > 1500 ? 100 : span > 400 ? 50 : 10; return Math.round(y / st) * st; }
+function winText() {
+  const [lo, hi] = windowBP();
+  if (S.w === 0) return S.v >= 999.5 ? ["All", "everyone, to " + yr(R.time.youngest_year)] : ["To " + yr(niceYear(1950 - lo, lo)), "everyone who lived up to then"];
+  const span = hi - lo, a = niceYear(1950 - hi, span), b = niceYear(1950 - lo, span);
+  return [yr((a + b) / 2).replace(/^(\d)/, "c. $1"), yr(a) + " to " + yr(b)];
+}
+(function ticks() {
+  const box = document.getElementById("ticks");
+  const T = [[-40000, "40,000 BCE"], [-20000, "20,000"], [-10000, "10,000"], [-5000, "5000"], [-3000, "3000"], [-1000, "1000 BCE"], [1000, "1000 CE"]];
+  const render = () => { box.innerHTML = ""; const r = document.getElementById("tt"), w = r.clientWidth, x0 = r.offsetLeft - box.offsetLeft;
+    T.forEach(([y, s], i) => { if (innerWidth < 600 ? [1, 3, 5].includes(i) : small() && (i === 1 || i === 4)) return; const v = vOf(1950 - y); const sp = document.createElement("span"); sp.style.left = (x0 + 12 + (w - 24) * v / 1000) + "px"; sp.textContent = s; if (i === 0) sp.style.transform = "translateX(-12px)"; box.appendChild(sp); }); };
+  new ResizeObserver(render).observe(document.getElementById("tt")); render();
+})();
+
+/* ---------- map ---------- */
+const OFM = "https://tiles.openfreemap.org";
+const ESRI = "https://server.arcgisonline.com/ArcGIS/rest/services/";
+const LYDEF = { base: "plain", hills: true, hillK: 35, places: true, cnames: true, borders: true, size: 3, ghost: true, archaic: true, failed: false };
+const LY = { ...LYDEF };
+try { Object.assign(LY, JSON.parse(localStorage.getItem("adna_layers") || "{}")); } catch (e) {}
+const saveLY = () => { try { localStorage.setItem("adna_layers", JSON.stringify(LY)); } catch (e) {} };
+const HOME = () => small() ? { center: [20, 35], zoom: 0.6 } : { center: [25, 32], zoom: 1.35 };
+let IND = null, map = null, ready = false;
+const C = {};   // column index
+function colours() { return { sea: css("--sea"), land: css("--land"), border: css("--border"), fg: css("--fg"), bg: css("--bg"), nocall: css("--nocall"), ghost: css("--ghost") }; }
+function colorExpr() {
+  const key = S.col, pal = PAL[key], nc = css("--nocall"), e = ["match", ["get", key]];
+  pal.forEach(([n, c], i) => { if (key === "yc" && n === "Too broad") e.push(i, nc); else e.push(i, c); });
+  e.push(nc); return e;
+}
+function radiusExpr(k = 1) { const s = LY.size / 3 * k; return ["interpolate", ["linear"], ["zoom"], 0, 2.1 * s, 3, 3.2 * s, 6, 5 * s, 10, 7.5 * s]; }
+function baseStyle() {
+  const c = colours();
+  return {
+    version: 8, glyphs: OFM + "/fonts/{fontstack}/{range}.pbf",
+    sources: {
+      world: { type: "geojson", data: { type: "FeatureCollection", features: [] } },
+      hills: { type: "raster", tiles: [ESRI + "Elevation/World_Hillshade/MapServer/tile/{z}/{y}/{x}"], tileSize: 256, maxzoom: 16, attribution: "Hillshade: Esri, USGS, NASA, CGIAR" },
+      relief: { type: "raster", tiles: [ESRI + "World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}"], tileSize: 256, maxzoom: 13, attribution: "Relief: Esri" },
+      sat: { type: "raster", tiles: [ESRI + "World_Imagery/MapServer/tile/{z}/{y}/{x}"], tileSize: 256, maxzoom: 18, attribution: "Imagery: Esri, Maxar, Earthstar Geographics" },
+      ind: { type: "geojson", data: { type: "FeatureCollection", features: [] } }
+    },
+    layers: [
+      { id: "bg", type: "background", paint: { "background-color": c.sea } },
+      { id: "relief", type: "raster", source: "relief", layout: { visibility: "none" }, paint: { "raster-opacity": .85 } },
+      { id: "sat", type: "raster", source: "sat", layout: { visibility: "none" } },
+      { id: "land", type: "fill", source: "world", paint: { "fill-color": c.land, "fill-opacity": 1 } },
+      { id: "hills", type: "raster", source: "hills", paint: { "raster-opacity": .35 } },
+      { id: "borders", type: "line", source: "world", paint: { "line-color": c.border, "line-width": .6 } },
+      { id: "ghost", type: "circle", source: "ind", filter: ["==", ["get", "ok"], 2], paint: { "circle-radius": radiusExpr(.6), "circle-color": c.ghost, "circle-opacity": .28 } },
+      { id: "failed", type: "circle", source: "ind", filter: ["==", ["get", "ok"], 2], paint: { "circle-radius": radiusExpr(.9), "circle-color": "rgba(0,0,0,0)", "circle-stroke-color": c.fg, "circle-stroke-width": 1.1, "circle-stroke-opacity": .7 } },
+      { id: "dots", type: "circle", source: "ind", filter: ["==", ["get", "ok"], 2], paint: { "circle-radius": radiusExpr(), "circle-color": colorExpr(), "circle-opacity": .9, "circle-stroke-color": isDark() ? "rgba(0,0,0,.55)" : "rgba(255,255,255,.75)", "circle-stroke-width": ["interpolate", ["linear"], ["zoom"], 0, .3, 5, .8] } },
+      { id: "archaic-c", type: "circle", source: "ind", filter: ["==", ["get", "arch"], 2], paint: { "circle-radius": radiusExpr(1.25), "circle-color": c.fg, "circle-stroke-color": c.bg, "circle-stroke-width": 1.5 } }
+    ]
+  };
+}
+/* labels come from OpenFreeMap vector tiles, added after load so that the map works even if they cannot be reached */
+function labelLayers() {
+  const c = colours();
+  return [
+      { id: "places", type: "symbol", source: "ofm", "source-layer": "place", minzoom: 3, filter: ["in", ["get", "class"], ["literal", ["city", "town"]]], layout: { "text-field": ["coalesce", ["get", "name:en"], ["get", "name"]], "text-font": ["Noto Sans Regular"], "text-size": ["interpolate", ["linear"], ["zoom"], 3, 10, 8, 13], "symbol-sort-key": ["get", "rank"] }, paint: { "text-color": c.fg, "text-halo-color": c.bg, "text-halo-width": 1.4, "text-opacity": .85 } },
+      { id: "cnames", type: "symbol", source: "ofm", "source-layer": "place", maxzoom: 7, filter: ["==", ["get", "class"], "country"], layout: { "text-field": ["coalesce", ["get", "name:en"], ["get", "name"]], "text-font": ["Noto Sans Bold"], "text-size": ["interpolate", ["linear"], ["zoom"], 1, 9, 5, 12], "text-transform": "uppercase", "text-letter-spacing": .08, "text-max-width": 7 }, paint: { "text-color": c.fg, "text-opacity": .55, "text-halo-color": c.bg, "text-halo-width": 1.2 } }
+  ];
+}
+function addLabels() {
+  try {
+    map.addSource("ofm", { type: "vector", url: OFM + "/planet", attribution: '<a href="https://openfreemap.org">OpenFreeMap</a> © <a href="https://www.openmaptiles.org/">OpenMapTiles</a> © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' });
+    labelLayers().forEach(l => map.addLayer(l));
+  } catch (e) { console.warn("labels unavailable", e); }
+}
+function feats() {
+  const f = [];
+  IND.rows.forEach((r, i) => f.push({ type: "Feature", id: i, geometry: { type: "Point", coordinates: [r[C.lon], r[C.lat]] },
+    properties: { i, bp: r[C.bp], ok: r[C.ok], arch: r[C.arch], yc: r[C.yc], mc: r[C.mc], cu: r[C.cu], pe: r[C.pe] } }));
+  return { type: "FeatureCollection", features: f };
+}
+function hiddenFilter() { const h = [...S.hide[S.col]]; return h.length ? ["!", ["in", ["get", S.col], ["literal", h]]] : true; }
+function applyFilters() {
+  if (!ready) return;
+  const [lo, hi] = windowBP(), hf = hiddenFilter();
+  map.setFilter("dots", ["all", ["==", ["get", "ok"], 1], ["==", ["get", "arch"], 0], [">=", ["get", "bp"], lo], ["<=", ["get", "bp"], hi], hf]);
+  map.setFilter("ghost", LY.ghost && S.w > 0 ? ["all", ["==", ["get", "ok"], 1], ["==", ["get", "arch"], 0], [">", ["get", "bp"], hi]] : ["==", ["get", "ok"], 2]);
+  map.setFilter("failed", LY.failed ? ["all", ["==", ["get", "ok"], 0], ["==", ["get", "arch"], 0], [">=", ["get", "bp"], lo], ["<=", ["get", "bp"], hi]] : ["==", ["get", "ok"], 2]);
+  const af = LY.archaic && (S.w === 0 || hi > 40000) ? ["all", ["==", ["get", "arch"], 1], LY.failed ? true : ["==", ["get", "ok"], 1]] : ["==", ["get", "arch"], 2];
+  map.setFilter("archaic-c", af);
+}
+function applyLayers() {
+  if (!ready) return;
+  const c = colours(), vis = (id, on) => map.setLayoutProperty(id, "visibility", on ? "visible" : "none");
+  vis("relief", LY.base === "relief"); vis("sat", LY.base === "satellite"); vis("land", LY.base === "plain");
+  vis("hills", LY.hills); map.setPaintProperty("hills", "raster-opacity", Math.min(1, LY.hillK / 100));
+  const has = id => !!map.getLayer(id);
+  vis("borders", LY.borders); if (has("places")) vis("places", LY.places); if (has("cnames")) vis("cnames", LY.cnames);
+  map.setPaintProperty("bg", "background-color", c.sea); map.setPaintProperty("land", "fill-color", c.land); map.setPaintProperty("borders", "line-color", c.border);
+  ["places", "cnames"].filter(has).forEach(id => { map.setPaintProperty(id, "text-color", LY.base === "satellite" ? "#fff" : c.fg); map.setPaintProperty(id, "text-halo-color", LY.base === "satellite" ? "rgba(0,0,0,.7)" : c.bg); });
+  map.setPaintProperty("ghost", "circle-color", c.ghost); map.setPaintProperty("failed", "circle-stroke-color", LY.base === "satellite" ? "#fff" : c.fg);
+  map.setPaintProperty("archaic-c", "circle-color", c.fg); map.setPaintProperty("archaic-c", "circle-stroke-color", c.bg);
+  map.setPaintProperty("dots", "circle-color", colorExpr()); map.setPaintProperty("dots", "circle-stroke-color", isDark() ? "rgba(0,0,0,.55)" : "rgba(255,255,255,.75)");
+  ["dots", "ghost", "failed", "archaic-c"].forEach((id, k) => map.setPaintProperty(id, "circle-radius", radiusExpr([1, .6, .9, 1.25][k])));
+  applyFilters();
+}
+function popupHTML(i) {
+  const r = IND.rows[i], g = IND.groups[r[C.group]], s = IND.sites[r[C.site]], y = 1950 - r[C.bp];
+  const sx = { M: "male", F: "female", U: "unknown" }[r[C.sex]];
+  const yc = r[C.yc] >= 0 ? SITE.y[r[C.yc]][0] : "", mc = r[C.mc] >= 0 ? SITE.mt[r[C.mc]][0] : "";
+  return `<b class="t">${esc(r[C.id])}</b>${esc(g)}<br><small>${esc(s)}, ${esc(IND.countries[r[C.country]])}</small><br>` +
+    `<b>${esc(yr(y))}</b> <small>(mean; ${esc(r[C.date])})</small><br>Molecular sex: ${sx}` +
+    (r[C.sex] === "M" ? `<br>Y line: ${r[C.y] ? esc(r[C.y]) + (yc ? ` <small>(${esc(yc)})</small>` : "") : "<small>no call</small>"}` : "") +
+    `<br>mtDNA line: ${r[C.mt] ? esc(r[C.mt]) + (mc ? ` <small>(${esc(mc)})</small>` : "") : "<small>no call</small>"}` +
+    `<br>Label: ${esc(SITE.cu[r[C.cu]][0])}<br><small>Published: ${esc(IND.pubs[r[C.pub]])}</small>` +
+    (r[C.ok] ? "" : `<br><b style="color:var(--hot)">Did not pass the archive's quality checks</b>`) + (r[C.arch] ? `<br><b>Archaic human</b>` : "");
+}
+let popup = null;
+function openPerson(i, fly) {
+  const r = IND.rows[i]; if (!r) return;
+  if (!r[C.ok] && !LY.failed) { LY.failed = true; saveLY(); syncLayers(); applyLayers(); }
+  if (fly) map.flyTo({ center: [r[C.lon], r[C.lat]], zoom: Math.max(map.getZoom(), 5.5), speed: 1.6 });
+  if (popup) popup.remove();
+  popup = new maplibregl.Popup({ maxWidth: "300px", offset: 8 }).setLngLat([r[C.lon], r[C.lat]]).setHTML(popupHTML(i)).addTo(map);
+}
+function setTimeBP(bp, w) { stop(); if (w != null) setWin(w); S.v = Math.max(0, Math.min(1000, vOf(bp))); document.getElementById("tt").value = S.v; update(); }
+function toMap() { if (small()) document.getElementById("mapbox").scrollIntoView({ behavior: "smooth", block: "start" }); }
+let syncLayers = () => {};
+function layerPanel() {
+  const box = document.createElement("div"); box.className = "lyrWrap";
+  box.innerHTML = `<button class="lyrBtn" aria-expanded="false">Map layers</button>
+<div class="lyrPanel" hidden>
+ <div class="row"><label style="font-weight:600">Base map</label><div class="sub"><select data-k="base" aria-label="Base map"><option value="plain">Plain paper</option><option value="relief">Shaded relief</option><option value="satellite">Satellite</option></select></div></div>
+ <div class="row"><label><input type="checkbox" data-k="hills"> Hills and mountains</label><div class="sub"><span>strength</span><input type="range" data-k="hillK" min="10" max="100" step="5" aria-label="Hill shading strength"></div></div>
+ <div class="row"><label><input type="checkbox" data-k="places"> Place names (zoom in)</label></div>
+ <div class="row"><label><input type="checkbox" data-k="cnames"> Country names</label></div>
+ <div class="row"><label><input type="checkbox" data-k="borders"> Borders</label></div>
+ <div class="hd">People</div>
+ <div class="row"><label style="font-weight:600">Dot size</label><div class="sub"><span>size</span><input type="range" data-k="size" min="1" max="7" step=".5" aria-label="Dot size"></div></div>
+ <div class="row"><label><input type="checkbox" data-k="ghost"> Earlier people (faint, in windows)</label></div>
+ <div class="row"><label><input type="checkbox" data-k="archaic"> Neanderthals and Denisovans (with Everyone)</label></div>
+ <div class="row"><label><input type="checkbox" data-k="failed"> People who did not pass the checks (rings)</label></div>
+ <button class="reset">Reset layers</button>
+</div>`;
+  ["click", "dblclick", "mousedown", "touchstart", "wheel"].forEach(t => box.addEventListener(t, e => e.stopPropagation(), { passive: t !== "click" }));
+  document.getElementById("map").appendChild(box);
+  const btn = box.querySelector(".lyrBtn"), pan = box.querySelector(".lyrPanel");
+  btn.onclick = () => { const o = pan.hidden; pan.hidden = !o; btn.setAttribute("aria-expanded", o); };
+  const sync = () => pan.querySelectorAll("[data-k]").forEach(i => { const k = i.dataset.k; if (i.type === "checkbox") i.checked = LY[k]; else i.value = LY[k]; });
+  pan.querySelectorAll("[data-k]").forEach(i => i.addEventListener(i.type === "range" ? "input" : "change", () => {
+    const k = i.dataset.k; LY[k] = i.type === "checkbox" ? i.checked : (k === "base" ? i.value : +i.value);
+    if (k === "hillK") LY.hills = true;
+    sync(); saveLY(); applyLayers(); side(); legend();
+  }));
+  pan.querySelector(".reset").onclick = () => { Object.assign(LY, LYDEF); saveLY(); sync(); applyLayers(); side(); legend(); };
+  sync(); syncLayers = sync;
+}
+
+/* ---------- counts in the window ---------- */
+function inWindow() {
+  const [lo, hi] = windowBP(), out = [];
+  if (!IND) return out;
+  IND.rows.forEach((r, i) => { if (r[C.ok] && !r[C.arch] && r[C.bp] >= lo && r[C.bp] <= hi) out.push(i); });
+  return out;
+}
+function legend() {
+  const box = document.getElementById("legend"), key = S.col, pal = PAL[key], w = inWindow();
+  const cnt = new Array(pal.length).fill(0); let none = 0;
+  w.forEach(i => { const v = IND.rows[i][C[key]]; if (v >= 0) cnt[v]++; else none++; });
+  let h = `<span style="font-weight:500;color:var(--fg)">${PNAME[key]}:</span>`;
+  pal.forEach(([n, c], k) => { const col = key === "yc" && n === "Too broad" ? css("--nocall") : c;
+    h += `<button data-k="${k}" aria-pressed="${!S.hide[key].has(k)}" title="Show or hide"><i style="background:${col}"></i>${esc(n)}<small>${fmt(cnt[k])}</small></button>`; });
+  if (key === "yc" || key === "mc") h += `<span><i style="background:${css("--nocall")}"></i>${key === "yc" ? "no call, or not male" : "no call"} <small style="margin-left:5px">${fmt(none)}</small></span>`;
+  h += `<span><i style="background:transparent;border:1.5px solid var(--fg)"></i>did not pass checks (layer)</span><span><i style="background:var(--fg)"></i>Neanderthal or Denisovan</span>`;
+  box.innerHTML = h;
+  box.querySelectorAll("button[data-k]").forEach(b => b.onclick = () => { const k = +b.dataset.k, hs = S.hide[key]; hs.has(k) ? hs.delete(k) : hs.add(k); legend(); applyFilters(); side(); });
+}
+function side() {
+  const box = document.getElementById("side"); if (!IND) { box.innerHTML = "<p class='sub'>Loading...</p>"; return; }
+  const w = inWindow(), key = S.col, pal = PAL[key], [a, b] = winText();
+  const cnt = new Array(pal.length).fill(0); w.forEach(i => { const v = IND.rows[i][C[key]]; if (v >= 0) cnt[v]++; });
+  const shown = w.filter(i => !S.hide[key].has(IND.rows[i][C[key]]));
+  let h = `<h4>On the map now</h4><div class="big">${fmt(shown.length)}</div><p class="sub">people, ${esc(b)}</p>`;
+  const tot = cnt.reduce((x, y) => x + y, 0);
+  h += `<table>` + pal.map(([n, c], k) => cnt[k] ? `<tr><td><i style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${key === "yc" && n === "Too broad" ? css("--nocall") : c};margin-right:6px"></i>${esc(n)}</td><td class="num">${fmt(cnt[k])} <small>${Math.round(100 * cnt[k] / Math.max(1, tot))}%</small></td></tr>` : "").join("") + `</table>`;
+  if (key === "yc") h += `<p class="sub">Men with a Y call; women and people of unknown sex have none.</p>`;
+  const gc = {}; shown.forEach(i => { const g = IND.rows[i][C.group]; gc[g] = (gc[g] || 0) + 1; });
+  const tg = Object.entries(gc).sort((x, y) => y[1] - x[1]).slice(0, 7);
+  h += `<h4>Biggest groups in view</h4><ol>` + tg.map(([g, n]) => `<li><span class="go" data-g="${g}">${esc(IND.groups[g])}</span> <small>${fmt(n)}</small></li>`).join("") + `</ol>`;
+  h += `<h4>Famous people</h4><ul>` + FAM.map(f => `<li><span class="go" data-f="${esc(f.id)}">${esc(f.name)}</span> <small>${esc(f.yr)}${f.ok ? "" : ", not passed"}</small></li>`).join("") + `</ul>`;
+  h += `<p class="sub">Press play, or drag the slider. Click a dot for the person; click a legend entry to hide or show it.</p>`;
+  box.innerHTML = h;
+  box.querySelectorAll("[data-g]").forEach(e => e.onclick = () => pickGroup(+e.dataset.g));
+  box.querySelectorAll("[data-f]").forEach(e => e.onclick = () => pickFamous(e.dataset.f));
+}
+function note() {
+  const [a, b] = winText(), n = document.getElementById("mapnote");
+  n.innerHTML = `<b>${esc(a)}</b>${S.w ? " · " + esc(b) : ""}`;
+}
+let lastSide = 0;
+function update() {
+  const [a, b] = winText(); document.getElementById("yv").innerHTML = `${esc(a)}<small id="ylab">${esc(b)}</small>`;
+  applyFilters(); note();
+  const t = performance.now(); if (!S.play || t - lastSide > 300 || S.v >= 1000) { lastSide = t; legend(); side(); }
+}
+function idxOf(id) { return IND.rows.findIndex(r => r[C.id] === id); }
+function pickFamous(id) { const i = idxOf(id); if (i < 0) return; const r = IND.rows[i]; setTimeBP(r[C.bp], S.w || 2); document.getElementById("atlas").scrollIntoView({ behavior: "smooth" }); setTimeout(() => openPerson(i, true), 350); }
+function pickGroup(g) {
+  const rs = IND.rows.filter(r => r[C.group] === g); if (!rs.length) return;
+  const bps = rs.map(r => r[C.bp]).sort((a, b) => a - b); setTimeBP(bps[Math.floor(bps.length / 2)], S.w || 3);
+  const lo = rs.map(r => r[C.lon]), la = rs.map(r => r[C.lat]);
+  map.fitBounds([[Math.min(...lo) - 1, Math.min(...la) - 1], [Math.max(...lo) + 1, Math.max(...la) + 1]], { maxZoom: 7, duration: 900 }); toMap();
+}
+function pickSite(name) {
+  const k = IND.sites.indexOf(name); const rs = IND.rows.filter(r => r[C.site] === k); if (!rs.length) return;
+  const bps = rs.map(r => r[C.bp]).sort((a, b) => a - b); setTimeBP(bps[Math.floor(bps.length / 2)], S.w || 3);
+  map.flyTo({ center: [rs[0][C.lon], rs[0][C.lat]], zoom: 8 }); toMap();
+}
+
+/* ---------- controls ---------- */
+const tt = document.getElementById("tt");
+tt.addEventListener("input", () => { S.v = +tt.value; if (S.v < 999.5 && S.w === 0 && S.play) {} update(); });
+function press(row, b) { document.querySelectorAll(row + " .btn").forEach(x => x.setAttribute("aria-pressed", x === b)); }
+function setWin(w) { S.w = w; press("#winRow", document.querySelector(`#winRow [data-w="${w}"]`)); }
+document.querySelectorAll("#winRow .btn").forEach(b => b.onclick = () => { setWin(+b.dataset.w); update(); });
+document.querySelectorAll("#colRow .btn").forEach(b => b.onclick = () => { S.col = b.dataset.c; press("#colRow", b); if (ready) map.setPaintProperty("dots", "circle-color", colorExpr()); update(); });
+function stop() { if (S.play) { cancelAnimationFrame(S.play); S.play = null; document.getElementById("play").innerHTML = "&#9654;"; } }
+document.getElementById("play").onclick = () => {
+  if (S.play) { stop(); return; }
+  if (S.w === 0) setWin(2);
+  if (S.v >= 999) S.v = 0;
+  document.getElementById("play").innerHTML = "&#10074;&#10074;"; let t0 = null;
+  const step = t => { if (t0 == null) t0 = t; const dt = t - t0; t0 = t; S.v = Math.min(1000, S.v + dt * 1000 / 42000); tt.value = S.v; update(); if (S.v >= 1000) { stop(); return; } S.play = requestAnimationFrame(step); };
+  S.play = requestAnimationFrame(step);
+};
+(function focusRow() {
+  const row = document.getElementById("focusRow");
+  const F = [["World", null], ["Europe", [[-12, 34], [45, 66]]], ["Britain and Ireland", [[-11, 49.5], [2.5, 59.5]]], ["Iberia", [[-10, 35.5], [4.5, 44]]], ["Scandinavia", [[4, 54], [26, 68]]],
+    ["The steppe", [[28, 41], [90, 58]]], ["Anatolia and the Near East", [[24, 28], [60, 43]]], ["East Asia", [[92, 18], [145, 52]]], ["The Americas", [[-130, -56], [-30, 62]]], ["Africa", [[-20, -36], [52, 36]]]];
+  F.forEach(([n, b]) => { const x = document.createElement("button"); x.className = "btn"; x.textContent = n; x.onclick = () => { if (!ready) return; if (popup) popup.remove(); if (!b) map.flyTo(HOME()); else map.fitBounds(b, { padding: 20 }); toMap(); }; row.appendChild(x); });
+})();
+(function search() {
+  const inp = document.getElementById("q"), sug = document.getElementById("sug"); let opts = [], k = -1;
+  const norm = s => String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  function build(q) {
+    const nq = norm(q); if (nq.length < 2 || !IND) return [];
+    const out = [];
+    FAM.forEach(f => { if (norm(f.name).includes(nq) || norm(f.id) === nq) out.push({ t: "f", n: f.name, id: f.id, s: 10 }); });
+    IND.groups.forEach((g, i) => { const n = norm(g); if (n.includes(nq)) out.push({ t: "g", n: g, i, s: n.startsWith(nq) ? 6 : 4 }); });
+    IND.sites.forEach((g, i) => { const n = norm(g); if (n.includes(nq)) out.push({ t: "s", n: g, s: n.startsWith(nq) ? 5 : 3 }); });
+    let m = 0; for (let i = 0; i < IND.rows.length && m < 60; i++) { const n = norm(IND.rows[i][C.id]); if (n === nq || (nq.length > 3 && n.startsWith(nq))) { out.push({ t: "p", n: IND.rows[i][C.id], i, s: n === nq ? 9 : 2 }); m++; } }
+    return out.sort((a, b) => b.s - a.s).slice(0, 12);
+  }
+  const lab = o => o.t === "f" ? `${esc(o.n)} <span>famous person</span>` : o.t === "g" ? `${esc(o.n)} <span>group</span>` : o.t === "s" ? `${esc(o.n)} <span>site</span>` : `${esc(o.n)} <span>${esc(IND.groups[IND.rows[o.i][C.group]])}</span>`;
+  const show = () => { sug.innerHTML = opts.map((o, i) => `<li role="option" aria-selected="${i === k}" data-i="${i}">${lab(o)}</li>`).join(""); sug.style.display = opts.length ? "block" : "none"; };
+  const choose = o => { sug.style.display = "none"; inp.value = o.n; inp.blur();
+    if (o.t === "f") pickFamous(o.id); else if (o.t === "g") pickGroup(o.i); else if (o.t === "s") pickSite(o.n);
+    else { const r = IND.rows[o.i]; setTimeBP(r[C.bp], S.w || 2); setTimeout(() => openPerson(o.i, true), 300); toMap(); } };
+  inp.addEventListener("input", () => { opts = build(inp.value); k = -1; show(); });
+  inp.addEventListener("keydown", e => { if (e.key === "ArrowDown") { k = Math.min(opts.length - 1, k + 1); show(); e.preventDefault(); } else if (e.key === "ArrowUp") { k = Math.max(0, k - 1); show(); e.preventDefault(); } else if (e.key === "Enter" && opts.length) { choose(opts[Math.max(0, k)]); } else if (e.key === "Escape") { sug.style.display = "none"; } });
+  sug.addEventListener("click", e => { const li = e.target.closest("li"); if (li) choose(opts[+li.dataset.i]); });
+  document.addEventListener("click", e => { if (!e.target.closest(".searchbox")) sug.style.display = "none"; });
+})();
+
+function startMap() {
+  map = new maplibregl.Map({ container: "map", style: baseStyle(), ...HOME(), minZoom: 0, maxZoom: 14, renderWorldCopies: false, attributionControl: { compact: true }, fadeDuration: 0, cooperativeGestures: false });
+  window.map = map;
+  map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
+  map.addControl(new maplibregl.ScaleControl({ unit: "metric" }), "bottom-right");
+  map.on("error", e => { if (e && e.error && /Failed to fetch|NetworkError|AJAXError|404|Could not load/.test(String(e.error.message || e.error))) return; console.warn(e && e.error); });
+  layerPanel();
+  map.on("load", async () => {
+    fetch("data/world.json").then(r => r.json()).then(w => map.getSource("world").setData(w)).catch(() => {});
+    map.getSource("ind").setData(feats()); addLabels(); ready = true; document.getElementById("loading").remove();
+    applyLayers(); update();
+  });
+  const pick = e => { const f = e.features && e.features[0]; if (f) openPerson(f.properties.i, false); };
+  ["dots", "failed", "archaic-c"].forEach(id => { map.on("click", id, pick); map.on("mouseenter", id, () => map.getCanvas().style.cursor = "pointer"); map.on("mouseleave", id, () => map.getCanvas().style.cursor = ""); });
+}
+
+/* ---------- charts ---------- */
+function bars(boxId, data, opt) {
+  resp(document.getElementById(boxId), (w, sm) => {
+    const h = sm ? 230 : 280, m = { l: 46, r: 10, t: 16, b: 30 }, svg = el("svg", { viewBox: `0 0 ${w} ${h}`, role: "img", "aria-label": opt.aria }, document.getElementById(boxId));
+    const mx = opt.max || Math.max(...data.map(d => d.n)) * 1.08, bw = (w - m.l - m.r) / data.length, Y = v => h - m.b - (h - m.t - m.b) * v / mx;
+    const step = opt.step;
+    for (let v = 0; v <= mx; v += step) { el("line", { x1: m.l, x2: w - m.r, y1: Y(v), y2: Y(v), stroke: css("--rule") }, svg); lbl(svg, m.l - 6, Y(v) + 4, fmt(v), "lab s m", "end"); }
+    data.forEach((d, i) => { const x = m.l + i * bw, r = el("rect", { x: x + 1, y: Y(d.n), width: Math.max(1, bw - 2), height: Y(0) - Y(d.n), fill: opt.col(d, i) }, svg);
+      r.addEventListener("mousemove", ev => showTip(opt.tip(d), ev.clientX + scrollX * 0, ev.clientY)); r.addEventListener("mouseleave", hideTip);
+      if (opt.lab(d, i, sm)) lbl(svg, x + bw / 2, h - 10, opt.lab(d, i, sm), "lab s m", "middle"); });
+  });
+}
+function pubChart() {
+  const D = R.pubs.years.map(d => ({ ...d }));
+  bars("pubChart", D, { aria: "Bar chart of ancient genomes by year of first publication", step: 1000, col: d => d.y >= 2020 ? css("--hot") : css("--ink"),
+    tip: d => `<b>${d.y}</b><br>${fmt(d.n)} people first published${d.y === 2026 ? " (to the archive's release)" : ""}`, lab: (d, i, sm) => (sm ? d.y % 4 === 2 : d.y % 2 === 0) ? d.y : "" });
+}
+function timeChart() {
+  const D = R.half_millennia;
+  bars("timeChart", D, { aria: "Bar chart of ancient individuals per 500 years since 10,000 BCE", step: 500, col: d => d.a < -2500 ? css("--ink") : d.a < 0 ? css("--gold") : css("--cool"),
+    tip: d => `<b>${yr(d.a)} to ${yr(d.b)}</b><br>${fmt(d.n)} people`, lab: (d, i, sm) => d.a % (sm ? 4000 : 2000) === 0 ? (d.a === 0 ? "1 CE" : yr(d.a)) : "" });
+}
+function biasChart() {
+  const D = R.bias_list, K = [["pct", "Ancient genomes", css("--hot")], ["pop_pct", "People today", css("--cool")], ["land_pct", "Land", css("--gold")]];
+  resp(document.getElementById("biasChart"), (w, sm) => {
+    const rowH = sm ? 52 : 46, m = { l: sm ? 100 : 130, r: 44, t: 6 }, h = m.t + D.length * rowH + 20, svg = el("svg", { viewBox: `0 0 ${w} ${h}`, role: "img", "aria-label": "Share of ancient genomes, present-day population and land by continent" }, document.getElementById("biasChart"));
+    const X = v => m.l + (w - m.l - m.r) * v / 75;
+    [0, 25, 50, 75].forEach(v => { el("line", { x1: X(v), x2: X(v), y1: m.t, y2: h - 18, stroke: css("--rule") }, svg); lbl(svg, X(v), h - 4, v + "%", "lab s m", "middle"); });
+    D.forEach((d, i) => { const y0 = m.t + i * rowH; lbl(svg, m.l - 8, y0 + rowH / 2 + 4, d.cont, "lab b", "end");
+      K.forEach(([k, n, c], j) => { const bh = (rowH - 10) / 3, y = y0 + 4 + j * bh; const r = el("rect", { x: X(0), y, width: Math.max(1, X(d[k]) - X(0)), height: bh - 2, fill: c }, svg);
+        lbl(svg, X(d[k]) + 4, y + bh - 4, (d[k] < 10 ? d[k].toFixed(1) : Math.round(d[k])) + "%", "lab s");
+        r.addEventListener("mousemove", ev => showTip(`<b>${esc(d.cont)}</b><br>${fmt(d.n)} genomes (${d.pct.toFixed(1)}%)<br>${d.pop_pct.toFixed(1)}% of people, ${d.land_pct.toFixed(1)}% of land<br>${d.per_10m_people} genomes per 10 million people`, ev.clientX, ev.clientY)); r.addEventListener("mouseleave", hideTip); }); });
+  });
+  document.getElementById("biasLegend").innerHTML = K.map(([k, n, c]) => `<span><i class="sq" style="background:${c}"></i>${n}</span>`).join("");
+}
+function neoChart() {
+  const D = R.neolithic.countries, NL = R.neolithic;
+  resp(document.getElementById("neoChart"), (w, sm) => {
+    const h = sm ? 360 : 440, m = { l: 74, r: 16, t: 14, b: 40 }, svg = el("svg", { viewBox: `0 0 ${w} ${h}`, role: "img", "aria-label": "Scatter of the earliest Neolithic burial in each country against distance from central Anatolia" }, document.getElementById("neoChart"));
+    const X = v => m.l + (w - m.l - m.r) * v / 4000, Y = y => m.t + (h - m.t - m.b) * (y + 9000) / 6000;
+    for (let y = -9000; y <= -3000; y += 1000) { el("line", { x1: m.l, x2: w - m.r, y1: Y(y), y2: Y(y), stroke: css("--rule") }, svg); lbl(svg, m.l - 6, Y(y) + 4, yr(y), "lab s m", "end"); }
+    for (let k = 0; k <= 4000; k += 1000) lbl(svg, X(k), h - 20, fmt(k), "lab s m", "middle");
+    lbl(svg, (m.l + w - m.r) / 2, h - 4, "km from Çatalhöyük, central Anatolia", "lab s m", "middle");
+    const f = k => NL.intercept + NL.slope_yr_per_km * k;
+    el("line", { x1: X(500), x2: X(3800), y1: Y(f(500)), y2: Y(f(3800)), stroke: css("--hot"), "stroke-width": 1.6, "stroke-dasharray": "5 4" }, svg);
+    const boxes = [];
+    const ov = b => boxes.some(o => b[0] < o[2] && b[2] > o[0] && b[1] < o[3] && b[3] > o[1]);
+    D.forEach(d => { const x = X(d.km), y = Y(d.year); boxes.push([x - 5, y - 5, x + 5, y + 5]); });
+    D.forEach(d => { const x = X(d.km), y = Y(d.year), c = el("circle", { cx: x, cy: y, r: 5, fill: css("--ink"), stroke: css("--bg"), "stroke-width": 1.2 }, svg);
+      c.addEventListener("mousemove", ev => showTip(`<b>${esc(d.country)}</b>: ${esc(d.yr)}<br>${esc(d.id)}, ${esc(d.group)}<br>${esc(d.site)}<br>${esc(d.date)}<br>${fmt(d.km)} km; ${d.n} Neolithic people`, ev.clientX, ev.clientY)); c.addEventListener("mouseleave", hideTip);
+      const nm = d.country === "United Kingdom" ? "Britain" : d.country === "Channel Islands" ? "Channel Is." : d.country === "North Macedonia" ? "N. Macedonia" : d.country, tw = nm.length * 6.6;
+      for (const [dx, dy, a] of [[8, 4, "start"], [-8, 4, "end"], [0, -9, "middle"], [0, 15, "middle"], [8, -7, "start"], [-8, 14, "end"], [8, 14, "start"], [-8, -7, "end"]]) {
+        const x0 = a === "start" ? x + dx : a === "end" ? x + dx - tw : x - tw / 2, b = [x0, y + dy - 10, x0 + tw, y + dy + 2];
+        if (b[0] < m.l || b[2] > w - 2 || ov(b)) continue; boxes.push(b); lbl(svg, x + dx, y + dy, nm, "lab s", a); break; } });
+  });
+}
+function regionButtons() {
+  const row = document.getElementById("regRow");
+  SITE.regions.forEach(([n], k) => { const b = document.createElement("button"); b.className = "btn"; b.textContent = n; b.setAttribute("aria-pressed", k === 0); b.onclick = () => { press("#regRow", b); steppeReg = n; redrawSteppe(); }; row.appendChild(b); });
+}
+let steppeReg = "Britain", redrawSteppe = () => {};
+function steppeChart() {
+  const box = document.getElementById("steppeChart"), YC = SITE.y.filter(([n]) => n !== "Too broad");
+  const render = () => { box.innerHTML = ""; const w = Math.max(280, box.clientWidth), sm = w < 560, B = R.steppe[steppeReg].bins.filter(b => b.a >= -6000);
+    const h = sm ? 300 : 360, m = { l: 40, r: 8, t: 22, b: 32 }, svg = el("svg", { viewBox: `0 0 ${w} ${h}`, role: "img", "aria-label": "Stacked bars of Y haplogroup shares per 500 years in " + steppeReg }, box);
+    const bw = (w - m.l - m.r) / B.length, Y = v => m.t + (h - m.t - m.b) * (1 - v);
+    [0, .25, .5, .75, 1].forEach(v => { el("line", { x1: m.l, x2: w - m.r, y1: Y(v), y2: Y(v), stroke: css("--rule") }, svg); lbl(svg, m.l - 5, Y(v) + 4, Math.round(v * 100) + "%", "lab s m", "end"); });
+    B.forEach((b, i) => { const x = m.l + i * bw; let acc = 0; const op = b.n >= 5 ? 1 : .35;
+      if (b.n) YC.forEach(([n, c]) => { const v = (b.clades[n] || 0) / b.n; if (!v) return; const r = el("rect", { x: x + 1, y: Y(acc + v), width: Math.max(1, bw - 2), height: Y(acc) - Y(acc + v), fill: c, opacity: op }, svg); acc += v;
+        r.addEventListener("mousemove", ev => showTip(`<b>${esc(steppeReg)}, ${yr(b.a)} to ${yr(b.b)}</b><br>${esc(n)}: ${b.clades[n]} of ${b.n} men (${Math.round(100 * v)}%)<br>R1b or R1a: ${b.steppe_pct == null ? "n/a" : Math.round(b.steppe_pct) + "%"}`, ev.clientX, ev.clientY)); r.addEventListener("mouseleave", hideTip); });
+      if (b.n && (!sm || i % 2 === 0)) lbl(svg, x + bw / 2, m.t - 6, b.n, "lab s m", "middle");
+      if (b.a % (sm ? 2000 : 1000) === 0) lbl(svg, x, h - 12, b.a === 0 ? "1 CE" : yr(b.a), "lab s m", "middle"); });
+    const xb = m.l + B.findIndex(b => b.a === -2500) * bw; el("line", { x1: xb, x2: xb, y1: m.t - 2, y2: h - m.b + 4, stroke: css("--fg"), "stroke-width": 1.4, "stroke-dasharray": "3 3" }, svg);
+  };
+  new ResizeObserver(render).observe(box); render(); redrawSteppe = render; redraws.push(render);
+  const used = new Set(); Object.values(R.steppe).forEach(s => s.bins.forEach(b => Object.entries(b.clades).forEach(([k, v]) => v && used.add(k))));
+  document.getElementById("steppeLegend").innerHTML = YC.filter(([n]) => used.has(n)).map(([n, c]) => `<span><i class="sq" style="background:${c}"></i>${esc(n)}</span>`).join("") + `<span>dashed line: 2500 BCE</span>`;
+}
+function steppeLines() {
+  resp(document.getElementById("steppeLines"), (w, sm) => {
+    const h = sm ? 260 : 320, m = { l: 40, r: 10, t: 12, b: 30 }, svg = el("svg", { viewBox: `0 0 ${w} ${h}`, role: "img", "aria-label": "Lines of the share of men carrying R1b or R1a over time in four regions" }, document.getElementById("steppeLines"));
+    const X = y => m.l + (w - m.l - m.r) * (y + 5000) / 6500, Y = v => m.t + (h - m.t - m.b) * (1 - v / 100);
+    [0, 25, 50, 75, 100].forEach(v => { el("line", { x1: m.l, x2: w - m.r, y1: Y(v), y2: Y(v), stroke: css("--rule") }, svg); lbl(svg, m.l - 5, Y(v) + 4, v + "%", "lab s m", "end"); });
+    for (let y = -5000; y <= 1500; y += sm ? 2000 : 1000) lbl(svg, X(y), h - 10, y === 0 ? "1 CE" : yr(y), "lab s m", "middle");
+    el("line", { x1: X(-2500), x2: X(-2500), y1: m.t, y2: h - m.b, stroke: css("--fg"), "stroke-dasharray": "3 3" }, svg);
+    SITE.regions.forEach(([n, c]) => { const B = R.steppe[n].bins.filter(b => b.n >= 5 && b.a >= -5000 && b.a < 1500); const pts = B.map(b => [X((b.a + b.b) / 2), Y(b.steppe_pct)]);
+      el("path", { d: "M" + pts.map(p => p.map(v => v.toFixed(1)).join(" ")).join(" L"), stroke: c, "stroke-width": 2.4, fill: "none" }, svg);
+      B.forEach((b, i) => { const q = el("circle", { cx: pts[i][0], cy: pts[i][1], r: 3.6, fill: c, stroke: css("--bg"), "stroke-width": 1 }, svg);
+        q.addEventListener("mousemove", ev => showTip(`<b>${esc(n)}, ${yr(b.a)} to ${yr(b.b)}</b><br>R1b ${b.r1b} and R1a ${b.r1a} of ${b.n} men: ${Math.round(b.steppe_pct)}%`, ev.clientX, ev.clientY)); q.addEventListener("mouseleave", hideTip); }); });
+  });
+  document.getElementById("linesLegend").innerHTML = SITE.regions.map(([n, c, d]) => `<span><i class="sq" style="background:${c}"></i>${esc(n)} <small style="margin-left:4px">(${esc(d)})</small></span>`).join("");
+}
+function tables() {
+  const t1 = document.getElementById("countryTable"), T = R.countries.slice(0, 30);
+  t1.innerHTML = `<thead><tr><th>Country or territory</th><th class="r">People</th><th class="r">Share</th></tr></thead><tbody>` + T.map((c, i) => `<tr data-i="${i}"><td>${esc(c.country)}</td><td class="r">${fmt(c.n)}</td><td class="r">${c.pct.toFixed(1)}%</td></tr>`).join("") + `</tbody>`;
+  t1.querySelectorAll("tr[data-i]").forEach(r => r.onclick = () => { if (!IND) return; const c = IND.countries.indexOf(T[+r.dataset.i].country); const rs = IND.rows.filter(x => x[C.country] === c && x[C.ok]);
+    const lo = rs.map(x => x[C.lon]).sort((a, b) => a - b), la = rs.map(x => x[C.lat]).sort((a, b) => a - b), q = (a, p) => a[Math.floor(p * (a.length - 1))];
+    setTimeBP(0, 0); document.getElementById("atlas").scrollIntoView({ behavior: "smooth" }); setTimeout(() => map.fitBounds([[q(lo, .02) - 1, q(la, .02) - 1], [q(lo, .98) + 1, q(la, .98) + 1]], { maxZoom: 7 }), 300); });
+  const t2 = document.getElementById("siteTable"), ST = R.sites;
+  t2.innerHTML = `<thead><tr><th>Site</th><th class="r">People</th><th>Dates</th></tr></thead><tbody>` + ST.map((s, i) => `<tr data-i="${i}"><td>${esc(s.site)}<br><small>${esc(s.country)} · ${esc(s.group)}</small></td><td class="r">${fmt(s.n)}</td><td>${s.y0 === s.y1 ? yr(s.y0) : yr(s.y0) + " to " + yr(s.y1)}</td></tr>`).join("") + `</tbody>`;
+  t2.querySelectorAll("tr[data-i]").forEach(r => r.onclick = () => { document.getElementById("atlas").scrollIntoView({ behavior: "smooth" }); setTimeout(() => pickSite(ST[+r.dataset.i].site), 300); });
+  const t3 = document.getElementById("famousTable");
+  t3.innerHTML = `<thead><tr><th>Who</th><th>Date</th><th>Lines</th><th>Grade</th></tr></thead><tbody>` + FAM.map((f, i) => `<tr data-i="${i}"><td>${esc(f.name)}<br><small>${esc(f.id)} · ${esc(f.group)} · ${esc(f.note)}</small></td><td>${esc(f.yr)}<br><small>${esc(f.date)}</small></td><td><small>Y</small> ${esc(f.y || "none")}<br><small>mt</small> ${esc(f.mt || "none")}</td><td>${esc(f.assessment)}</td></tr>`).join("") + `</tbody>`;
+  t3.querySelectorAll("tr[data-i]").forEach(r => r.onclick = () => pickFamous(FAM[+r.dataset.i].id));
+}
+function charts() { pubChart(); timeChart(); biasChart(); neoChart(); regionButtons(); steppeChart(); steppeLines(); tables(); }
+
+/* ---------- start ---------- */
+document.getElementById("theme").onclick = () => { const r = document.documentElement; r.dataset.theme = isDark() ? "light" : "dark"; applyLayers(); legend(); side(); redraws.forEach(f => f()); };
+charts(); side();
+fetch("data/individuals.json").then(r => r.json()).then(d => { IND = d; d.cols.forEach((c, i) => C[c] = i); if (typeof maplibregl === "undefined") { document.getElementById("loading").textContent = "The map library did not load."; legend(); side(); return; } startMap(); });
+</script>
+/*FULLSCREEN*/
+</body>
+</html>

@@ -1,0 +1,5826 @@
+{
+ "source": {
+  "rows": 23089,
+  "present_day_rows": 3970,
+  "ancient_rows": 19118,
+  "ancient_individuals": 17629,
+  "kept": 16496,
+  "failed": 1133,
+  "strict_kept": 16267,
+  "rescued": 229,
+  "archaic": 8,
+  "modern": 16488,
+  "no_coords": 88,
+  "mapped": 16408,
+  "mapped_modern": 16400,
+  "failed_mapped": 1132,
+  "kept_pct": 93.57,
+  "n_groups": 3467,
+  "n_sites": 3664,
+  "n_countries": 127,
+  "n_pubs": 334,
+  "version": "v66.p1",
+  "doi": "10.7910/DVN/FFIDCW",
+  "paper_doi": "10.1038/s41597-024-03031-7",
+  "assess": {
+   "Pass": 14850,
+   "PROVISIONAL_PASS": 1577,
+   "MERGE_PASS": 69
+  },
+  "multi_rows": 1489,
+  "y_manual": 224,
+  "checks": {
+   "rows": 23089,
+   "cols": 49,
+   "present_day_rows": 3970,
+   "ancient_rows": 19118,
+   "ancient_individuals": 17629,
+   "assessment_rows": {
+    "Pass": 15903,
+    "PROVISIONAL_PASS": 1617,
+    "Questionable": 962,
+    "CRITICAL": 372,
+    "MERGE_PASS": 150,
+    "PROVISIONAL_CRITICAL": 83,
+    "PROVISIONAL_QUESTIONABLE": 22,
+    "MERGE_QUESTIONABLE": 7,
+    "MERGE_CRITICAL": 2
+   },
+   "pass_rows": 17670,
+   "strict_kept": 16267,
+   "assessment_best_row": {
+    "Pass": 14671,
+    "PROVISIONAL_PASS": 1548,
+    "Questionable": 914,
+    "CRITICAL": 361,
+    "PROVISIONAL_CRITICAL": 62,
+    "MERGE_PASS": 48,
+    "PROVISIONAL_QUESTIONABLE": 18,
+    "MERGE_QUESTIONABLE": 5,
+    "MERGE_CRITICAL": 2
+   },
+   "kept": 16496,
+   "failed": 1133,
+   "rescued_by_other_row": 229,
+   "ind_multi_date": 3,
+   "ind_multi_group": 66,
+   "rows_per_individual_max": 11,
+   "date_mismatch": 142,
+   "kept_no_coords": 88,
+   "failed_no_coords": 1,
+   "kept_archaic": 8,
+   "failed_archaic": 5,
+   "y_manual_used": 224,
+   "culture_counts": {
+    "Late Antiquity and Medieval": 3431,
+    "Iron Age": 2629,
+    "Neolithic": 2403,
+    "Bronze Age": 2384,
+    "Other or regional label": 1954,
+    "Copper Age": 1001,
+    "Roman": 803,
+    "Viking": 442,
+    "Early modern and historic": 422,
+    "Mesolithic and hunter-gatherers": 321,
+    "Yamnaya": 264,
+    "Bell Beaker": 223,
+    "Upper Palaeolithic": 110,
+    "Corded Ware": 101,
+    "Archaic (Neanderthal, Denisovan)": 8
+   },
+   "y_counts": {
+    "R1b": 1841,
+    "I2": 955,
+    "Q": 837,
+    "R1a": 710,
+    "G2": 580,
+    "Too broad": 524,
+    "J2": 491,
+    "E1b": 342,
+    "No call": 327,
+    "I1": 327,
+    "C": 314,
+    "O": 289,
+    "N": 259,
+    "Other": 258,
+    "J1": 221,
+    "T": 115,
+    "H": 111,
+    "L": 52,
+    "D": 48
+   },
+   "mt_counts": {
+    "No call": 3976,
+    "H": 2837,
+    "U": 2373,
+    "T": 1135,
+    "K": 1074,
+    "W, X, I and other N": 940,
+    "J": 879,
+    "C": 573,
+    "Other M": 513,
+    "HV and V": 484,
+    "D": 482,
+    "A": 398,
+    "F and other R": 371,
+    "B": 261,
+    "L (African)": 200
+   },
+   "other_y_examples": {
+    "I": 84,
+    "G": 40,
+    "R2": 25,
+    "S": 17,
+    "J": 16,
+    "A1b": 13,
+    "E": 10,
+    "B2b": 8,
+    "S1a": 7,
+    "R2a": 7,
+    "G1a": 6,
+    "M": 6,
+    "E1a": 4,
+    "E2a": 3,
+    "A00": 2,
+    "E1": 2,
+    "E2b": 2,
+    "B2a": 1,
+    "B": 1,
+    "M1a": 1,
+    "G1b": 1,
+    "A": 1,
+    "M1": 1
+   }
+  }
+ },
+ "sex": {
+  "M": 8601,
+  "F": 6835,
+  "U": 1060,
+  "M_pct": 52.14,
+  "F_pct": 41.43,
+  "U_pct": 6.43,
+  "m_per_f": 1.26
+ },
+ "oldest": [
+  {
+   "id": "RNI085",
+   "group": "Germany_Ranis_IUP",
+   "site": "Ranis (Thuringia, Saale-Orla-Kreis)",
+   "country": "Germany",
+   "bp": 45875,
+   "year": -43925,
+   "yr": "43,925 BCE",
+   "date": "47600-40250 BCE",
+   "sex": "U",
+   "y": "",
+   "mt": "",
+   "pub": "SümerKrauseNature2024",
+   "first_pub": "SümerKrauseNature2024",
+   "pub_year": 2024,
+   "lat": 50.664,
+   "lon": 11.568,
+   "culture": "Upper Palaeolithic"
+  },
+  {
+   "id": "RNI081",
+   "group": "Germany_Ranis_IUP",
+   "site": "Ranis (Thuringia, Saale-Orla-Kreis)",
+   "country": "Germany",
+   "bp": 45875,
+   "year": -43925,
+   "yr": "43,925 BCE",
+   "date": "47600-40250 BCE",
+   "sex": "U",
+   "y": "",
+   "mt": "",
+   "pub": "SümerKrauseNature2024",
+   "first_pub": "SümerKrauseNature2024",
+   "pub_year": 2024,
+   "lat": 50.664,
+   "lon": 11.568,
+   "culture": "Upper Palaeolithic"
+  },
+  {
+   "id": "RNI004",
+   "group": "Germany_Ranis_IUP",
+   "site": "Ranis (Thuringia, Saale-Orla-Kreis)",
+   "country": "Germany",
+   "bp": 45875,
+   "year": -43925,
+   "yr": "43,925 BCE",
+   "date": "47600-40250 BCE",
+   "sex": "U",
+   "y": "",
+   "mt": "",
+   "pub": "SümerKrauseNature2024",
+   "first_pub": "SümerKrauseNature2024",
+   "pub_year": 2024,
+   "lat": 50.664,
+   "lon": 11.568,
+   "culture": "Upper Palaeolithic"
+  },
+  {
+   "id": "RNI006",
+   "group": "Germany_Ranis_IUP",
+   "site": "Ranis (Thuringia, Saale-Orla-Kreis)",
+   "country": "Germany",
+   "bp": 45875,
+   "year": -43925,
+   "yr": "43,925 BCE",
+   "date": "47600-40250 BCE",
+   "sex": "U",
+   "y": "",
+   "mt": "",
+   "pub": "SümerKrauseNature2024",
+   "first_pub": "SümerKrauseNature2024",
+   "pub_year": 2024,
+   "lat": 50.664,
+   "lon": 11.568,
+   "culture": "Upper Palaeolithic"
+  },
+  {
+   "id": "RNI087",
+   "group": "Germany_Ranis_IUP",
+   "site": "Ranis (Thuringia, Saale-Orla-Kreis)",
+   "country": "Germany",
+   "bp": 45875,
+   "year": -43925,
+   "yr": "43,925 BCE",
+   "date": "47600-40250 BCE",
+   "sex": "U",
+   "y": "",
+   "mt": "",
+   "pub": "SümerKrauseNature2024",
+   "first_pub": "SümerKrauseNature2024",
+   "pub_year": 2024,
+   "lat": 50.664,
+   "lon": 11.568,
+   "culture": "Upper Palaeolithic"
+  },
+  {
+   "id": "RNI010",
+   "group": "Germany_Ranis_IUP",
+   "site": "Ranis (Thuringia, Saale-Orla-Kreis)",
+   "country": "Germany",
+   "bp": 45875,
+   "year": -43925,
+   "yr": "43,925 BCE",
+   "date": "47600-40250 BCE",
+   "sex": "U",
+   "y": "",
+   "mt": "",
+   "pub": "SümerKrauseNature2024",
+   "first_pub": "SümerKrauseNature2024",
+   "pub_year": 2024,
+   "lat": 50.664,
+   "lon": 11.568,
+   "culture": "Upper Palaeolithic"
+  },
+  {
+   "id": "RNI013",
+   "group": "Germany_Ranis_IUP",
+   "site": "Ranis (Thuringia, Saale-Orla-Kreis)",
+   "country": "Germany",
+   "bp": 45875,
+   "year": -43925,
+   "yr": "43,925 BCE",
+   "date": "47600-40250 BCE",
+   "sex": "U",
+   "y": "",
+   "mt": "",
+   "pub": "SümerKrauseNature2024",
+   "first_pub": "SümerKrauseNature2024",
+   "pub_year": 2024,
+   "lat": 50.664,
+   "lon": 11.568,
+   "culture": "Upper Palaeolithic"
+  },
+  {
+   "id": "RNI080",
+   "group": "Germany_Ranis_IUP",
+   "site": "Ranis (Thuringia, Saale-Orla-Kreis)",
+   "country": "Germany",
+   "bp": 45875,
+   "year": -43925,
+   "yr": "43,925 BCE",
+   "date": "47600-40250 BCE",
+   "sex": "U",
+   "y": "",
+   "mt": "",
+   "pub": "SümerKrauseNature2024",
+   "first_pub": "SümerKrauseNature2024",
+   "pub_year": 2024,
+   "lat": 50.664,
+   "lon": 11.568,
+   "culture": "Upper Palaeolithic"
+  },
+  {
+   "id": "ZKU002",
+   "group": "Czechia_Zlatykun_IUP",
+   "site": "Zlatý-kůň (Central Bohemian Region, Beroun District, Koněprusy Caves)",
+   "country": "Czechia",
+   "bp": 45875,
+   "year": -43925,
+   "yr": "43,925 BCE",
+   "date": "47600-40250 BCE",
+   "sex": "U",
+   "y": "",
+   "mt": "",
+   "pub": "SümerKrauseNature2024",
+   "first_pub": "PrüferKrauseNatEcolEvol2021",
+   "pub_year": 2021,
+   "lat": 49.916,
+   "lon": 14.066,
+   "culture": "Upper Palaeolithic"
+  },
+  {
+   "id": "BB7-240",
+   "group": "Bulgaria_BachoKiroCave_IUP",
+   "site": "Bacho-Kiro Cave (Lovech Province, Ugarchin Municipality)",
+   "country": "Bulgaria",
+   "bp": 45371,
+   "year": -43421,
+   "yr": "43,421 BCE",
+   "date": "44169-42652 calBCE (42850±480 BP, ETH-86770)",
+   "sex": "M",
+   "y": "",
+   "mt": "",
+   "pub": "HajdinjakPääboNature2021",
+   "first_pub": "HajdinjakPääboNature2021",
+   "pub_year": 2021,
+   "lat": 42.948,
+   "lon": 24.43,
+   "culture": "Upper Palaeolithic"
+  },
+  {
+   "id": "Ust_Ishim",
+   "group": "Russia_UstIshim_IUP",
+   "site": "Ust'-Ishim (Omsk Oblast, Ust-Ishimsky District)",
+   "country": "Russia",
+   "bp": 44366,
+   "year": -42416,
+   "yr": "42,416 BCE",
+   "date": "43980-40954 calBCE (41400±953 BP)",
+   "sex": "M",
+   "y": "K2",
+   "mt": "R*",
+   "pub": "FuPääboNature2014",
+   "first_pub": "FuPääboNature2014",
+   "pub_year": 2014,
+   "lat": 57.7,
+   "lon": 71.1,
+   "culture": "Upper Palaeolithic"
+  },
+  {
+   "id": "F6-620",
+   "group": "Bulgaria_BachoKiroCave_IUP",
+   "site": "Bacho-Kiro Cave (Lovech Province, Ugarchin Municipality)",
+   "country": "Bulgaria",
+   "bp": 43250,
+   "year": -41300,
+   "yr": "41,300 BCE",
+   "date": "42000-40600 BCE",
+   "sex": "M",
+   "y": "",
+   "mt": "",
+   "pub": "HajdinjakPääboNature2021",
+   "first_pub": "HajdinjakPääboNature2021",
+   "pub_year": 2021,
+   "lat": 42.948,
+   "lon": 24.43,
+   "culture": "Upper Palaeolithic"
+  }
+ ],
+ "archaic": [
+  {
+   "id": "Denisova25",
+   "group": "Russia_DenisovaCave_MPleistocene",
+   "site": "Denisova Cave (Altai Republic, Soloneshensky District)",
+   "country": "Russia",
+   "bp": 185000,
+   "year": -183050,
+   "yr": "183,050 BCE",
+   "date": "198050-168050 BCE",
+   "sex": "M",
+   "y": "",
+   "mt": "",
+   "pub": "PeyrégneKelsoBioRxiv2025",
+   "first_pub": "PeyrégneKelsoBioRxiv2025",
+   "pub_year": 2025,
+   "lat": 51.403,
+   "lon": 84.666,
+   "culture": "Archaic (Neanderthal, Denisovan)"
+  },
+  {
+   "id": "Altai",
+   "group": "Altai_Neanderthal",
+   "site": "Denisova-Cave (Altai Krai, Soloneshensky District)",
+   "country": "Russia",
+   "bp": 110450,
+   "year": -108500,
+   "yr": "108,500 BCE",
+   "date": "128050-88950 BCE",
+   "sex": "F",
+   "y": "",
+   "mt": "Neanderthal",
+   "pub": "PrüferPääboNature2013",
+   "first_pub": "PrüferPääboNature2013",
+   "pub_year": 2013,
+   "lat": 51.398,
+   "lon": 84.676,
+   "culture": "Archaic (Neanderthal, Denisovan)"
+  },
+  {
+   "id": "Denisova11",
+   "group": "Russia_Denisova_Neanderthal_Mix",
+   "site": "Denisova-Cave (Altai Krai, Soloneshensky District)",
+   "country": "Russia",
+   "bp": 98700,
+   "year": -96750,
+   "yr": "96,750 BCE",
+   "date": "116150-77350 BCE",
+   "sex": "F",
+   "y": "",
+   "mt": "Neanderthal",
+   "pub": "SlonPääboNature2018",
+   "first_pub": "SlonPääboNature2018",
+   "pub_year": 2018,
+   "lat": 51.398,
+   "lon": 84.676,
+   "culture": "Archaic (Neanderthal, Denisovan)"
+  },
+  {
+   "id": "Chagyrskaya8",
+   "group": "ChagyrskayaCave_Neanderthal",
+   "site": "Chagyrskaya-Cave (Altai Krai, Krasnoshchyokovsky District)",
+   "country": "Russia",
+   "bp": 80000,
+   "year": -78050,
+   "yr": "78,050 BCE",
+   "date": "98050-58050 BCE",
+   "sex": "U",
+   "y": "",
+   "mt": "",
+   "pub": "MafessoniPääboPNAS2020",
+   "first_pub": "MafessoniPääboPNAS2020",
+   "pub_year": 2020,
+   "lat": 51.442,
+   "lon": 83.155,
+   "culture": "Archaic (Neanderthal, Denisovan)"
+  },
+  {
+   "id": "Mezmaiskaya1",
+   "group": "Mezmaiskayacave_Neanderthal",
+   "site": "Mezmaiskaya-cave (Krasnodar Krai, Apsheronsky District)",
+   "country": "Russia",
+   "bp": 65000,
+   "year": -63050,
+   "yr": "63,050 BCE",
+   "date": "68050-58050 BCE",
+   "sex": "F",
+   "y": "",
+   "mt": "",
+   "pub": "PrüferPääboScience2017",
+   "first_pub": "GreenPääboScience2010",
+   "pub_year": 2010,
+   "lat": 44.134,
+   "lon": 40.007,
+   "culture": "Archaic (Neanderthal, Denisovan)"
+  },
+  {
+   "id": "Denisova",
+   "group": "Russia_Denisova",
+   "site": "Denisova-Cave (Altai Krai, Soloneshensky District)",
+   "country": "Russia",
+   "bp": 63900,
+   "year": -61950,
+   "yr": "61,950 BCE",
+   "date": "74250-49650 BCE",
+   "sex": "F",
+   "y": "",
+   "mt": "",
+   "pub": "MeyerPääboScience2012",
+   "first_pub": "ReichPääboNature2010",
+   "pub_year": 2010,
+   "lat": 51.398,
+   "lon": 84.676,
+   "culture": "Archaic (Neanderthal, Denisovan)"
+  },
+  {
+   "id": "Mandrin_1600",
+   "group": "France_GrotteMandrin_Neanderthal",
+   "site": "Grotte Mandrin (Rhone-Alpes)",
+   "country": "France",
+   "bp": 53950,
+   "year": -52000,
+   "yr": "52,000 BCE",
+   "date": "54000-50000 BCE",
+   "sex": "M",
+   "y": "P1",
+   "mt": "",
+   "pub": "SlimakSikoraCellGenom2024",
+   "first_pub": "SlimakSikoraCellGenom2024",
+   "pub_year": 2024,
+   "lat": 44.466,
+   "lon": 4.766,
+   "culture": "Archaic (Neanderthal, Denisovan)"
+  },
+  {
+   "id": "Vindija",
+   "group": "VindijaCave_Neanderthal",
+   "site": "Vindija Cave (Varaždin County, Općina Donja Voća)",
+   "country": "Croatia",
+   "bp": 50000,
+   "year": -48050,
+   "yr": "48,050 BCE",
+   "date": ">43500 calBCE (45300±2300 BP, OxA-32278)",
+   "sex": "F",
+   "y": "",
+   "mt": "",
+   "pub": "PrüferPääboScience2017",
+   "first_pub": "GreenPääboScience2010",
+   "pub_year": 2010,
+   "lat": 46.299,
+   "lon": 16.071,
+   "culture": "Archaic (Neanderthal, Denisovan)"
+  }
+ ],
+ "archaic_failed": [
+  {
+   "id": "VindijaG1_final",
+   "group": "VindijaCave_Neanderthal",
+   "site": "Vindija Cave (Varaždin County, Općina Donja Voća)",
+   "country": "Croatia",
+   "bp": 50000,
+   "year": -48050,
+   "yr": "48,050 BCE",
+   "date": ">45000 calBCE (OxA-X-2634-52)",
+   "sex": "F",
+   "y": "",
+   "mt": "",
+   "pub": "HajdinjakKelsoNature2018",
+   "first_pub": "HajdinjakKelsoNature2018",
+   "pub_year": 2018,
+   "lat": 46.299,
+   "lon": 16.071,
+   "culture": "Archaic (Neanderthal, Denisovan)"
+  },
+  {
+   "id": "Mezmaiskaya2_final",
+   "group": "Mezmaiskayacave_Neanderthal",
+   "site": "Mezmaiskaya-cave (Krasnodar Krai, Apsheronsky District)",
+   "country": "Russia",
+   "bp": 43449,
+   "year": -41499,
+   "yr": "41,499 BCE",
+   "date": "43015-40206 calBCE (39700±1100 BP, OxA-21839)",
+   "sex": "M",
+   "y": "F3",
+   "mt": "",
+   "pub": "HajdinjakKelsoNature2018",
+   "first_pub": "HajdinjakKelsoNature2018",
+   "pub_year": 2018,
+   "lat": 44.134,
+   "lon": 40.007,
+   "culture": "Archaic (Neanderthal, Denisovan)"
+  },
+  {
+   "id": "Les_Cottes_final",
+   "group": "LesCottescave_Neanderthal",
+   "site": "Les Cottés cave (Nouvelle-Aquitaine, Vienne, Montmorillon, Journet)",
+   "country": "France",
+   "bp": 42846,
+   "year": -40896,
+   "yr": "40,896 BCE",
+   "date": "41201-40596 calBCE (39485±271 BP, MAMS-26196)",
+   "sex": "F",
+   "y": "",
+   "mt": "",
+   "pub": "HajdinjakKelsoNature2018",
+   "first_pub": "HajdinjakKelsoNature2018",
+   "pub_year": 2018,
+   "lat": 46.445,
+   "lon": 0.963,
+   "culture": "Archaic (Neanderthal, Denisovan)"
+  },
+  {
+   "id": "Goyet_final",
+   "group": "GoyetCave_Neanderthal",
+   "site": "Goyet Cave (Wallonia Region, Namur Province, Gesves Municipality, Troisième caverne)",
+   "country": "Belgium",
+   "bp": 42436,
+   "year": -40486,
+   "yr": "40,486 BCE",
+   "date": "40782-40217 calBCE (38440±340 BP, GrA-46170)",
+   "sex": "F",
+   "y": "",
+   "mt": "",
+   "pub": "HajdinjakKelsoNature2018",
+   "first_pub": "HajdinjakKelsoNature2018",
+   "pub_year": 2018,
+   "lat": 50.446,
+   "lon": 5.008,
+   "culture": "Archaic (Neanderthal, Denisovan)"
+  },
+  {
+   "id": "Spy_final",
+   "group": "SpyCave_Neanderthal",
+   "site": "Spy Cave (Wallonne Gewest, Namen)",
+   "country": "Belgium",
+   "bp": 40922,
+   "year": -38972,
+   "yr": "38,972 BCE",
+   "date": "39431-38495 calBCE (35810±260 BP, GrA-32623)",
+   "sex": "M",
+   "y": "A0",
+   "mt": "",
+   "pub": "HajdinjakKelsoNature2018",
+   "first_pub": "HajdinjakKelsoNature2018",
+   "pub_year": 2018,
+   "lat": 50.482,
+   "lon": 4.669,
+   "culture": "Archaic (Neanderthal, Denisovan)"
+  }
+ ],
+ "time": {
+  "oldest_bp": 45875,
+  "oldest_year": -43925,
+  "oldest_id": "RNI085",
+  "oldest_group": "Germany_Ranis_IUP",
+  "youngest_bp": 60,
+  "youngest_year": 1890,
+  "archaic_oldest_bp": 185000,
+  "median_year": -450,
+  "n_before_10000bce": 102,
+  "n_before_5000bce": 1460,
+  "pct_after_3000bce": 79.53,
+  "pct_after_1bce": 42.14,
+  "pct_last_10000": 98.75,
+  "n_over_40000bp": 12,
+  "n_over_20000bp": 58,
+  "oldest_k": 45000
+ },
+ "millennia": [
+  {
+   "a": -45000,
+   "b": -44000,
+   "n": 0
+  },
+  {
+   "a": -44000,
+   "b": -43000,
+   "n": 10
+  },
+  {
+   "a": -43000,
+   "b": -42000,
+   "n": 1
+  },
+  {
+   "a": -42000,
+   "b": -41000,
+   "n": 1
+  },
+  {
+   "a": -41000,
+   "b": -40000,
+   "n": 0
+  },
+  {
+   "a": -40000,
+   "b": -39000,
+   "n": 0
+  },
+  {
+   "a": -39000,
+   "b": -38000,
+   "n": 1
+  },
+  {
+   "a": -38000,
+   "b": -37000,
+   "n": 1
+  },
+  {
+   "a": -37000,
+   "b": -36000,
+   "n": 1
+  },
+  {
+   "a": -36000,
+   "b": -35000,
+   "n": 0
+  },
+  {
+   "a": -35000,
+   "b": -34000,
+   "n": 2
+  },
+  {
+   "a": -34000,
+   "b": -33000,
+   "n": 1
+  },
+  {
+   "a": -33000,
+   "b": -32000,
+   "n": 6
+  },
+  {
+   "a": -32000,
+   "b": -31000,
+   "n": 2
+  },
+  {
+   "a": -31000,
+   "b": -30000,
+   "n": 3
+  },
+  {
+   "a": -30000,
+   "b": -29000,
+   "n": 3
+  },
+  {
+   "a": -29000,
+   "b": -28000,
+   "n": 5
+  },
+  {
+   "a": -28000,
+   "b": -27000,
+   "n": 3
+  },
+  {
+   "a": -27000,
+   "b": -26000,
+   "n": 3
+  },
+  {
+   "a": -26000,
+   "b": -25000,
+   "n": 7
+  },
+  {
+   "a": -25000,
+   "b": -24000,
+   "n": 3
+  },
+  {
+   "a": -24000,
+   "b": -23000,
+   "n": 1
+  },
+  {
+   "a": -23000,
+   "b": -22000,
+   "n": 2
+  },
+  {
+   "a": -22000,
+   "b": -21000,
+   "n": 1
+  },
+  {
+   "a": -21000,
+   "b": -20000,
+   "n": 0
+  },
+  {
+   "a": -20000,
+   "b": -19000,
+   "n": 0
+  },
+  {
+   "a": -19000,
+   "b": -18000,
+   "n": 1
+  },
+  {
+   "a": -18000,
+   "b": -17000,
+   "n": 1
+  },
+  {
+   "a": -17000,
+   "b": -16000,
+   "n": 3
+  },
+  {
+   "a": -16000,
+   "b": -15000,
+   "n": 1
+  },
+  {
+   "a": -15000,
+   "b": -14000,
+   "n": 1
+  },
+  {
+   "a": -14000,
+   "b": -13000,
+   "n": 9
+  },
+  {
+   "a": -13000,
+   "b": -12000,
+   "n": 12
+  },
+  {
+   "a": -12000,
+   "b": -11000,
+   "n": 7
+  },
+  {
+   "a": -11000,
+   "b": -10000,
+   "n": 10
+  },
+  {
+   "a": -10000,
+   "b": -9000,
+   "n": 25
+  },
+  {
+   "a": -9000,
+   "b": -8000,
+   "n": 83
+  },
+  {
+   "a": -8000,
+   "b": -7000,
+   "n": 91
+  },
+  {
+   "a": -7000,
+   "b": -6000,
+   "n": 299
+  },
+  {
+   "a": -6000,
+   "b": -5000,
+   "n": 860
+  },
+  {
+   "a": -5000,
+   "b": -4000,
+   "n": 872
+  },
+  {
+   "a": -4000,
+   "b": -3000,
+   "n": 1043
+  },
+  {
+   "a": -3000,
+   "b": -2000,
+   "n": 1908
+  },
+  {
+   "a": -2000,
+   "b": -1000,
+   "n": 1740
+  },
+  {
+   "a": -1000,
+   "b": 0,
+   "n": 2517
+  },
+  {
+   "a": 0,
+   "b": 1000,
+   "n": 4366
+  },
+  {
+   "a": 1000,
+   "b": 2000,
+   "n": 2582
+  }
+ ],
+ "half_millennia": [
+  {
+   "a": -10000,
+   "b": -9500,
+   "n": 12
+  },
+  {
+   "a": -9500,
+   "b": -9000,
+   "n": 13
+  },
+  {
+   "a": -9000,
+   "b": -8500,
+   "n": 31
+  },
+  {
+   "a": -8500,
+   "b": -8000,
+   "n": 52
+  },
+  {
+   "a": -8000,
+   "b": -7500,
+   "n": 49
+  },
+  {
+   "a": -7500,
+   "b": -7000,
+   "n": 42
+  },
+  {
+   "a": -7000,
+   "b": -6500,
+   "n": 131
+  },
+  {
+   "a": -6500,
+   "b": -6000,
+   "n": 168
+  },
+  {
+   "a": -6000,
+   "b": -5500,
+   "n": 257
+  },
+  {
+   "a": -5500,
+   "b": -5000,
+   "n": 603
+  },
+  {
+   "a": -5000,
+   "b": -4500,
+   "n": 446
+  },
+  {
+   "a": -4500,
+   "b": -4000,
+   "n": 426
+  },
+  {
+   "a": -4000,
+   "b": -3500,
+   "n": 459
+  },
+  {
+   "a": -3500,
+   "b": -3000,
+   "n": 584
+  },
+  {
+   "a": -3000,
+   "b": -2500,
+   "n": 962
+  },
+  {
+   "a": -2500,
+   "b": -2000,
+   "n": 946
+  },
+  {
+   "a": -2000,
+   "b": -1500,
+   "n": 996
+  },
+  {
+   "a": -1500,
+   "b": -1000,
+   "n": 744
+  },
+  {
+   "a": -1000,
+   "b": -500,
+   "n": 1112
+  },
+  {
+   "a": -500,
+   "b": 0,
+   "n": 1405
+  },
+  {
+   "a": 0,
+   "b": 500,
+   "n": 1349
+  },
+  {
+   "a": 500,
+   "b": 1000,
+   "n": 3017
+  },
+  {
+   "a": 1000,
+   "b": 1500,
+   "n": 1985
+  },
+  {
+   "a": 1500,
+   "b": 2000,
+   "n": 597
+  }
+ ],
+ "periods": [
+  {
+   "name": "Before 10,000 BCE",
+   "n": 102
+  },
+  {
+   "name": "10,000 to 6000 BCE",
+   "n": 498
+  },
+  {
+   "name": "6000 to 4000 BCE",
+   "n": 1732
+  },
+  {
+   "name": "4000 to 2500 BCE",
+   "n": 2005
+  },
+  {
+   "name": "2500 to 1000 BCE",
+   "n": 2686
+  },
+  {
+   "name": "1000 BCE to 1 CE",
+   "n": 2523
+  },
+  {
+   "name": "1 to 1000 CE",
+   "n": 4360
+  },
+  {
+   "name": "After 1000 CE",
+   "n": 2582
+  }
+ ],
+ "cultures": [
+  {
+   "name": "Archaic (Neanderthal, Denisovan)",
+   "n": 8
+  },
+  {
+   "name": "Upper Palaeolithic",
+   "n": 110
+  },
+  {
+   "name": "Mesolithic and hunter-gatherers",
+   "n": 321
+  },
+  {
+   "name": "Neolithic",
+   "n": 2403
+  },
+  {
+   "name": "Copper Age",
+   "n": 1001
+  },
+  {
+   "name": "Yamnaya",
+   "n": 264
+  },
+  {
+   "name": "Corded Ware",
+   "n": 101
+  },
+  {
+   "name": "Bell Beaker",
+   "n": 223
+  },
+  {
+   "name": "Bronze Age",
+   "n": 2384
+  },
+  {
+   "name": "Iron Age",
+   "n": 2629
+  },
+  {
+   "name": "Roman",
+   "n": 803
+  },
+  {
+   "name": "Late Antiquity and Medieval",
+   "n": 3431
+  },
+  {
+   "name": "Viking",
+   "n": 442
+  },
+  {
+   "name": "Early modern and historic",
+   "n": 422
+  },
+  {
+   "name": "Other or regional label",
+   "n": 1954
+  }
+ ],
+ "pubs": {
+  "years": [
+   {
+    "y": 2010,
+    "n": 4
+   },
+   {
+    "y": 2011,
+    "n": 0
+   },
+   {
+    "y": 2012,
+    "n": 1
+   },
+   {
+    "y": 2013,
+    "n": 2
+   },
+   {
+    "y": 2014,
+    "n": 35
+   },
+   {
+    "y": 2015,
+    "n": 257
+   },
+   {
+    "y": 2016,
+    "n": 119
+   },
+   {
+    "y": 2017,
+    "n": 224
+   },
+   {
+    "y": 2018,
+    "n": 1305
+   },
+   {
+    "y": 2019,
+    "n": 1295
+   },
+   {
+    "y": 2020,
+    "n": 1511
+   },
+   {
+    "y": 2021,
+    "n": 2081
+   },
+   {
+    "y": 2022,
+    "n": 2015
+   },
+   {
+    "y": 2023,
+    "n": 1457
+   },
+   {
+    "y": 2024,
+    "n": 2098
+   },
+   {
+    "y": 2025,
+    "n": 3757
+   },
+   {
+    "y": 2026,
+    "n": 59
+   }
+  ],
+  "since2020": 12978,
+  "since2020_pct": 80.01,
+  "before2015": 42,
+  "y2025": 3757,
+  "no_year": 276,
+  "first_year": 2010,
+  "top": [
+   {
+    "pub": "PattersonReichNature2021",
+    "n": 741
+   },
+   {
+    "pub": "McCollWillerslevBioRxiv2025",
+    "n": 712
+   },
+   {
+    "pub": "LazaridisReichScience2022",
+    "n": 668
+   },
+   {
+    "pub": "WangHofmanováNature2025",
+    "n": 666
+   },
+   {
+    "pub": "AkbariReichNature2026",
+    "n": 483
+   },
+   {
+    "pub": "NarasimhanReichScience2019",
+    "n": 423
+   },
+   {
+    "pub": "Gnecchi-RusconeHofmanováNature2024",
+    "n": 423
+   },
+   {
+    "pub": "MargaryanWillerslevNature2020",
+    "n": 423
+   },
+   {
+    "pub": "BenekerKivisildGenomeBiol2025",
+    "n": 332
+   },
+   {
+    "pub": "GretzingerSchiffelsNature2022",
+    "n": 315
+   }
+  ]
+ },
+ "countries": [
+  {
+   "country": "Russia",
+   "n": 1394,
+   "pct": 8.45
+  },
+  {
+   "country": "Hungary",
+   "n": 1317,
+   "pct": 7.98
+  },
+  {
+   "country": "United Kingdom",
+   "n": 1151,
+   "pct": 6.98
+  },
+  {
+   "country": "China",
+   "n": 865,
+   "pct": 5.24
+  },
+  {
+   "country": "Austria",
+   "n": 784,
+   "pct": 4.75
+  },
+  {
+   "country": "Italy",
+   "n": 698,
+   "pct": 4.23
+  },
+  {
+   "country": "Denmark",
+   "n": 653,
+   "pct": 3.96
+  },
+  {
+   "country": "Germany",
+   "n": 617,
+   "pct": 3.74
+  },
+  {
+   "country": "Spain",
+   "n": 594,
+   "pct": 3.6
+  },
+  {
+   "country": "France",
+   "n": 537,
+   "pct": 3.26
+  },
+  {
+   "country": "Turkey",
+   "n": 476,
+   "pct": 2.89
+  },
+  {
+   "country": "Belgium",
+   "n": 453,
+   "pct": 2.75
+  },
+  {
+   "country": "Czechia",
+   "n": 452,
+   "pct": 2.74
+  },
+  {
+   "country": "Poland",
+   "n": 437,
+   "pct": 2.65
+  },
+  {
+   "country": "Sweden",
+   "n": 374,
+   "pct": 2.27
+  },
+  {
+   "country": "Ukraine",
+   "n": 325,
+   "pct": 1.97
+  },
+  {
+   "country": "Croatia",
+   "n": 270,
+   "pct": 1.64
+  },
+  {
+   "country": "Mongolia",
+   "n": 264,
+   "pct": 1.6
+  },
+  {
+   "country": "Argentina",
+   "n": 258,
+   "pct": 1.56
+  },
+  {
+   "country": "Kazakhstan",
+   "n": 239,
+   "pct": 1.45
+  },
+  {
+   "country": "USA",
+   "n": 229,
+   "pct": 1.39
+  },
+  {
+   "country": "Armenia",
+   "n": 213,
+   "pct": 1.29
+  },
+  {
+   "country": "Serbia",
+   "n": 199,
+   "pct": 1.21
+  },
+  {
+   "country": "Romania",
+   "n": 195,
+   "pct": 1.18
+  },
+  {
+   "country": "Greece",
+   "n": 160,
+   "pct": 0.97
+  },
+  {
+   "country": "Bulgaria",
+   "n": 148,
+   "pct": 0.9
+  },
+  {
+   "country": "Portugal",
+   "n": 136,
+   "pct": 0.82
+  },
+  {
+   "country": "Netherlands",
+   "n": 133,
+   "pct": 0.81
+  },
+  {
+   "country": "Dominican Republic",
+   "n": 128,
+   "pct": 0.78
+  },
+  {
+   "country": "Pakistan",
+   "n": 127,
+   "pct": 0.77
+  },
+  {
+   "country": "Norway",
+   "n": 116,
+   "pct": 0.7
+  },
+  {
+   "country": "Mexico",
+   "n": 115,
+   "pct": 0.7
+  },
+  {
+   "country": "Iran",
+   "n": 114,
+   "pct": 0.69
+  },
+  {
+   "country": "Slovakia",
+   "n": 109,
+   "pct": 0.66
+  },
+  {
+   "country": "Israel",
+   "n": 101,
+   "pct": 0.61
+  },
+  {
+   "country": "Guam",
+   "n": 96,
+   "pct": 0.58
+  },
+  {
+   "country": "Kenya",
+   "n": 94,
+   "pct": 0.57
+  },
+  {
+   "country": "Ireland",
+   "n": 91,
+   "pct": 0.55
+  },
+  {
+   "country": "Estonia",
+   "n": 84,
+   "pct": 0.51
+  },
+  {
+   "country": "Switzerland",
+   "n": 80,
+   "pct": 0.48
+  },
+  {
+   "country": "Peru",
+   "n": 74,
+   "pct": 0.45
+  },
+  {
+   "country": "Kyrgyzstan",
+   "n": 67,
+   "pct": 0.41
+  },
+  {
+   "country": "Turkmenistan",
+   "n": 65,
+   "pct": 0.39
+  },
+  {
+   "country": "Sudan",
+   "n": 65,
+   "pct": 0.39
+  },
+  {
+   "country": "Uzbekistan",
+   "n": 60,
+   "pct": 0.36
+  },
+  {
+   "country": "Tunisia",
+   "n": 56,
+   "pct": 0.34
+  },
+  {
+   "country": "Moldova",
+   "n": 53,
+   "pct": 0.32
+  },
+  {
+   "country": "Brazil",
+   "n": 51,
+   "pct": 0.31
+  },
+  {
+   "country": "India",
+   "n": 47,
+   "pct": 0.28
+  },
+  {
+   "country": "Taiwan",
+   "n": 46,
+   "pct": 0.28
+  },
+  {
+   "country": "Papua New Guinea",
+   "n": 41,
+   "pct": 0.25
+  },
+  {
+   "country": "Thailand",
+   "n": 40,
+   "pct": 0.24
+  },
+  {
+   "country": "Iceland",
+   "n": 40,
+   "pct": 0.24
+  },
+  {
+   "country": "Nepal",
+   "n": 39,
+   "pct": 0.24
+  },
+  {
+   "country": "Jordan",
+   "n": 38,
+   "pct": 0.23
+  },
+  {
+   "country": "Cuba",
+   "n": 36,
+   "pct": 0.22
+  },
+  {
+   "country": "Yemen",
+   "n": 36,
+   "pct": 0.22
+  },
+  {
+   "country": "Lebanon",
+   "n": 35,
+   "pct": 0.21
+  },
+  {
+   "country": "Latvia",
+   "n": 33,
+   "pct": 0.2
+  },
+  {
+   "country": "Vanuatu",
+   "n": 32,
+   "pct": 0.19
+  },
+  {
+   "country": "Japan",
+   "n": 32,
+   "pct": 0.19
+  },
+  {
+   "country": "Bahamas",
+   "n": 31,
+   "pct": 0.19
+  },
+  {
+   "country": "Slovenia",
+   "n": 30,
+   "pct": 0.18
+  },
+  {
+   "country": "Lithuania",
+   "n": 29,
+   "pct": 0.18
+  },
+  {
+   "country": "Albania",
+   "n": 27,
+   "pct": 0.16
+  },
+  {
+   "country": "North Macedonia",
+   "n": 25,
+   "pct": 0.15
+  },
+  {
+   "country": "Montenegro",
+   "n": 25,
+   "pct": 0.15
+  },
+  {
+   "country": "Tanzania",
+   "n": 23,
+   "pct": 0.14
+  },
+  {
+   "country": "Belize",
+   "n": 22,
+   "pct": 0.13
+  },
+  {
+   "country": "Colombia",
+   "n": 21,
+   "pct": 0.13
+  },
+  {
+   "country": "Bolivia",
+   "n": 21,
+   "pct": 0.13
+  },
+  {
+   "country": "Greenland",
+   "n": 20,
+   "pct": 0.12
+  },
+  {
+   "country": "South Africa",
+   "n": 20,
+   "pct": 0.12
+  },
+  {
+   "country": "Indonesia",
+   "n": 19,
+   "pct": 0.12
+  },
+  {
+   "country": "Georgia",
+   "n": 19,
+   "pct": 0.12
+  },
+  {
+   "country": "Morocco",
+   "n": 18,
+   "pct": 0.11
+  },
+  {
+   "country": "Vietnam",
+   "n": 18,
+   "pct": 0.11
+  },
+  {
+   "country": "Chile",
+   "n": 17,
+   "pct": 0.1
+  },
+  {
+   "country": "Palau",
+   "n": 17,
+   "pct": 0.1
+  },
+  {
+   "country": "Faroe Islands",
+   "n": 17,
+   "pct": 0.1
+  },
+  {
+   "country": "Syria",
+   "n": 16,
+   "pct": 0.1
+  },
+  {
+   "country": "Canada",
+   "n": 15,
+   "pct": 0.09
+  },
+  {
+   "country": "Republic of Korea",
+   "n": 15,
+   "pct": 0.09
+  },
+  {
+   "country": "Puerto Rico",
+   "n": 15,
+   "pct": 0.09
+  },
+  {
+   "country": "Channel Islands",
+   "n": 13,
+   "pct": 0.08
+  },
+  {
+   "country": "Crimea",
+   "n": 12,
+   "pct": 0.07
+  },
+  {
+   "country": "Tajikistan",
+   "n": 11,
+   "pct": 0.07
+  },
+  {
+   "country": "Federated States of Micronesia",
+   "n": 11,
+   "pct": 0.07
+  },
+  {
+   "country": "Panama",
+   "n": 11,
+   "pct": 0.07
+  },
+  {
+   "country": "Finland",
+   "n": 9,
+   "pct": 0.05
+  },
+  {
+   "country": "Australia",
+   "n": 9,
+   "pct": 0.05
+  },
+  {
+   "country": "Malawi",
+   "n": 9,
+   "pct": 0.05
+  },
+  {
+   "country": "Saint Lucia",
+   "n": 9,
+   "pct": 0.05
+  },
+  {
+   "country": "Venezuela",
+   "n": 8,
+   "pct": 0.05
+  },
+  {
+   "country": "Azerbaijan",
+   "n": 7,
+   "pct": 0.04
+  },
+  {
+   "country": "Honduras",
+   "n": 7,
+   "pct": 0.04
+  },
+  {
+   "country": "Iraq",
+   "n": 6,
+   "pct": 0.04
+  },
+  {
+   "country": "Curacao",
+   "n": 5,
+   "pct": 0.03
+  },
+  {
+   "country": "Algeria",
+   "n": 5,
+   "pct": 0.03
+  },
+  {
+   "country": "Democratic Republic of the Congo",
+   "n": 5,
+   "pct": 0.03
+  },
+  {
+   "country": "Bahrain",
+   "n": 4,
+   "pct": 0.02
+  },
+  {
+   "country": "Cameroon",
+   "n": 4,
+   "pct": 0.02
+  },
+  {
+   "country": "Gibraltar",
+   "n": 4,
+   "pct": 0.02
+  },
+  {
+   "country": "Malaysia",
+   "n": 4,
+   "pct": 0.02
+  },
+  {
+   "country": "Guadeloupe",
+   "n": 3,
+   "pct": 0.02
+  },
+  {
+   "country": "Cyprus",
+   "n": 3,
+   "pct": 0.02
+  },
+  {
+   "country": "Tonga",
+   "n": 3,
+   "pct": 0.02
+  },
+  {
+   "country": "Laos",
+   "n": 3,
+   "pct": 0.02
+  },
+  {
+   "country": "Botswana",
+   "n": 3,
+   "pct": 0.02
+  },
+  {
+   "country": "Saint Helena",
+   "n": 3,
+   "pct": 0.02
+  },
+  {
+   "country": "Sint Maarten",
+   "n": 3,
+   "pct": 0.02
+  },
+  {
+   "country": "French Polynesia",
+   "n": 3,
+   "pct": 0.02
+  },
+  {
+   "country": "Canary Islands",
+   "n": 3,
+   "pct": 0.02
+  },
+  {
+   "country": "Uruguay",
+   "n": 2,
+   "pct": 0.01
+  },
+  {
+   "country": "Haiti",
+   "n": 2,
+   "pct": 0.01
+  },
+  {
+   "country": "Egypt",
+   "n": 2,
+   "pct": 0.01
+  },
+  {
+   "country": "Malta",
+   "n": 2,
+   "pct": 0.01
+  },
+  {
+   "country": "Afghanistan",
+   "n": 1,
+   "pct": 0.01
+  },
+  {
+   "country": "Zambia",
+   "n": 1,
+   "pct": 0.01
+  },
+  {
+   "country": "Paraguay",
+   "n": 1,
+   "pct": 0.01
+  },
+  {
+   "country": "Cambodia",
+   "n": 1,
+   "pct": 0.01
+  },
+  {
+   "country": "Bosnia-Herzegovina",
+   "n": 1,
+   "pct": 0.01
+  },
+  {
+   "country": "Luxembourg",
+   "n": 1,
+   "pct": 0.01
+  },
+  {
+   "country": "Solomon Islands",
+   "n": 1,
+   "pct": 0.01
+  },
+  {
+   "country": "Uganda",
+   "n": 1,
+   "pct": 0.01
+  },
+  {
+   "country": "Philippines",
+   "n": 1,
+   "pct": 0.01
+  },
+  {
+   "country": "Ethiopia",
+   "n": 1,
+   "pct": 0.01
+  }
+ ],
+ "top_countries": [
+  {
+   "country": "Russia",
+   "n": 1394,
+   "pct": 8.45
+  },
+  {
+   "country": "Hungary",
+   "n": 1317,
+   "pct": 7.98
+  },
+  {
+   "country": "United Kingdom",
+   "n": 1151,
+   "pct": 6.98
+  },
+  {
+   "country": "China",
+   "n": 865,
+   "pct": 5.24
+  },
+  {
+   "country": "Austria",
+   "n": 784,
+   "pct": 4.75
+  },
+  {
+   "country": "Italy",
+   "n": 698,
+   "pct": 4.23
+  },
+  {
+   "country": "Denmark",
+   "n": 653,
+   "pct": 3.96
+  },
+  {
+   "country": "Germany",
+   "n": 617,
+   "pct": 3.74
+  },
+  {
+   "country": "Spain",
+   "n": 594,
+   "pct": 3.6
+  },
+  {
+   "country": "France",
+   "n": 537,
+   "pct": 3.26
+  },
+  {
+   "country": "Turkey",
+   "n": 476,
+   "pct": 2.89
+  },
+  {
+   "country": "Belgium",
+   "n": 453,
+   "pct": 2.75
+  },
+  {
+   "country": "Czechia",
+   "n": 452,
+   "pct": 2.74
+  },
+  {
+   "country": "Poland",
+   "n": 437,
+   "pct": 2.65
+  },
+  {
+   "country": "Sweden",
+   "n": 374,
+   "pct": 2.27
+  },
+  {
+   "country": "Ukraine",
+   "n": 325,
+   "pct": 1.97
+  },
+  {
+   "country": "Croatia",
+   "n": 270,
+   "pct": 1.64
+  },
+  {
+   "country": "Mongolia",
+   "n": 264,
+   "pct": 1.6
+  },
+  {
+   "country": "Argentina",
+   "n": 258,
+   "pct": 1.56
+  },
+  {
+   "country": "Kazakhstan",
+   "n": 239,
+   "pct": 1.45
+  }
+ ],
+ "n_countries_100": 35,
+ "sites": [
+  {
+   "site": "Mödling-An der Goldenen Stiege (Lower Austria, Mödling District)",
+   "n": 447,
+   "country": "Austria",
+   "lat": 48.082,
+   "lon": 16.285,
+   "y0": 725,
+   "y1": 725,
+   "group": "Austria_Avar",
+   "culture": "Late Antiquity and Medieval"
+  },
+  {
+   "site": "Rákóczifalva-Bagi-földek (Jász-Nagykun-Szolnok Coiunty, Szolnok)",
+   "n": 330,
+   "country": "Hungary",
+   "lat": 47.075,
+   "lon": 20.226,
+   "y0": 580,
+   "y1": 832,
+   "group": "Hungary_LateAvar-oLowEastAsia",
+   "culture": "Late Antiquity and Medieval"
+  },
+  {
+   "site": "Sint-Truiden Groenmarkt (Flemish Region, Limburg, of Hasselt Arrondissement)",
+   "n": 287,
+   "country": "Belgium",
+   "lat": 50.815,
+   "lon": 5.186,
+   "y0": 724,
+   "y1": 1791,
+   "group": "Belgium_HighMedieval",
+   "culture": "Late Antiquity and Medieval"
+  },
+  {
+   "site": "Cambridgeshire (England)",
+   "n": 229,
+   "country": "United Kingdom",
+   "lat": 52.205,
+   "lon": 0.122,
+   "y0": 1250,
+   "y1": 1725,
+   "group": "England_Cambridgeshire_Medieval",
+   "culture": "Late Antiquity and Medieval"
+  },
+  {
+   "site": "Leobersdorf (Lower Austria, Baden District)",
+   "n": 136,
+   "country": "Austria",
+   "lat": 47.917,
+   "lon": 16.217,
+   "y0": 725,
+   "y1": 725,
+   "group": "Austria_Avar",
+   "culture": "Late Antiquity and Medieval"
+  },
+  {
+   "site": "Çatalhöyük (Konya, Çumra)",
+   "n": 119,
+   "country": "Turkey",
+   "lat": 37.666,
+   "lon": 32.826,
+   "y0": -6888,
+   "y1": -5775,
+   "group": "Turkey_Catalhoyuk_MN",
+   "culture": "Neolithic"
+  },
+  {
+   "site": "Gurgy Les Noisats (Bourgogne-Franche-Comté Region, Yonne Department, Auxerre Arrondissement)",
+   "n": 112,
+   "country": "France",
+   "lat": 47.97,
+   "lon": 3.56,
+   "y0": -4982,
+   "y1": -200,
+   "group": "France_Yonne_N",
+   "culture": "Neolithic"
+  },
+  {
+   "site": "Naton Beach Site (Guam, Tamuning-Tumon-Harmon Municipality, Tamuning)",
+   "n": 92,
+   "country": "Guam",
+   "lat": 13.52,
+   "lon": 144.807,
+   "y0": -792,
+   "y1": 1585,
+   "group": "Guam_Latte",
+   "culture": "Other or regional label"
+  },
+  {
+   "site": "Asparn Schletz (Niederösterreich, Mistelbach)",
+   "n": 84,
+   "country": "Austria",
+   "lat": 48.58,
+   "lon": 16.469,
+   "y0": -5578,
+   "y1": -4125,
+   "group": "Austria_N_LBK",
+   "culture": "Neolithic"
+  },
+  {
+   "site": "Csokorgasse (Vienna)",
+   "n": 78,
+   "country": "Austria",
+   "lat": 48.152,
+   "lon": 16.47,
+   "y0": 700,
+   "y1": 700,
+   "group": "Austria_Avar",
+   "culture": "Late Antiquity and Medieval"
+  },
+  {
+   "site": "Urziceni (Satu Mare County, Urziceni)",
+   "n": 75,
+   "country": "Romania",
+   "lat": 47.747,
+   "lon": 22.395,
+   "y0": -5212,
+   "y1": -3619,
+   "group": "Romania_C_Bodrogkeresztur",
+   "culture": "Copper Age"
+  },
+  {
+   "site": "La Almoloya (Murcia, Pliego)",
+   "n": 67,
+   "country": "Spain",
+   "lat": 37.953,
+   "lon": -1.508,
+   "y0": -2000,
+   "y1": -1630,
+   "group": "Spain_EBA",
+   "culture": "Bronze Age"
+  },
+  {
+   "site": "La Caleta (Santo Domingo, Boca Chica)",
+   "n": 61,
+   "country": "Dominican Republic",
+   "lat": 18.451,
+   "lon": -69.686,
+   "y0": 649,
+   "y1": 1486,
+   "group": "DominicanRepublic_Ceramic",
+   "culture": "Other or regional label"
+  },
+  {
+   "site": "Kunszállás-Fülöpjakab (Bács-Kiskun County, Kecskemét)",
+   "n": 59,
+   "country": "Hungary",
+   "lat": 46.751,
+   "lon": 19.738,
+   "y0": 600,
+   "y1": 775,
+   "group": "Hungary_LateAvar-oHighEastAsia",
+   "culture": "Late Antiquity and Medieval"
+  },
+  {
+   "site": "Baligang (Nanyang, Dengzhou)",
+   "n": 58,
+   "country": "China",
+   "lat": 32.692,
+   "lon": 112.135,
+   "y0": -5000,
+   "y1": -570,
+   "group": "China_Baligang_LN_Yangshao",
+   "culture": "Neolithic"
+  }
+ ],
+ "avar_sites": {
+  "y0": 580,
+  "y1": 832
+ },
+ "sites_one": 1641,
+ "sites_n": 3630,
+ "sites_one_pct": 45.21,
+ "bias": {
+  "Europe": {
+   "cont": "Europe",
+   "n": 11217,
+   "pct": 68.4,
+   "pop_pct": 9.22,
+   "land_pct": 7.45,
+   "per_10m_people": 158.5,
+   "per_100k_km2": 112.1
+  },
+  "Asia": {
+   "cont": "Asia",
+   "n": 3571,
+   "pct": 21.77,
+   "pop_pct": 59.98,
+   "land_pct": 32.82,
+   "per_10m_people": 7.8,
+   "per_100k_km2": 8.1
+  },
+  "Africa": {
+   "cont": "Africa",
+   "n": 308,
+   "pct": 1.88,
+   "pop_pct": 17.06,
+   "land_pct": 22.25,
+   "per_10m_people": 2.4,
+   "per_100k_km2": 1.0
+  },
+  "North America": {
+   "cont": "North America",
+   "n": 595,
+   "pct": 3.63,
+   "pop_pct": 7.62,
+   "land_pct": 18.05,
+   "per_10m_people": 10.2,
+   "per_100k_km2": 2.5
+  },
+  "South America": {
+   "cont": "South America",
+   "n": 449,
+   "pct": 2.74,
+   "pop_pct": 5.56,
+   "land_pct": 13.1,
+   "per_10m_people": 10.5,
+   "per_100k_km2": 2.5
+  },
+  "Oceania": {
+   "cont": "Oceania",
+   "n": 260,
+   "pct": 1.59,
+   "pop_pct": 0.55,
+   "land_pct": 6.33,
+   "per_10m_people": 61.3,
+   "per_100k_km2": 3.1
+  }
+ },
+ "bias_list": [
+  {
+   "cont": "Europe",
+   "n": 11217,
+   "pct": 68.4,
+   "pop_pct": 9.22,
+   "land_pct": 7.45,
+   "per_10m_people": 158.5,
+   "per_100k_km2": 112.1
+  },
+  {
+   "cont": "Asia",
+   "n": 3571,
+   "pct": 21.77,
+   "pop_pct": 59.98,
+   "land_pct": 32.82,
+   "per_10m_people": 7.8,
+   "per_100k_km2": 8.1
+  },
+  {
+   "cont": "Africa",
+   "n": 308,
+   "pct": 1.88,
+   "pop_pct": 17.06,
+   "land_pct": 22.25,
+   "per_10m_people": 2.4,
+   "per_100k_km2": 1.0
+  },
+  {
+   "cont": "North America",
+   "n": 595,
+   "pct": 3.63,
+   "pop_pct": 7.62,
+   "land_pct": 18.05,
+   "per_10m_people": 10.2,
+   "per_100k_km2": 2.5
+  },
+  {
+   "cont": "South America",
+   "n": 449,
+   "pct": 2.74,
+   "pop_pct": 5.56,
+   "land_pct": 13.1,
+   "per_10m_people": 10.5,
+   "per_100k_km2": 2.5
+  },
+  {
+   "cont": "Oceania",
+   "n": 260,
+   "pct": 1.59,
+   "pop_pct": 0.55,
+   "land_pct": 6.33,
+   "per_10m_people": 61.3,
+   "per_100k_km2": 3.1
+  }
+ ],
+ "bias_sum": {
+  "n_located": 16400,
+  "eu_pct": 68.4,
+  "eu_pop_pct": 9.22,
+  "eu_land_pct": 7.45,
+  "eu_x_pop": 7.4,
+  "eu_x_land": 9.2,
+  "africa_pct": 1.88,
+  "africa_pop_pct": 17.06,
+  "asia_pct": 21.77,
+  "asia_pop_pct": 59.98,
+  "eu_vs_africa_per_person": 66,
+  "rus_west_pop_share": 73.2,
+  "pop_year": 2019
+ },
+ "bias_period": [
+  {
+   "name": "Before 10,000 BCE",
+   "n": 102,
+   "eu_pct": 70.59
+  },
+  {
+   "name": "10,000 to 6000 BCE",
+   "n": 498,
+   "eu_pct": 41.57
+  },
+  {
+   "name": "6000 to 4000 BCE",
+   "n": 1731,
+   "eu_pct": 81.8
+  },
+  {
+   "name": "4000 to 2500 BCE",
+   "n": 1996,
+   "eu_pct": 73.35
+  },
+  {
+   "name": "2500 to 1000 BCE",
+   "n": 2673,
+   "eu_pct": 64.57
+  },
+  {
+   "name": "1000 BCE to 1 CE",
+   "n": 2505,
+   "eu_pct": 57.25
+  },
+  {
+   "name": "1 to 1000 CE",
+   "n": 4341,
+   "eu_pct": 79.01
+  },
+  {
+   "name": "After 1000 CE",
+   "n": 2554,
+   "eu_pct": 57.48
+  }
+ ],
+ "y": {
+  "men": 8599,
+  "resolved": 7750,
+  "too_broad": 523,
+  "no_call": 326,
+  "clades": {
+   "R1b": 1841,
+   "R1a": 710,
+   "I1": 327,
+   "I2": 955,
+   "G2": 580,
+   "J1": 221,
+   "J2": 491,
+   "E1b": 342,
+   "N": 259,
+   "Q": 837,
+   "C": 314,
+   "O": 289,
+   "H": 111,
+   "T": 115,
+   "L": 52,
+   "D": 48,
+   "Other": 258
+  },
+  "resolved_pct": 90.13
+ },
+ "mt": {
+  "n": 12520,
+  "pct": 75.93,
+  "clades": {
+   "H": 2837,
+   "HV and V": 484,
+   "U": 2373,
+   "K": 1074,
+   "J": 879,
+   "T": 1135,
+   "W, X, I and other N": 940,
+   "A": 398,
+   "B": 261,
+   "C": 573,
+   "D": 482,
+   "Other M": 513,
+   "F and other R": 371,
+   "L (African)": 200
+  }
+ },
+ "steppe": {
+  "Britain": {
+   "desc": "England, Scotland and Wales",
+   "men": 541,
+   "bins": [
+    {
+     "a": -7000,
+     "b": -6500,
+     "n": 0,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": null,
+     "r1a_pct": null,
+     "steppe_pct": null,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 0,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -6500,
+     "b": -6000,
+     "n": 0,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": null,
+     "r1a_pct": null,
+     "steppe_pct": null,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 0,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -6000,
+     "b": -5500,
+     "n": 0,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": null,
+     "r1a_pct": null,
+     "steppe_pct": null,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 0,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -5500,
+     "b": -5000,
+     "n": 0,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": null,
+     "r1a_pct": null,
+     "steppe_pct": null,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 0,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -5000,
+     "b": -4500,
+     "n": 0,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": null,
+     "r1a_pct": null,
+     "steppe_pct": null,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 0,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -4500,
+     "b": -4000,
+     "n": 0,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": null,
+     "r1a_pct": null,
+     "steppe_pct": null,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 0,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -4000,
+     "b": -3500,
+     "n": 43,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": 0.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 0.0,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 40,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 3
+     }
+    },
+    {
+     "a": -3500,
+     "b": -3000,
+     "n": 25,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": 0.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 0.0,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 23,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 2
+     }
+    },
+    {
+     "a": -3000,
+     "b": -2500,
+     "n": 6,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": 0.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 0.0,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 6,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -2500,
+     "b": -2000,
+     "n": 33,
+     "r1b": 30,
+     "r1a": 0,
+     "r1b_pct": 90.91,
+     "r1a_pct": 0.0,
+     "steppe_pct": 90.91,
+     "clades": {
+      "R1b": 30,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 3,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -2000,
+     "b": -1500,
+     "n": 23,
+     "r1b": 20,
+     "r1a": 0,
+     "r1b_pct": 86.96,
+     "r1a_pct": 0.0,
+     "steppe_pct": 86.96,
+     "clades": {
+      "R1b": 20,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 3,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -1500,
+     "b": -1000,
+     "n": 26,
+     "r1b": 19,
+     "r1a": 0,
+     "r1b_pct": 73.08,
+     "r1a_pct": 0.0,
+     "steppe_pct": 73.08,
+     "clades": {
+      "R1b": 19,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 7,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -1000,
+     "b": -500,
+     "n": 17,
+     "r1b": 17,
+     "r1a": 0,
+     "r1b_pct": 100.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 100.0,
+     "clades": {
+      "R1b": 17,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 0,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -500,
+     "b": 0,
+     "n": 145,
+     "r1b": 130,
+     "r1a": 0,
+     "r1b_pct": 89.66,
+     "r1a_pct": 0.0,
+     "steppe_pct": 89.66,
+     "clades": {
+      "R1b": 130,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 8,
+      "G2": 7,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": 0,
+     "b": 500,
+     "n": 40,
+     "r1b": 35,
+     "r1a": 0,
+     "r1b_pct": 87.5,
+     "r1a_pct": 0.0,
+     "steppe_pct": 87.5,
+     "clades": {
+      "R1b": 35,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 3,
+      "G2": 1,
+      "J1": 0,
+      "J2": 1,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": 500,
+     "b": 1000,
+     "n": 123,
+     "r1b": 63,
+     "r1a": 4,
+     "r1b_pct": 51.22,
+     "r1a_pct": 3.25,
+     "steppe_pct": 54.47,
+     "clades": {
+      "R1b": 63,
+      "R1a": 4,
+      "I1": 39,
+      "I2": 10,
+      "G2": 1,
+      "J1": 0,
+      "J2": 1,
+      "E1b": 1,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 4
+     }
+    },
+    {
+     "a": 1000,
+     "b": 1500,
+     "n": 57,
+     "r1b": 30,
+     "r1a": 6,
+     "r1b_pct": 52.63,
+     "r1a_pct": 10.53,
+     "steppe_pct": 63.16,
+     "clades": {
+      "R1b": 30,
+      "R1a": 6,
+      "I1": 8,
+      "I2": 2,
+      "G2": 0,
+      "J1": 0,
+      "J2": 1,
+      "E1b": 3,
+      "N": 0,
+      "Q": 1,
+      "C": 0,
+      "O": 0,
+      "H": 1,
+      "T": 0,
+      "L": 2,
+      "D": 0,
+      "Other": 3
+     }
+    },
+    {
+     "a": 1500,
+     "b": 2000,
+     "n": 1,
+     "r1b": 1,
+     "r1a": 0,
+     "r1b_pct": 100.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 100.0,
+     "clades": {
+      "R1b": 1,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 0,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    }
+   ],
+   "pre3000_n": 70,
+   "pre3000_r": 0,
+   "pre3000_pct": 0.0,
+   "ba_n": 56,
+   "ba_r": 50,
+   "ba_pct": 89.29,
+   "ba_r1b_pct": 89.29,
+   "ba_r1a_pct": 0.0,
+   "first50": -2500
+  },
+  "Iberia": {
+   "desc": "Spain, Portugal and Gibraltar",
+   "men": 335,
+   "bins": [
+    {
+     "a": -7000,
+     "b": -6500,
+     "n": 0,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": null,
+     "r1a_pct": null,
+     "steppe_pct": null,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 0,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -6500,
+     "b": -6000,
+     "n": 0,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": null,
+     "r1a_pct": null,
+     "steppe_pct": null,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 0,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -6000,
+     "b": -5500,
+     "n": 4,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": 0.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 0.0,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 2,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 2,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -5500,
+     "b": -5000,
+     "n": 7,
+     "r1b": 1,
+     "r1a": 0,
+     "r1b_pct": 14.29,
+     "r1a_pct": 0.0,
+     "steppe_pct": 14.29,
+     "clades": {
+      "R1b": 1,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 4,
+      "G2": 2,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -5000,
+     "b": -4500,
+     "n": 0,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": null,
+     "r1a_pct": null,
+     "steppe_pct": null,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 0,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -4500,
+     "b": -4000,
+     "n": 0,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": null,
+     "r1a_pct": null,
+     "steppe_pct": null,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 0,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -4000,
+     "b": -3500,
+     "n": 10,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": 0.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 0.0,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 5,
+      "G2": 1,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 1,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 2,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 1
+     }
+    },
+    {
+     "a": -3500,
+     "b": -3000,
+     "n": 25,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": 0.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 0.0,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 19,
+      "G2": 3,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 2,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 1
+     }
+    },
+    {
+     "a": -3000,
+     "b": -2500,
+     "n": 53,
+     "r1b": 1,
+     "r1a": 0,
+     "r1b_pct": 1.89,
+     "r1a_pct": 0.0,
+     "steppe_pct": 1.89,
+     "clades": {
+      "R1b": 1,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 31,
+      "G2": 10,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 5,
+      "T": 1,
+      "L": 0,
+      "D": 0,
+      "Other": 5
+     }
+    },
+    {
+     "a": -2500,
+     "b": -2000,
+     "n": 32,
+     "r1b": 16,
+     "r1a": 0,
+     "r1b_pct": 50.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 50.0,
+     "clades": {
+      "R1b": 16,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 11,
+      "G2": 1,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 2,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 1,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 1
+     }
+    },
+    {
+     "a": -2000,
+     "b": -1500,
+     "n": 58,
+     "r1b": 56,
+     "r1a": 0,
+     "r1b_pct": 96.55,
+     "r1a_pct": 0.0,
+     "steppe_pct": 96.55,
+     "clades": {
+      "R1b": 56,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 1,
+      "G2": 1,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -1500,
+     "b": -1000,
+     "n": 9,
+     "r1b": 9,
+     "r1a": 0,
+     "r1b_pct": 100.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 100.0,
+     "clades": {
+      "R1b": 9,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 0,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -1000,
+     "b": -500,
+     "n": 6,
+     "r1b": 4,
+     "r1a": 0,
+     "r1b_pct": 66.67,
+     "r1a_pct": 0.0,
+     "steppe_pct": 66.67,
+     "clades": {
+      "R1b": 4,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 0,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 1,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 1,
+      "Other": 0
+     }
+    },
+    {
+     "a": -500,
+     "b": 0,
+     "n": 28,
+     "r1b": 18,
+     "r1a": 1,
+     "r1b_pct": 64.29,
+     "r1a_pct": 3.57,
+     "steppe_pct": 67.86,
+     "clades": {
+      "R1b": 18,
+      "R1a": 1,
+      "I1": 0,
+      "I2": 1,
+      "G2": 0,
+      "J1": 1,
+      "J2": 2,
+      "E1b": 2,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 1,
+      "L": 0,
+      "D": 0,
+      "Other": 2
+     }
+    },
+    {
+     "a": 0,
+     "b": 500,
+     "n": 12,
+     "r1b": 5,
+     "r1a": 0,
+     "r1b_pct": 41.67,
+     "r1a_pct": 0.0,
+     "steppe_pct": 41.67,
+     "clades": {
+      "R1b": 5,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 0,
+      "G2": 1,
+      "J1": 1,
+      "J2": 2,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 2,
+      "L": 1,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": 500,
+     "b": 1000,
+     "n": 45,
+     "r1b": 31,
+     "r1a": 0,
+     "r1b_pct": 68.89,
+     "r1a_pct": 0.0,
+     "steppe_pct": 68.89,
+     "clades": {
+      "R1b": 31,
+      "R1a": 0,
+      "I1": 1,
+      "I2": 0,
+      "G2": 1,
+      "J1": 2,
+      "J2": 1,
+      "E1b": 4,
+      "N": 0,
+      "Q": 0,
+      "C": 1,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 1,
+      "D": 0,
+      "Other": 3
+     }
+    },
+    {
+     "a": 1000,
+     "b": 1500,
+     "n": 36,
+     "r1b": 13,
+     "r1a": 1,
+     "r1b_pct": 36.11,
+     "r1a_pct": 2.78,
+     "steppe_pct": 38.89,
+     "clades": {
+      "R1b": 13,
+      "R1a": 1,
+      "I1": 0,
+      "I2": 0,
+      "G2": 0,
+      "J1": 0,
+      "J2": 6,
+      "E1b": 11,
+      "N": 0,
+      "Q": 1,
+      "C": 1,
+      "O": 0,
+      "H": 0,
+      "T": 1,
+      "L": 0,
+      "D": 0,
+      "Other": 2
+     }
+    },
+    {
+     "a": 1500,
+     "b": 2000,
+     "n": 6,
+     "r1b": 2,
+     "r1a": 0,
+     "r1b_pct": 33.33,
+     "r1a_pct": 0.0,
+     "steppe_pct": 33.33,
+     "clades": {
+      "R1b": 2,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 1,
+      "G2": 0,
+      "J1": 1,
+      "J2": 0,
+      "E1b": 2,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    }
+   ],
+   "pre3000_n": 50,
+   "pre3000_r": 1,
+   "pre3000_pct": 2.0,
+   "ba_n": 90,
+   "ba_r": 72,
+   "ba_pct": 80.0,
+   "ba_r1b_pct": 80.0,
+   "ba_r1a_pct": 0.0,
+   "first50": -2500
+  },
+  "Scandinavia": {
+   "desc": "Denmark, Sweden and Norway",
+   "men": 597,
+   "bins": [
+    {
+     "a": -7000,
+     "b": -6500,
+     "n": 0,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": null,
+     "r1a_pct": null,
+     "steppe_pct": null,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 0,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -6500,
+     "b": -6000,
+     "n": 1,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": 0.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 0.0,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 1,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -6000,
+     "b": -5500,
+     "n": 7,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": 0.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 0.0,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 7,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -5500,
+     "b": -5000,
+     "n": 7,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": 0.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 0.0,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 5,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 2
+     }
+    },
+    {
+     "a": -5000,
+     "b": -4500,
+     "n": 4,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": 0.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 0.0,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 4,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -4500,
+     "b": -4000,
+     "n": 7,
+     "r1b": 1,
+     "r1a": 0,
+     "r1b_pct": 14.29,
+     "r1a_pct": 0.0,
+     "steppe_pct": 14.29,
+     "clades": {
+      "R1b": 1,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 5,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 1
+     }
+    },
+    {
+     "a": -4000,
+     "b": -3500,
+     "n": 9,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": 0.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 0.0,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 7,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 2
+     }
+    },
+    {
+     "a": -3500,
+     "b": -3000,
+     "n": 50,
+     "r1b": 1,
+     "r1a": 1,
+     "r1b_pct": 2.0,
+     "r1a_pct": 2.0,
+     "steppe_pct": 4.0,
+     "clades": {
+      "R1b": 1,
+      "R1a": 1,
+      "I1": 0,
+      "I2": 39,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 2,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 7
+     }
+    },
+    {
+     "a": -3000,
+     "b": -2500,
+     "n": 45,
+     "r1b": 8,
+     "r1a": 4,
+     "r1b_pct": 17.78,
+     "r1a_pct": 8.89,
+     "steppe_pct": 26.67,
+     "clades": {
+      "R1b": 8,
+      "R1a": 4,
+      "I1": 0,
+      "I2": 29,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 4
+     }
+    },
+    {
+     "a": -2500,
+     "b": -2000,
+     "n": 30,
+     "r1b": 10,
+     "r1a": 8,
+     "r1b_pct": 33.33,
+     "r1a_pct": 26.67,
+     "steppe_pct": 60.0,
+     "clades": {
+      "R1b": 10,
+      "R1a": 8,
+      "I1": 10,
+      "I2": 2,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -2000,
+     "b": -1500,
+     "n": 17,
+     "r1b": 5,
+     "r1a": 1,
+     "r1b_pct": 29.41,
+     "r1a_pct": 5.88,
+     "steppe_pct": 35.29,
+     "clades": {
+      "R1b": 5,
+      "R1a": 1,
+      "I1": 10,
+      "I2": 1,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -1500,
+     "b": -1000,
+     "n": 17,
+     "r1b": 2,
+     "r1a": 8,
+     "r1b_pct": 11.76,
+     "r1a_pct": 47.06,
+     "steppe_pct": 58.82,
+     "clades": {
+      "R1b": 2,
+      "R1a": 8,
+      "I1": 5,
+      "I2": 1,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 1
+     }
+    },
+    {
+     "a": -1000,
+     "b": -500,
+     "n": 9,
+     "r1b": 2,
+     "r1a": 2,
+     "r1b_pct": 22.22,
+     "r1a_pct": 22.22,
+     "steppe_pct": 44.44,
+     "clades": {
+      "R1b": 2,
+      "R1a": 2,
+      "I1": 0,
+      "I2": 3,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 1,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 1
+     }
+    },
+    {
+     "a": -500,
+     "b": 0,
+     "n": 20,
+     "r1b": 5,
+     "r1a": 6,
+     "r1b_pct": 25.0,
+     "r1a_pct": 30.0,
+     "steppe_pct": 55.0,
+     "clades": {
+      "R1b": 5,
+      "R1a": 6,
+      "I1": 6,
+      "I2": 2,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 1
+     }
+    },
+    {
+     "a": 0,
+     "b": 500,
+     "n": 102,
+     "r1b": 32,
+     "r1a": 13,
+     "r1b_pct": 31.37,
+     "r1a_pct": 12.75,
+     "steppe_pct": 44.12,
+     "clades": {
+      "R1b": 32,
+      "R1a": 13,
+      "I1": 39,
+      "I2": 12,
+      "G2": 1,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 2,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 1,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 2
+     }
+    },
+    {
+     "a": 500,
+     "b": 1000,
+     "n": 154,
+     "r1b": 44,
+     "r1a": 31,
+     "r1b_pct": 28.57,
+     "r1a_pct": 20.13,
+     "steppe_pct": 48.7,
+     "clades": {
+      "R1b": 44,
+      "R1a": 31,
+      "I1": 51,
+      "I2": 8,
+      "G2": 4,
+      "J1": 0,
+      "J2": 2,
+      "E1b": 5,
+      "N": 7,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 1,
+      "D": 0,
+      "Other": 1
+     }
+    },
+    {
+     "a": 1000,
+     "b": 1500,
+     "n": 91,
+     "r1b": 32,
+     "r1a": 14,
+     "r1b_pct": 35.16,
+     "r1a_pct": 15.38,
+     "steppe_pct": 50.55,
+     "clades": {
+      "R1b": 32,
+      "R1a": 14,
+      "I1": 26,
+      "I2": 6,
+      "G2": 2,
+      "J1": 0,
+      "J2": 2,
+      "E1b": 1,
+      "N": 4,
+      "Q": 1,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 1,
+      "L": 0,
+      "D": 0,
+      "Other": 2
+     }
+    },
+    {
+     "a": 1500,
+     "b": 2000,
+     "n": 20,
+     "r1b": 5,
+     "r1a": 4,
+     "r1b_pct": 25.0,
+     "r1a_pct": 20.0,
+     "steppe_pct": 45.0,
+     "clades": {
+      "R1b": 5,
+      "R1a": 4,
+      "I1": 8,
+      "I2": 0,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 2,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 1
+     }
+    }
+   ],
+   "pre3000_n": 92,
+   "pre3000_r": 3,
+   "pre3000_pct": 3.26,
+   "ba_n": 47,
+   "ba_r": 24,
+   "ba_pct": 51.06,
+   "ba_r1b_pct": 31.91,
+   "ba_r1a_pct": 19.15,
+   "first50": -2500
+  },
+  "Central Europe": {
+   "desc": "Germany, Czechia, Austria, Switzerland, Poland and Slovakia",
+   "men": 1143,
+   "bins": [
+    {
+     "a": -7000,
+     "b": -6500,
+     "n": 1,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": 0.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 0.0,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 1,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -6500,
+     "b": -6000,
+     "n": 2,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": 0.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 0.0,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 1,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 1
+     }
+    },
+    {
+     "a": -6000,
+     "b": -5500,
+     "n": 3,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": 0.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 0.0,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 2,
+      "G2": 1,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -5500,
+     "b": -5000,
+     "n": 111,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": 0.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 0.0,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 5,
+      "G2": 50,
+      "J1": 0,
+      "J2": 6,
+      "E1b": 1,
+      "N": 0,
+      "Q": 0,
+      "C": 26,
+      "O": 0,
+      "H": 17,
+      "T": 4,
+      "L": 0,
+      "D": 0,
+      "Other": 2
+     }
+    },
+    {
+     "a": -5000,
+     "b": -4500,
+     "n": 8,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": 0.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 0.0,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 0,
+      "G2": 3,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 3,
+      "O": 0,
+      "H": 1,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 1
+     }
+    },
+    {
+     "a": -4500,
+     "b": -4000,
+     "n": 9,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": 0.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 0.0,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 4,
+      "G2": 5,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -4000,
+     "b": -3500,
+     "n": 20,
+     "r1b": 8,
+     "r1a": 0,
+     "r1b_pct": 40.0,
+     "r1a_pct": 0.0,
+     "steppe_pct": 40.0,
+     "clades": {
+      "R1b": 8,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 5,
+      "G2": 1,
+      "J1": 0,
+      "J2": 1,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 2,
+      "O": 0,
+      "H": 1,
+      "T": 1,
+      "L": 0,
+      "D": 0,
+      "Other": 1
+     }
+    },
+    {
+     "a": -3500,
+     "b": -3000,
+     "n": 45,
+     "r1b": 2,
+     "r1a": 0,
+     "r1b_pct": 4.44,
+     "r1a_pct": 0.0,
+     "steppe_pct": 4.44,
+     "clades": {
+      "R1b": 2,
+      "R1a": 0,
+      "I1": 1,
+      "I2": 27,
+      "G2": 12,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 1,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 2
+     }
+    },
+    {
+     "a": -3000,
+     "b": -2500,
+     "n": 68,
+     "r1b": 16,
+     "r1a": 7,
+     "r1b_pct": 23.53,
+     "r1a_pct": 10.29,
+     "steppe_pct": 33.82,
+     "clades": {
+      "R1b": 16,
+      "R1a": 7,
+      "I1": 0,
+      "I2": 18,
+      "G2": 23,
+      "J1": 0,
+      "J2": 1,
+      "E1b": 0,
+      "N": 0,
+      "Q": 1,
+      "C": 0,
+      "O": 0,
+      "H": 2,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -2500,
+     "b": -2000,
+     "n": 150,
+     "r1b": 99,
+     "r1a": 31,
+     "r1b_pct": 66.0,
+     "r1a_pct": 20.67,
+     "steppe_pct": 86.67,
+     "clades": {
+      "R1b": 99,
+      "R1a": 31,
+      "I1": 0,
+      "I2": 18,
+      "G2": 2,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    },
+    {
+     "a": -2000,
+     "b": -1500,
+     "n": 61,
+     "r1b": 35,
+     "r1a": 8,
+     "r1b_pct": 57.38,
+     "r1a_pct": 13.11,
+     "steppe_pct": 70.49,
+     "clades": {
+      "R1b": 35,
+      "R1a": 8,
+      "I1": 0,
+      "I2": 15,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 1,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 1,
+      "Other": 1
+     }
+    },
+    {
+     "a": -1500,
+     "b": -1000,
+     "n": 32,
+     "r1b": 16,
+     "r1a": 6,
+     "r1b_pct": 50.0,
+     "r1a_pct": 18.75,
+     "steppe_pct": 68.75,
+     "clades": {
+      "R1b": 16,
+      "R1a": 6,
+      "I1": 0,
+      "I2": 9,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 1
+     }
+    },
+    {
+     "a": -1000,
+     "b": -500,
+     "n": 28,
+     "r1b": 13,
+     "r1a": 0,
+     "r1b_pct": 46.43,
+     "r1a_pct": 0.0,
+     "steppe_pct": 46.43,
+     "clades": {
+      "R1b": 13,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 4,
+      "G2": 8,
+      "J1": 0,
+      "J2": 1,
+      "E1b": 1,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 1
+     }
+    },
+    {
+     "a": -500,
+     "b": 0,
+     "n": 42,
+     "r1b": 30,
+     "r1a": 3,
+     "r1b_pct": 71.43,
+     "r1a_pct": 7.14,
+     "steppe_pct": 78.57,
+     "clades": {
+      "R1b": 30,
+      "R1a": 3,
+      "I1": 0,
+      "I2": 3,
+      "G2": 2,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 1,
+      "N": 1,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 2
+     }
+    },
+    {
+     "a": 0,
+     "b": 500,
+     "n": 59,
+     "r1b": 18,
+     "r1a": 4,
+     "r1b_pct": 30.51,
+     "r1a_pct": 6.78,
+     "steppe_pct": 37.29,
+     "clades": {
+      "R1b": 18,
+      "R1a": 4,
+      "I1": 11,
+      "I2": 4,
+      "G2": 9,
+      "J1": 0,
+      "J2": 3,
+      "E1b": 3,
+      "N": 2,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 5
+     }
+    },
+    {
+     "a": 500,
+     "b": 1000,
+     "n": 368,
+     "r1b": 57,
+     "r1a": 51,
+     "r1b_pct": 15.49,
+     "r1a_pct": 13.86,
+     "steppe_pct": 29.35,
+     "clades": {
+      "R1b": 57,
+      "R1a": 51,
+      "I1": 12,
+      "I2": 42,
+      "G2": 19,
+      "J1": 13,
+      "J2": 12,
+      "E1b": 54,
+      "N": 2,
+      "Q": 0,
+      "C": 63,
+      "O": 1,
+      "H": 0,
+      "T": 31,
+      "L": 2,
+      "D": 1,
+      "Other": 8
+     }
+    },
+    {
+     "a": 1000,
+     "b": 1500,
+     "n": 127,
+     "r1b": 18,
+     "r1a": 70,
+     "r1b_pct": 14.17,
+     "r1a_pct": 55.12,
+     "steppe_pct": 69.29,
+     "clades": {
+      "R1b": 18,
+      "R1a": 70,
+      "I1": 7,
+      "I2": 4,
+      "G2": 1,
+      "J1": 3,
+      "J2": 5,
+      "E1b": 7,
+      "N": 4,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 1,
+      "L": 0,
+      "D": 0,
+      "Other": 7
+     }
+    },
+    {
+     "a": 1500,
+     "b": 2000,
+     "n": 0,
+     "r1b": 0,
+     "r1a": 0,
+     "r1b_pct": null,
+     "r1a_pct": null,
+     "steppe_pct": null,
+     "clades": {
+      "R1b": 0,
+      "R1a": 0,
+      "I1": 0,
+      "I2": 0,
+      "G2": 0,
+      "J1": 0,
+      "J2": 0,
+      "E1b": 0,
+      "N": 0,
+      "Q": 0,
+      "C": 0,
+      "O": 0,
+      "H": 0,
+      "T": 0,
+      "L": 0,
+      "D": 0,
+      "Other": 0
+     }
+    }
+   ],
+   "pre3000_n": 208,
+   "pre3000_r": 10,
+   "pre3000_pct": 4.81,
+   "ba_n": 211,
+   "ba_r": 173,
+   "ba_pct": 81.99,
+   "ba_r1b_pct": 63.51,
+   "ba_r1a_pct": 18.48,
+   "first50": -2500
+  }
+ },
+ "britain": {
+  "pre_n": 76,
+  "pre_r1b": 0,
+  "pre_r1a": 0,
+  "pre_i2": 71,
+  "pre_i2_pct": 93.42,
+  "post_n": 56,
+  "post_r1b": 50,
+  "post_r1b_pct": 89.29,
+  "first_r1b_id": "I3071",
+  "first_r1b_group": "England_BellBeaker-ohighEEF",
+  "first_r1b_year": -2383,
+  "first_r1b_date": "2468-2294 calBCE (3900±30 BP, SUERC-32210)",
+  "first_r1b_site": "Canada Farm (England, Dorset, Sixpenny Handley)",
+  "men": 541,
+  "neo_n": 74,
+  "ia_n": 169,
+  "ia_r1b_pct": 91.12,
+  "em_n": 136,
+  "em_r1b_pct": 50.0,
+  "em_i1_pct": 30.15,
+  "beaker_n": 20,
+  "beaker_r1b": 19
+ },
+ "europe_y": {
+  "early": {
+   "a": -5000,
+   "b": -3000,
+   "men": 761,
+   "r_pct": 7.88,
+   "r1b": 53,
+   "r1a": 7,
+   "i2g2_pct": 68.07
+  },
+  "late": {
+   "a": -2500,
+   "b": -1500,
+   "men": 639,
+   "r_pct": 64.95,
+   "r1b": 352,
+   "r1a": 63,
+   "i2g2_pct": 17.84
+  }
+ },
+ "scand_i1": {
+  "men": 256,
+  "i1_pct": 35.16
+ },
+ "yamnaya": {
+  "men": 163,
+  "r1b": 128,
+  "r1a": 1,
+  "r1b_pct": 78.53,
+  "r1a_pct": 0.61,
+  "all": 264,
+  "q10": -3052,
+  "q90": -2672
+ },
+ "corded": {
+  "men": 46,
+  "r1b": 19,
+  "r1a": 23,
+  "r1b_pct": 41.3,
+  "r1a_pct": 50.0,
+  "all": 101,
+  "q10": -2768,
+  "q90": -2319
+ },
+ "beaker": {
+  "men": 114,
+  "r1b": 108,
+  "r1a": 1,
+  "r1b_pct": 94.74,
+  "r1a_pct": 0.88,
+  "all": 223,
+  "q10": -2374,
+  "q90": -2081
+ },
+ "neo_y": {
+  "men": 901,
+  "g2_pct": 25.75,
+  "i2_pct": 44.62,
+  "r_pct": 8.66
+ },
+ "anatolia_y": {
+  "men": 80,
+  "top": "G2",
+  "top_pct": 25.0,
+  "g2_pct": 25.0
+ },
+ "neolithic": {
+  "countries": [
+   {
+    "country": "Turkey",
+    "n": 175,
+    "year": -8750,
+    "yr": "8750 BCE",
+    "id": "I8432",
+    "group": "Turkey_PPNA",
+    "site": "Boncuklu Tarla (Southeast, Mardin, Dargeçit, Ilısu)",
+    "lat": 37.526,
+    "lon": 41.845,
+    "km": 794,
+    "date": "9000-8500 BCE",
+    "median_year": -6550
+   },
+   {
+    "country": "Greece",
+    "n": 14,
+    "year": -6366,
+    "yr": "6366 BCE",
+    "id": "Rev5",
+    "group": "Greece_North_N",
+    "site": "Revenia (Epirus-Western Macedonia, Ipeiroy)",
+    "lat": 39.489,
+    "lon": 20.918,
+    "km": 1054,
+    "date": "6434-6257 calBCE (7505±25 BP, MAMS-23036)",
+    "median_year": -5954
+   },
+   {
+    "country": "Serbia",
+    "n": 19,
+    "year": -6143,
+    "yr": "6143 BCE",
+    "id": "LEPE52",
+    "group": "Serbia_EMN",
+    "site": "Lepenski-Vir (Bor District, Majdanpek Municipality, Boljetin)",
+    "lat": 44.553,
+    "lon": 22.028,
+    "km": 1184,
+    "date": "6223-6064 calBCE (7265±30 BP,",
+    "median_year": -5700
+   },
+   {
+    "country": "Italy",
+    "n": 40,
+    "year": -6031,
+    "yr": "6031 BCE",
+    "id": "R2",
+    "group": "Italy_Abruzzo_N",
+    "site": "Grotta Continenza (Abruzzo, L'Aquila)",
+    "lat": 41.958,
+    "lon": 13.544,
+    "km": 1711,
+    "date": "6068-5993 calBCE (7165±20 BP, UCIAMS-198574)",
+    "median_year": -4778
+   },
+   {
+    "country": "Romania",
+    "n": 19,
+    "year": -6021,
+    "yr": "6021 BCE",
+    "id": "I6174",
+    "group": "Romania_EN_Starcevo",
+    "site": "Teleor-3 (Teleorman County, Măgura)",
+    "lat": 44.027,
+    "lon": 25.392,
+    "km": 943,
+    "date": "6074-5927 calBCE (7155±35 BP, PSUAMS-3903)",
+    "median_year": -5461
+   },
+   {
+    "country": "Hungary",
+    "n": 186,
+    "year": -5990,
+    "yr": "5990 BCE",
+    "id": "I29877",
+    "group": "Hungary_EN_LBK_DVK",
+    "site": "Egerág-Gyilkos-tó (Baranya County, Northwest of Egerág Village, HT 156)",
+    "lat": 45.98,
+    "lon": 18.15,
+    "km": 1524,
+    "date": "6069-5909 calBCE (7120±40 BP, PSUAMS-15083)",
+    "median_year": -5122
+   },
+   {
+    "country": "Bulgaria",
+    "n": 22,
+    "year": -5950,
+    "yr": "5950 BCE",
+    "id": "I0698",
+    "group": "Bulgaria_Yabalkovo_N",
+    "site": "Yabalkovo (Haskovo Province, Dimitrovgrad Municipality)",
+    "lat": 42.077,
+    "lon": 25.451,
+    "km": 797,
+    "date": "6000-5900 BCE",
+    "median_year": -5664
+   },
+   {
+    "country": "Croatia",
+    "n": 33,
+    "year": -5913,
+    "yr": "5913 BCE",
+    "id": "I3948",
+    "group": "Croatia_N_Cardial",
+    "site": "Zemunica Cave (Split-Dalmatia County, Općina Dugopolje, Vladovići)",
+    "lat": 43.589,
+    "lon": 16.648,
+    "km": 1512,
+    "date": "6007-5803 calBCE (7030±40 BP, PSUAMS-2224)",
+    "median_year": -4635
+   },
+   {
+    "country": "Austria",
+    "n": 88,
+    "year": -5578,
+    "yr": "5578 BCE",
+    "id": "Asp6",
+    "group": "Austria_N_LBK",
+    "site": "Asparn Schletz (Niederösterreich, Mistelbach)",
+    "lat": 48.58,
+    "lon": 16.469,
+    "km": 1792,
+    "date": "5626-5525 calBCE (6646±21 BP)",
+    "median_year": -5150
+   },
+   {
+    "country": "France",
+    "n": 187,
+    "year": -5413,
+    "yr": "5413 BCE",
+    "id": "PEN003",
+    "group": "France_EN",
+    "site": "Pendimoun (Provence-Alpes-Côte d'Azur Region, Alpes-Maritimes Department, Nice Arrondissement)",
+    "lat": 43.81,
+    "lon": 7.51,
+    "km": 2230,
+    "date": "5479-5331 calBCE (6450±40 BP, GrA-32061)",
+    "median_year": -4500
+   },
+   {
+    "country": "Spain",
+    "n": 63,
+    "year": -5395,
+    "yr": "5395 BCE",
+    "id": "CB13",
+    "group": "Spain_EN",
+    "site": "Cova Bonica (Catalonia, Barcelona, Vallirana)",
+    "lat": 41.37,
+    "lon": 1.89,
+    "km": 2671,
+    "date": "5474-5318 calBCE (6410±30 BP, Beta-384724)",
+    "median_year": -3577
+   },
+   {
+    "country": "Portugal",
+    "n": 22,
+    "year": -5352,
+    "yr": "5352 BCE",
+    "id": "NEO632",
+    "group": "Portugal_EN_Cardial",
+    "site": "Gruta do Caldeirão (Santarém, Além da Ribeira e Pedreira)",
+    "lat": 39.648,
+    "lon": -8.415,
+    "km": 3556,
+    "date": "5474-5320 calBCE (6415±36 BP, UBA-40088)",
+    "median_year": -3075
+   },
+   {
+    "country": "Czechia",
+    "n": 41,
+    "year": -5250,
+    "yr": "5250 BCE",
+    "id": "I15818",
+    "group": "Czechia_EN_LBK",
+    "site": "Bžany (Ústecký Region, Teplice District)",
+    "lat": 50.591,
+    "lon": 13.876,
+    "km": 2075,
+    "date": "5500-5000 BCE",
+    "median_year": -3663
+   },
+   {
+    "country": "Germany",
+    "n": 157,
+    "year": -5249,
+    "yr": "5249 BCE",
+    "id": "XN191",
+    "group": "Germany_StuttgartMuhlhausen2_EN",
+    "site": "Stuttgart-Mühlhausen-2 (Baden-Württemberg, Stuttgart-Stadtkreis)",
+    "lat": 48.78,
+    "lon": 9.18,
+    "km": 2265,
+    "date": "5316-5081 calBCE (6267±30 BP, MAMS-25931)",
+    "median_year": -5097
+   },
+   {
+    "country": "Slovakia",
+    "n": 57,
+    "year": -5150,
+    "yr": "5150 BCE",
+    "id": "I11866",
+    "group": "Slovakia_N_LBK",
+    "site": "Nitra-Horné-Krškany (Nitra Region, Nitra District, Nitra)",
+    "lat": 48.283,
+    "lon": 18.085,
+    "km": 1677,
+    "date": "5400-4900 BCE",
+    "median_year": -5150
+   },
+   {
+    "country": "Poland",
+    "n": 52,
+    "year": -4441,
+    "yr": "4441 BCE",
+    "id": "poz252",
+    "group": "Poland_N_LLBK_LLengyel",
+    "site": "Siniarzewo-1 (Kuyavian-Pomeranian Province, Aleksandrów County, Zakrzewo)",
+    "lat": 52.732,
+    "lon": 18.686,
+    "km": 2001,
+    "date": "4531-4353 calBCE (5605±35 BP, Poz-87727)",
+    "median_year": -3000
+   },
+   {
+    "country": "Switzerland",
+    "n": 50,
+    "year": -4405,
+    "yr": "4405 BCE",
+    "id": "TU877(SX11)",
+    "group": "Switzerland_LN",
+    "site": "Niederried Ursisbalm (Bern, Seeland)",
+    "lat": 47.012,
+    "lon": 7.251,
+    "km": 2331,
+    "date": "4455-4355 calBCE (5587±22 BP, BE-8011.1.1)",
+    "median_year": -2948
+   },
+   {
+    "country": "Channel Islands",
+    "n": 6,
+    "year": -4141,
+    "yr": "4141 BCE",
+    "id": "I16437",
+    "group": "ChannelIslands_MN",
+    "site": "Le Déhus (Guernsey, Vale)",
+    "lat": 49.497,
+    "lon": -2.506,
+    "km": 3098,
+    "date": "4241-4050 calBCE (5315±21 BP)",
+    "median_year": -3542
+   },
+   {
+    "country": "Denmark",
+    "n": 58,
+    "year": -4110,
+    "yr": "4110 BCE",
+    "id": "NEO960",
+    "group": "Denmark_EN_N_TRB",
+    "site": "Ravnsbjerggard II (Zealand Region)",
+    "lat": 55.581,
+    "lon": 11.578,
+    "km": 2548,
+    "date": "4315-3995 calBCE (5308±43 BP, AAR-10993; BCH198:4a+b)",
+    "median_year": -3229
+   },
+   {
+    "country": "United Kingdom",
+    "n": 113,
+    "year": -3981,
+    "yr": "3981 BCE",
+    "id": "I12438",
+    "group": "England_EN_Megalithic",
+    "site": "Hazleton North (England, Gloucestershire, Cheltenham)",
+    "lat": 51.861,
+    "lon": -1.883,
+    "km": 3120,
+    "date": "4045-3946 calBCE (5165±25 BP, PSUAMS-14097)",
+    "median_year": -3573
+   },
+   {
+    "country": "Ireland",
+    "n": 50,
+    "year": -3796,
+    "yr": "3796 BCE",
+    "id": "PN10_PN113",
+    "group": "Ireland_EN",
+    "site": "Poulnabrone (Clare County)",
+    "lat": 53.049,
+    "lon": -9.14,
+    "km": 3629,
+    "date": "3945-3656 calBCE (5004±31 BP, OxA-25950)",
+    "median_year": -3492
+   },
+   {
+    "country": "Sweden",
+    "n": 116,
+    "year": -3796,
+    "yr": "3796 BCE",
+    "id": "Kvarlov5164",
+    "group": "Sweden_MN",
+    "site": "Skåne (Gävleborgs län, Hudiksvall)",
+    "lat": 61.658,
+    "lon": 17.004,
+    "km": 2883,
+    "date": "3945-3647 calBCE",
+    "median_year": -3022
+   },
+   {
+    "country": "Netherlands",
+    "n": 5,
+    "year": -3700,
+    "yr": "3700 BCE",
+    "id": "I35542",
+    "group": "Netherlands_MN",
+    "site": "Tiel-Medel (Gelderland)",
+    "lat": 51.917,
+    "lon": 5.469,
+    "km": 2652,
+    "date": "3800-3600 BCE",
+    "median_year": -3700
+   },
+   {
+    "country": "Belgium",
+    "n": 18,
+    "year": -3203,
+    "yr": "3203 BCE",
+    "id": "I13627",
+    "group": "Belgium_N",
+    "site": "Trou Al'Wesse (Liège Province, Modave)",
+    "lat": 50.431,
+    "lon": 5.295,
+    "km": 2595,
+    "date": "3334-3028 calBCE (4466±21 BP, OxA-39060)",
+    "median_year": -2800
+   }
+  ],
+  "n_countries": 24,
+  "n_ind": 1597,
+  "slope_yr_per_km": 0.884,
+  "km_per_year": 1.13,
+  "drop": {
+   "mixed_label": 47,
+   "after": 1597,
+   "before": 1747
+  },
+  "r": 0.75,
+  "r2": 0.56,
+  "intercept": -6933,
+  "first": {
+   "country": "Turkey",
+   "n": 175,
+   "year": -8750,
+   "yr": "8750 BCE",
+   "id": "I8432",
+   "group": "Turkey_PPNA",
+   "site": "Boncuklu Tarla (Southeast, Mardin, Dargeçit, Ilısu)",
+   "lat": 37.526,
+   "lon": 41.845,
+   "km": 794,
+   "date": "9000-8500 BCE",
+   "median_year": -6550
+  },
+  "last": {
+   "country": "Belgium",
+   "n": 18,
+   "year": -3203,
+   "yr": "3203 BCE",
+   "id": "I13627",
+   "group": "Belgium_N",
+   "site": "Trou Al'Wesse (Liège Province, Modave)",
+   "lat": 50.431,
+   "lon": 5.295,
+   "km": 2595,
+   "date": "3334-3028 calBCE (4466±21 BP, OxA-39060)",
+   "median_year": -2800
+  },
+  "excluded": [
+   "Belarus",
+   "Estonia",
+   "Finland",
+   "Latvia",
+   "Lithuania",
+   "Moldova",
+   "Russia",
+   "Ukraine"
+  ],
+  "turkey_year": -8750,
+  "span_years": 5547,
+  "ireland_gap": 4954,
+  "by_country": {
+   "Austria": {
+    "country": "Austria",
+    "n": 88,
+    "year": -5578,
+    "yr": "5578 BCE",
+    "id": "Asp6",
+    "group": "Austria_N_LBK",
+    "site": "Asparn Schletz (Niederösterreich, Mistelbach)",
+    "lat": 48.58,
+    "lon": 16.469,
+    "km": 1792,
+    "date": "5626-5525 calBCE (6646±21 BP)",
+    "median_year": -5150
+   },
+   "Belgium": {
+    "country": "Belgium",
+    "n": 18,
+    "year": -3203,
+    "yr": "3203 BCE",
+    "id": "I13627",
+    "group": "Belgium_N",
+    "site": "Trou Al'Wesse (Liège Province, Modave)",
+    "lat": 50.431,
+    "lon": 5.295,
+    "km": 2595,
+    "date": "3334-3028 calBCE (4466±21 BP, OxA-39060)",
+    "median_year": -2800
+   },
+   "Bulgaria": {
+    "country": "Bulgaria",
+    "n": 22,
+    "year": -5950,
+    "yr": "5950 BCE",
+    "id": "I0698",
+    "group": "Bulgaria_Yabalkovo_N",
+    "site": "Yabalkovo (Haskovo Province, Dimitrovgrad Municipality)",
+    "lat": 42.077,
+    "lon": 25.451,
+    "km": 797,
+    "date": "6000-5900 BCE",
+    "median_year": -5664
+   },
+   "Channel Islands": {
+    "country": "Channel Islands",
+    "n": 6,
+    "year": -4141,
+    "yr": "4141 BCE",
+    "id": "I16437",
+    "group": "ChannelIslands_MN",
+    "site": "Le Déhus (Guernsey, Vale)",
+    "lat": 49.497,
+    "lon": -2.506,
+    "km": 3098,
+    "date": "4241-4050 calBCE (5315±21 BP)",
+    "median_year": -3542
+   },
+   "Croatia": {
+    "country": "Croatia",
+    "n": 33,
+    "year": -5913,
+    "yr": "5913 BCE",
+    "id": "I3948",
+    "group": "Croatia_N_Cardial",
+    "site": "Zemunica Cave (Split-Dalmatia County, Općina Dugopolje, Vladovići)",
+    "lat": 43.589,
+    "lon": 16.648,
+    "km": 1512,
+    "date": "6007-5803 calBCE (7030±40 BP, PSUAMS-2224)",
+    "median_year": -4635
+   },
+   "Czechia": {
+    "country": "Czechia",
+    "n": 41,
+    "year": -5250,
+    "yr": "5250 BCE",
+    "id": "I15818",
+    "group": "Czechia_EN_LBK",
+    "site": "Bžany (Ústecký Region, Teplice District)",
+    "lat": 50.591,
+    "lon": 13.876,
+    "km": 2075,
+    "date": "5500-5000 BCE",
+    "median_year": -3663
+   },
+   "Denmark": {
+    "country": "Denmark",
+    "n": 58,
+    "year": -4110,
+    "yr": "4110 BCE",
+    "id": "NEO960",
+    "group": "Denmark_EN_N_TRB",
+    "site": "Ravnsbjerggard II (Zealand Region)",
+    "lat": 55.581,
+    "lon": 11.578,
+    "km": 2548,
+    "date": "4315-3995 calBCE (5308±43 BP, AAR-10993; BCH198:4a+b)",
+    "median_year": -3229
+   },
+   "France": {
+    "country": "France",
+    "n": 187,
+    "year": -5413,
+    "yr": "5413 BCE",
+    "id": "PEN003",
+    "group": "France_EN",
+    "site": "Pendimoun (Provence-Alpes-Côte d'Azur Region, Alpes-Maritimes Department, Nice Arrondissement)",
+    "lat": 43.81,
+    "lon": 7.51,
+    "km": 2230,
+    "date": "5479-5331 calBCE (6450±40 BP, GrA-32061)",
+    "median_year": -4500
+   },
+   "Germany": {
+    "country": "Germany",
+    "n": 157,
+    "year": -5249,
+    "yr": "5249 BCE",
+    "id": "XN191",
+    "group": "Germany_StuttgartMuhlhausen2_EN",
+    "site": "Stuttgart-Mühlhausen-2 (Baden-Württemberg, Stuttgart-Stadtkreis)",
+    "lat": 48.78,
+    "lon": 9.18,
+    "km": 2265,
+    "date": "5316-5081 calBCE (6267±30 BP, MAMS-25931)",
+    "median_year": -5097
+   },
+   "Greece": {
+    "country": "Greece",
+    "n": 14,
+    "year": -6366,
+    "yr": "6366 BCE",
+    "id": "Rev5",
+    "group": "Greece_North_N",
+    "site": "Revenia (Epirus-Western Macedonia, Ipeiroy)",
+    "lat": 39.489,
+    "lon": 20.918,
+    "km": 1054,
+    "date": "6434-6257 calBCE (7505±25 BP, MAMS-23036)",
+    "median_year": -5954
+   },
+   "Hungary": {
+    "country": "Hungary",
+    "n": 186,
+    "year": -5990,
+    "yr": "5990 BCE",
+    "id": "I29877",
+    "group": "Hungary_EN_LBK_DVK",
+    "site": "Egerág-Gyilkos-tó (Baranya County, Northwest of Egerág Village, HT 156)",
+    "lat": 45.98,
+    "lon": 18.15,
+    "km": 1524,
+    "date": "6069-5909 calBCE (7120±40 BP, PSUAMS-15083)",
+    "median_year": -5122
+   },
+   "Ireland": {
+    "country": "Ireland",
+    "n": 50,
+    "year": -3796,
+    "yr": "3796 BCE",
+    "id": "PN10_PN113",
+    "group": "Ireland_EN",
+    "site": "Poulnabrone (Clare County)",
+    "lat": 53.049,
+    "lon": -9.14,
+    "km": 3629,
+    "date": "3945-3656 calBCE (5004±31 BP, OxA-25950)",
+    "median_year": -3492
+   },
+   "Italy": {
+    "country": "Italy",
+    "n": 40,
+    "year": -6031,
+    "yr": "6031 BCE",
+    "id": "R2",
+    "group": "Italy_Abruzzo_N",
+    "site": "Grotta Continenza (Abruzzo, L'Aquila)",
+    "lat": 41.958,
+    "lon": 13.544,
+    "km": 1711,
+    "date": "6068-5993 calBCE (7165±20 BP, UCIAMS-198574)",
+    "median_year": -4778
+   },
+   "Netherlands": {
+    "country": "Netherlands",
+    "n": 5,
+    "year": -3700,
+    "yr": "3700 BCE",
+    "id": "I35542",
+    "group": "Netherlands_MN",
+    "site": "Tiel-Medel (Gelderland)",
+    "lat": 51.917,
+    "lon": 5.469,
+    "km": 2652,
+    "date": "3800-3600 BCE",
+    "median_year": -3700
+   },
+   "Poland": {
+    "country": "Poland",
+    "n": 52,
+    "year": -4441,
+    "yr": "4441 BCE",
+    "id": "poz252",
+    "group": "Poland_N_LLBK_LLengyel",
+    "site": "Siniarzewo-1 (Kuyavian-Pomeranian Province, Aleksandrów County, Zakrzewo)",
+    "lat": 52.732,
+    "lon": 18.686,
+    "km": 2001,
+    "date": "4531-4353 calBCE (5605±35 BP, Poz-87727)",
+    "median_year": -3000
+   },
+   "Portugal": {
+    "country": "Portugal",
+    "n": 22,
+    "year": -5352,
+    "yr": "5352 BCE",
+    "id": "NEO632",
+    "group": "Portugal_EN_Cardial",
+    "site": "Gruta do Caldeirão (Santarém, Além da Ribeira e Pedreira)",
+    "lat": 39.648,
+    "lon": -8.415,
+    "km": 3556,
+    "date": "5474-5320 calBCE (6415±36 BP, UBA-40088)",
+    "median_year": -3075
+   },
+   "Romania": {
+    "country": "Romania",
+    "n": 19,
+    "year": -6021,
+    "yr": "6021 BCE",
+    "id": "I6174",
+    "group": "Romania_EN_Starcevo",
+    "site": "Teleor-3 (Teleorman County, Măgura)",
+    "lat": 44.027,
+    "lon": 25.392,
+    "km": 943,
+    "date": "6074-5927 calBCE (7155±35 BP, PSUAMS-3903)",
+    "median_year": -5461
+   },
+   "Serbia": {
+    "country": "Serbia",
+    "n": 19,
+    "year": -6143,
+    "yr": "6143 BCE",
+    "id": "LEPE52",
+    "group": "Serbia_EMN",
+    "site": "Lepenski-Vir (Bor District, Majdanpek Municipality, Boljetin)",
+    "lat": 44.553,
+    "lon": 22.028,
+    "km": 1184,
+    "date": "6223-6064 calBCE (7265±30 BP,",
+    "median_year": -5700
+   },
+   "Slovakia": {
+    "country": "Slovakia",
+    "n": 57,
+    "year": -5150,
+    "yr": "5150 BCE",
+    "id": "I11866",
+    "group": "Slovakia_N_LBK",
+    "site": "Nitra-Horné-Krškany (Nitra Region, Nitra District, Nitra)",
+    "lat": 48.283,
+    "lon": 18.085,
+    "km": 1677,
+    "date": "5400-4900 BCE",
+    "median_year": -5150
+   },
+   "Spain": {
+    "country": "Spain",
+    "n": 63,
+    "year": -5395,
+    "yr": "5395 BCE",
+    "id": "CB13",
+    "group": "Spain_EN",
+    "site": "Cova Bonica (Catalonia, Barcelona, Vallirana)",
+    "lat": 41.37,
+    "lon": 1.89,
+    "km": 2671,
+    "date": "5474-5318 calBCE (6410±30 BP, Beta-384724)",
+    "median_year": -3577
+   },
+   "Sweden": {
+    "country": "Sweden",
+    "n": 116,
+    "year": -3796,
+    "yr": "3796 BCE",
+    "id": "Kvarlov5164",
+    "group": "Sweden_MN",
+    "site": "Skåne (Gävleborgs län, Hudiksvall)",
+    "lat": 61.658,
+    "lon": 17.004,
+    "km": 2883,
+    "date": "3945-3647 calBCE",
+    "median_year": -3022
+   },
+   "Switzerland": {
+    "country": "Switzerland",
+    "n": 50,
+    "year": -4405,
+    "yr": "4405 BCE",
+    "id": "TU877(SX11)",
+    "group": "Switzerland_LN",
+    "site": "Niederried Ursisbalm (Bern, Seeland)",
+    "lat": 47.012,
+    "lon": 7.251,
+    "km": 2331,
+    "date": "4455-4355 calBCE (5587±22 BP, BE-8011.1.1)",
+    "median_year": -2948
+   },
+   "Turkey": {
+    "country": "Turkey",
+    "n": 175,
+    "year": -8750,
+    "yr": "8750 BCE",
+    "id": "I8432",
+    "group": "Turkey_PPNA",
+    "site": "Boncuklu Tarla (Southeast, Mardin, Dargeçit, Ilısu)",
+    "lat": 37.526,
+    "lon": 41.845,
+    "km": 794,
+    "date": "9000-8500 BCE",
+    "median_year": -6550
+   },
+   "United Kingdom": {
+    "country": "United Kingdom",
+    "n": 113,
+    "year": -3981,
+    "yr": "3981 BCE",
+    "id": "I12438",
+    "group": "England_EN_Megalithic",
+    "site": "Hazleton North (England, Gloucestershire, Cheltenham)",
+    "lat": 51.861,
+    "lon": -1.883,
+    "km": 3120,
+    "date": "4045-3946 calBCE (5165±25 BP, PSUAMS-14097)",
+    "median_year": -3573
+   }
+  },
+  "lat_bands": [
+   {
+    "lat0": 35,
+    "lat1": 40,
+    "n": 209,
+    "year": -8750,
+    "yr": "8750 BCE",
+    "country": "Turkey",
+    "site": "Boncuklu Tarla (Southeast, Mardin, Dargeçit, Ilısu)",
+    "group": "Turkey_PPNA"
+   },
+   {
+    "lat0": 40,
+    "lat1": 45,
+    "n": 212,
+    "year": -6613,
+    "yr": "6613 BCE",
+    "country": "Turkey",
+    "site": "Aktopraklık (Bursa, Nilüfer)",
+    "group": "Turkey_LN"
+   },
+   {
+    "lat0": 45,
+    "lat1": 50,
+    "n": 604,
+    "year": -6035,
+    "yr": "6035 BCE",
+    "country": "Serbia",
+    "site": "Bac-Topole-unknown-site-2 (South Bačka District, Bač Municipality, Topole)",
+    "group": "Serbia_EN_Starcevo"
+   },
+   {
+    "lat0": 50,
+    "lat1": 55,
+    "n": 357,
+    "year": -5250,
+    "yr": "5250 BCE",
+    "country": "Czechia",
+    "site": "Bžany (Ústecký Region, Teplice District)",
+    "group": "Czechia_EN_LBK"
+   },
+   {
+    "lat0": 55,
+    "lat1": 60,
+    "n": 213,
+    "year": -4110,
+    "yr": "4110 BCE",
+    "country": "Denmark",
+    "site": "Ravnsbjerggard II (Zealand Region)",
+    "group": "Denmark_EN_N_TRB"
+   }
+  ],
+  "lon_bands": [
+   {
+    "lon0": -10,
+    "lon1": 0,
+    "n": 251,
+    "year": -5352,
+    "yr": "5352 BCE",
+    "country": "Portugal",
+    "site": "Gruta do Caldeirão (Santarém, Além da Ribeira e Pedreira)"
+   },
+   {
+    "lon0": 0,
+    "lon1": 10,
+    "n": 366,
+    "year": -5413,
+    "yr": "5413 BCE",
+    "country": "France",
+    "site": "Pendimoun (Provence-Alpes-Côte d'Azur Region, Alpes-Maritimes Department, Nice Arrondissement)"
+   },
+   {
+    "lon0": 10,
+    "lon1": 20,
+    "n": 596,
+    "year": -6035,
+    "yr": "6035 BCE",
+    "country": "Serbia",
+    "site": "Bac-Topole-unknown-site-2 (South Bačka District, Bač Municipality, Topole)"
+   },
+   {
+    "lon0": 20,
+    "lon1": 30,
+    "n": 243,
+    "year": -6613,
+    "yr": "6613 BCE",
+    "country": "Turkey",
+    "site": "Aktopraklık (Bursa, Nilüfer)"
+   },
+   {
+    "lon0": 30,
+    "lon1": 40,
+    "n": 140,
+    "year": -8600,
+    "yr": "8600 BCE",
+    "country": "Turkey",
+    "site": "Boncuklu (Konya, Karatay)"
+   }
+  ]
+ },
+ "famous": [
+  {
+   "id": "Iceman",
+   "group": "Italy_TrentinoSouthTyrol_North_MN",
+   "site": "Oetz Valley (Trentino-South Tyrol, Bolzano)",
+   "country": "Italy",
+   "bp": 5195,
+   "year": -3245,
+   "yr": "3245 BCE",
+   "date": "3371-3103 calBCE (4550±27 BP; ETH-8345.1-2)",
+   "sex": "M",
+   "y": "G2a2a1a2a1a1",
+   "mt": "",
+   "pub": "WangKrauseCellGenom2023",
+   "first_pub": "KellerZinkNatComm2012",
+   "pub_year": 2012,
+   "lat": 46.769,
+   "lon": 10.8,
+   "culture": "Neolithic",
+   "name": "Ötzi the Iceman",
+   "note": "Found in 1991 melting out of a glacier in the Ötztal Alps",
+   "ok": 1,
+   "assessment": "Pass"
+  },
+  {
+   "id": "Ust_Ishim",
+   "group": "Russia_UstIshim_IUP",
+   "site": "Ust'-Ishim (Omsk Oblast, Ust-Ishimsky District)",
+   "country": "Russia",
+   "bp": 44366,
+   "year": -42416,
+   "yr": "42,416 BCE",
+   "date": "43980-40954 calBCE (41400±953 BP)",
+   "sex": "M",
+   "y": "K2",
+   "mt": "R*",
+   "pub": "FuPääboNature2014",
+   "first_pub": "FuPääboNature2014",
+   "pub_year": 2014,
+   "lat": 57.7,
+   "lon": 71.1,
+   "culture": "Upper Palaeolithic",
+   "name": "Ust'-Ishim man",
+   "note": "A thigh bone found on the bank of the Irtysh river in Siberia in 2008",
+   "ok": 1,
+   "assessment": "Pass"
+  },
+  {
+   "id": "ZKU002",
+   "group": "Czechia_Zlatykun_IUP",
+   "site": "Zlatý-kůň (Central Bohemian Region, Beroun District, Koněprusy Caves)",
+   "country": "Czechia",
+   "bp": 45875,
+   "year": -43925,
+   "yr": "43,925 BCE",
+   "date": "47600-40250 BCE",
+   "sex": "U",
+   "y": "",
+   "mt": "",
+   "pub": "SümerKrauseNature2024",
+   "first_pub": "PrüferKrauseNatEcolEvol2021",
+   "pub_year": 2021,
+   "lat": 49.916,
+   "lon": 14.066,
+   "culture": "Upper Palaeolithic",
+   "name": "The woman from Zlatý kůň",
+   "note": "A skull from a cave in Bohemia",
+   "ok": 1,
+   "assessment": "Pass"
+  },
+  {
+   "id": "Oase1",
+   "group": "Romania_IUP",
+   "site": "Oase Cave (Caraș-Severin, Anina)",
+   "country": "Romania",
+   "bp": 39982,
+   "year": -38032,
+   "yr": "38,032 BCE",
+   "date": "39956-35756 calBCE (34950±990 BP)",
+   "sex": "M",
+   "y": "A0-T",
+   "mt": "",
+   "pub": "HajdinjakPääboNature2021",
+   "first_pub": "FuPääboNature2015",
+   "pub_year": 2015,
+   "lat": 45.12,
+   "lon": 21.9,
+   "culture": "Upper Palaeolithic",
+   "name": "Oase 1",
+   "note": "A jawbone from a cave in Romania",
+   "ok": 1,
+   "assessment": "Pass"
+  },
+  {
+   "id": "Kostenki14",
+   "group": "Russia_Kostenki_UP",
+   "site": "Kostenki (Voronezh Oblast, Liskinsky District, Starokhvorostanskoye)",
+   "country": "Russia",
+   "bp": 38052,
+   "year": -36102,
+   "yr": "36,102 BCE",
+   "date": "37426-34726 calBCE (33250±500 BP, OxA-X-2395-15)",
+   "sex": "M",
+   "y": "CF",
+   "mt": "",
+   "pub": "FuReichNature2016",
+   "first_pub": "Seguin-OrlandoWillerslevScience2014",
+   "pub_year": 2014,
+   "lat": 51.23,
+   "lon": 39.3,
+   "culture": "Upper Palaeolithic",
+   "name": "Kostenki 14",
+   "note": "A man buried on the Don river",
+   "ok": 1,
+   "assessment": "Pass"
+  },
+  {
+   "id": "Tianyuan",
+   "group": "China_TianyuanCave_UP",
+   "site": "Tianyuan Cave (Beijing)",
+   "country": "China",
+   "bp": 39565,
+   "year": -37615,
+   "yr": "37,615 BCE",
+   "date": "38896-36130 calBCE (34430±510 BP, BA-03222)",
+   "sex": "M",
+   "y": "K2b",
+   "mt": "B",
+   "pub": "YangFuCurrBiol2017",
+   "first_pub": "YangFuCurrBiol2017",
+   "pub_year": 2017,
+   "lat": 39.39,
+   "lon": 115.52,
+   "culture": "Upper Palaeolithic",
+   "name": "Tianyuan man",
+   "note": "From a cave near Beijing",
+   "ok": 1,
+   "assessment": "Pass"
+  },
+  {
+   "id": "Sunghir1",
+   "group": "Russia_Sunghir_UP",
+   "site": "Sunghir (Vladimir Oblast, Vlaidmir Municipality)",
+   "country": "Russia",
+   "bp": 33209,
+   "year": -31259,
+   "yr": "31,259 BCE",
+   "date": "32326-30080 calBCE (28890±430 BP, OxA-X-2464-12)",
+   "sex": "M",
+   "y": "C1a",
+   "mt": "U8c",
+   "pub": "SikoraWillerslevScience2017",
+   "first_pub": "SikoraWillerslevScience2017",
+   "pub_year": 2017,
+   "lat": 56.176,
+   "lon": 40.502,
+   "culture": "Upper Palaeolithic",
+   "name": "Sunghir 1",
+   "note": "One of the richly beaded burials at Sunghir, east of Moscow",
+   "ok": 1,
+   "assessment": "Pass"
+  },
+  {
+   "id": "MA1",
+   "group": "Russia_Malta_UP",
+   "site": "Mal'ta (Irkutsk Oblast, Usol District, Sredninskoe, Stepnoy)",
+   "country": "Russia",
+   "bp": 24320,
+   "year": -22370,
+   "yr": "22,370 BCE",
+   "date": "22621-22171 calBCE (20240±60 BP, UCIAMS-79666)",
+   "sex": "M",
+   "y": "R",
+   "mt": "U",
+   "pub": "RaghavanWillerslevNature2013",
+   "first_pub": "RaghavanWillerslevNature2013",
+   "pub_year": 2013,
+   "lat": 52.9,
+   "lon": 103.5,
+   "culture": "Upper Palaeolithic",
+   "name": "The Mal'ta boy",
+   "note": "A child buried near Lake Baikal",
+   "ok": 0,
+   "assessment": "Questionable"
+  },
+  {
+   "id": "Loschbour",
+   "group": "Luxembourg_Loschbour_Mesolithic",
+   "site": "Loschbour (Echternach)",
+   "country": "Luxembourg",
+   "bp": 8025,
+   "year": -6075,
+   "yr": "6075 BCE",
+   "date": "6221-5986 calBCE (7205±50 BP, OxA-7738)",
+   "sex": "M",
+   "y": "",
+   "mt": "U5b1a",
+   "pub": "LazaridisKrauseNature2014",
+   "first_pub": "LazaridisKrauseNature2014",
+   "pub_year": 2014,
+   "lat": 49.81,
+   "lon": 6.4,
+   "culture": "Mesolithic and hunter-gatherers",
+   "name": "Loschbour man",
+   "note": "A hunter from Luxembourg",
+   "ok": 1,
+   "assessment": "Pass"
+  },
+  {
+   "id": "LaBrana1",
+   "group": "Spain_Mesolithic",
+   "site": "La Braña-Arintero (Castilla y León, León, La Braña)",
+   "country": "Spain",
+   "bp": 7811,
+   "year": -5861,
+   "yr": "5861 BCE",
+   "date": "5982-5741 calBCE (6980±50 BP, Beta-226472)",
+   "sex": "M",
+   "y": "C1a",
+   "mt": "",
+   "pub": "AkbariReichNature2026",
+   "first_pub": "OlaldeLalueza-FoxNature2014",
+   "pub_year": 2014,
+   "lat": 42.911,
+   "lon": -5.378,
+   "culture": "Mesolithic and hunter-gatherers",
+   "name": "La Braña 1",
+   "note": "A hunter from the mountains of León",
+   "ok": 1,
+   "assessment": "Pass"
+  },
+  {
+   "id": "Stuttgart",
+   "group": "Germany_ViesenhaeuserHof_EN",
+   "site": "Viesenhaeuser Hof (Baden-Württemberg, Stuttgart-Stadtkreis)",
+   "country": "Germany",
+   "bp": 7168,
+   "year": -5218,
+   "yr": "5218 BCE",
+   "date": "5307-5071 calBCE (6246±30 BP, MAMS-24635)",
+   "sex": "F",
+   "y": "",
+   "mt": "T2c1d1",
+   "pub": "AkbariReichNature2026",
+   "first_pub": "LazaridisKrauseNature2014",
+   "pub_year": 2014,
+   "lat": 48.78,
+   "lon": 9.18,
+   "culture": "Neolithic",
+   "name": "Stuttgart woman",
+   "note": "An early farmer from Baden-Württemberg",
+   "ok": 1,
+   "assessment": "Pass"
+  },
+  {
+   "id": "I3016",
+   "group": "England_Mesolithic",
+   "site": "Gough's Cave (England, Somerset, Cheddar)",
+   "country": "United Kingdom",
+   "bp": 10280,
+   "year": -8330,
+   "yr": "8330 BCE",
+   "date": "8615-7966 calBCE (9100±100 BP, OxA-814)",
+   "sex": "M",
+   "y": "I2a1b2a",
+   "mt": "U5b1",
+   "pub": "BraceBarnesNatEcolEvol2019",
+   "first_pub": "BraceBarnesNatEcolEvol2019",
+   "pub_year": 2019,
+   "lat": 51.282,
+   "lon": -2.766,
+   "culture": "Mesolithic and hunter-gatherers",
+   "name": "The man from Gough's Cave, Cheddar",
+   "note": "Gough's Cave in Cheddar Gorge, Somerset, is where Cheddar Man was found in 1903",
+   "ok": 1,
+   "assessment": "Pass"
+  },
+  {
+   "id": "mota",
+   "group": "Ethiopia_MotaCave_4500BP",
+   "site": "Mota Cave (Gamo Highlands)",
+   "country": "Ethiopia",
+   "bp": 4470,
+   "year": -2520,
+   "yr": "2520 BCE",
+   "date": "2576-2465 calBCE (3997±29 BP, OxA-29631)",
+   "sex": "M",
+   "y": "E1b1a2b2",
+   "mt": "L3x2a",
+   "pub": "LipsonPrendergastNature2022",
+   "first_pub": "LlorenteManicaScience2015",
+   "pub_year": 2015,
+   "lat": 6.797,
+   "lon": 38.208,
+   "culture": "Other or regional label",
+   "name": "Mota man",
+   "note": "From Mota Cave in the Ethiopian highlands",
+   "ok": 1,
+   "assessment": "MERGE_PASS"
+  },
+  {
+   "id": "Inuk",
+   "group": "Greenland_Saqqaq",
+   "site": "Qeqertasussuk (Qeqertalik, Qeqertarsuaq)",
+   "country": "Greenland",
+   "bp": 3885,
+   "year": -1935,
+   "yr": "1935 BCE",
+   "date": "2220-1650 calBCE (4044±31 BP, OxA-20656)",
+   "sex": "M",
+   "y": "Q1a1b",
+   "mt": "D2a1",
+   "pub": "RasmussenWillerslevNature2010",
+   "first_pub": "RasmussenWillerslevNature2010",
+   "pub_year": 2010,
+   "lat": 69.244,
+   "lon": -53.541,
+   "culture": "Other or regional label",
+   "name": "Inuk, the Saqqaq man",
+   "note": "Known from a tuft of hair preserved in Greenland's permafrost",
+   "ok": 1,
+   "assessment": "Pass"
+  },
+  {
+   "id": "Anzick",
+   "group": "USA_Anzick_12700BP",
+   "site": "Anzick Ranch (Montana)",
+   "country": "USA",
+   "bp": 12712,
+   "year": -10762,
+   "yr": "10,762 BCE",
+   "date": "10797-10726 calBCE (10705±35 BP, CAMS-80538)",
+   "sex": "M",
+   "y": "Q1b1a2b",
+   "mt": "D4h3a",
+   "pub": "RasmussenWillerslevNature2014",
+   "first_pub": "RasmussenWillerslevNature2014",
+   "pub_year": 2014,
+   "lat": 45.993,
+   "lon": -110.661,
+   "culture": "Other or regional label",
+   "name": "The Anzick child",
+   "note": "The only known Clovis burial, in Montana",
+   "ok": 0,
+   "assessment": "Questionable"
+  },
+  {
+   "id": "kennewick",
+   "group": "USA_WA_Kennewick_8800BP",
+   "site": "Columbia River (Washington State, Kennewick)",
+   "country": "USA",
+   "bp": 8752,
+   "year": -6802,
+   "yr": "6802 BCE",
+   "date": "7250-6390 calBCE (8410±60 BP, UCR3476/CAMS-29578)",
+   "sex": "M",
+   "y": "Q1b1a1a",
+   "mt": "X2a",
+   "pub": "RasmussenWillerslevNature2015",
+   "first_pub": "RasmussenWillerslevNature2015",
+   "pub_year": 2015,
+   "lat": 46.211,
+   "lon": -119.136,
+   "culture": "Other or regional label",
+   "name": "Kennewick Man",
+   "note": "Found on the bank of the Columbia River in 1996",
+   "ok": 0,
+   "assessment": "Questionable"
+  }
+ ],
+ "iceman": {
+  "year": -3245,
+  "yr": "3245 BCE",
+  "date": "3371-3103 calBCE (4550±27 BP; ETH-8345.1-2)",
+  "y": "G2a2a1a2a1a1",
+  "group": "Italy_TrentinoSouthTyrol_North_MN",
+  "site": "Oetz Valley (Trentino-South Tyrol, Bolzano)",
+  "y_clade": "G2",
+  "bp": 5195
+ },
+ "meta": {
+  "page": "https://maps.tristanhotham.com/ancient-dna/",
+  "repo": "https://github.com/Tristan-Hotham/ancient-dna",
+  "doi": "10.5281/zenodo.23872993",
+  "blog": "https://blog.tristanhotham.com/2026/10/31/ancient-dna/",
+  "slug": "ancient-dna",
+  "aadr_url": "https://doi.org/10.7910/DVN/FFIDCW"
+ }
+}

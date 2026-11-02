@@ -1,0 +1,131 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{fontspec}
+\setmainfont{TeX Gyre Pagella}
+\newfontfamily\headfont{Inter}[UprightFont=*-ExtraBold,BoldFont=*-ExtraBold,Extension=.otf,Path=/usr/share/fonts/opentype/inter/]
+\usepackage[a4paper,margin=2.3cm]{geometry}
+\usepackage{graphicx,booktabs,float,caption,array,xcolor,longtable}
+\usepackage{xurl}
+\usepackage[hidelinks]{hyperref}
+\usepackage{titlesec}
+\usepackage[round]{natbib}
+\usepackage{setspace}
+\setstretch{1.05}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.75}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\titleformat{\section}{\headfont\Large}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\headfont\large}{\thesubsection}{0.8em}{}
+\captionsetup{font=small,labelfont=bf}
+\urlstyle{same}
+\hypersetup{pdftitle={Ancient DNA on the Map},pdfauthor={Tristan Hotham}}
+
+\begin{document}
+\begin{center}
+{\Large\bfseries Ancient DNA on the Map\par}
+\vspace{0.4em}
+{\large Where and when the world's published ancient human genomes lived:\\{{source.kept|int}} individuals in the Allen Ancient DNA Resource\par}
+\vspace{1.2em}
+{\large Tristan Hotham\par}
+\vspace{0.3em}
+{\small Independent researcher\\
+ORCID: 0000-0003-4931-9349\\
+DOI: \href{https://doi.org/{{meta.doi}}}{https://doi.org/{{meta.doi}}}\par}
+\vspace{0.8em}
+2026
+\end{center}
+
+\begin{quote}
+\small
+\begin{center}\textbf{Abstract}\end{center}
+I place every ancient individual in the Allen Ancient DNA Resource (AADR), release {{source.version|raw}}, on a map by burial place and date, and use the archive's own annotations to describe its coverage and two well known episodes of European prehistory. Of {{source.ancient_individuals|int}} ancient individuals, {{source.kept|int}} ({{source.kept_pct|pc}}) have at least one data set that passes the archive's quality assessment. They come from {{source.n_sites|int}} sites in {{source.n_countries|int}} present-day countries and span {{time.oldest_year|yr}} to {{time.youngest_year|yr}}, though half lived after {{time.median_year|yr}}; {{pubs.since2020_pct|int}}\% were first published in 2020 or later. Sampling is heavily skewed: {{bias_sum.eu_pct|pc1}} of located modern humans were buried in Europe, which holds {{bias_sum.eu_pop_pct|pc1}} of today's population and {{bias_sum.eu_land_pct|pc1}} of the land, while Africa supplies {{bias.Africa.pct|pc1}} for {{bias_sum.africa_pop_pct|pc1}} of the population. The earliest individuals labelled Neolithic in each of {{neolithic.n_countries|int}} countries of Europe and Anatolia become later with distance from central Anatolia, by {{neolithic.slope_yr_per_km|f2}} years per kilometre (r = {{neolithic.r|f2}}), an apparent spread of about {{neolithic.km_per_year|f1}} km a year. Y chromosome haplogroups, used here as a proxy for male lines and not for ancestry, change abruptly around 2500 BCE: in Britain none of {{britain.pre_n|int}} men dated before 2500 BCE carries R1b, against {{britain.post_r1b|int}} of {{britain.post_n|int}} ({{britain.post_r1b_pct|pc1}}) from 2500 to 1500 BCE, and in Iberia, Scandinavia and central Europe R1b and R1a together rise from under 5\% of men before 3000 BCE to at least half after 2500 BCE.
+
+\textbf{Keywords:} ancient DNA; archaeogenetics; Y chromosome; mitochondrial DNA; Neolithic; Bell Beaker; Yamnaya; sampling bias; open data; mapping
+\end{quote}
+
+\section{Introduction}
+Since the first ancient human genome was published in 2010, ancient DNA has reshaped the study of the human past. Thousands of individuals have now been sequenced, and the Allen Ancient DNA Resource \citep{aadr,aadrpaper} gathers the published data in one curated, openly licensed release, with an annotation file that records for each individual its date, place, archaeological group, genetic sex, uniparental haplogroups and a quality assessment.
+
+This paper does three simple things with that annotation file. First, it describes the archive as a whole: how many individuals, from when and where, and how the sample relates to the world's population and land. Second, it asks whether the earliest individuals labelled Neolithic in each country show the familiar spread of farming out of Anatolia. Third, it tracks Y chromosome haplogroups R1b and R1a through time in four regions of Europe, as a simple proxy for the arrival of male lines associated with steppe populations in the third millennium BCE. None of these uses genome-wide ancestry, which the original studies measure; everything here can be checked against the annotation file alone. The paper accompanies an interactive map (\url{{{meta.page}}}).
+
+\section{Data}
+The AADR release {{source.version|raw}} public 1240K annotation file has {{source.rows|int}} rows, one for each data representation of an individual. {{source.present_day_rows|int}} rows describe present-day people (date 0 before present) and {{source.ancient_rows|int}} describe {{source.ancient_individuals|int}} ancient individuals; {{source.multi_rows|int}} rows are additional representations of an individual already counted. The columns used are the Individual ID, the date mean and standard deviation in years before 1950 (BP) with the full date description, the Group ID, locality, political entity, latitude and longitude, the number of SNPs hit on the 1240k set, molecular sex, the automatic ISOGG Y haplogroup and the manual Y call where one is given, the mtDNA haplogroup, the first publication and the ASSESSMENT field. Present-day population and land area come from Natural Earth \citep{naturalearth}.
+
+{{TABLE_COUNTRIES}}
+
+\section{Methods}
+\subsection{Individuals and quality}
+A row passes if its ASSESSMENT begins with \texttt{Pass}, \texttt{PROVISIONAL\_PASS} or \texttt{MERGE\_PASS}. An individual is kept if at least one of its rows passes, and is represented by the passing row with the most SNPs. This keeps {{source.kept|int}} individuals ({{source.assess.Pass|int}} Pass, {{source.assess.PROVISIONAL_PASS|int}} provisional, {{source.assess.MERGE_PASS|int}} merged); the stricter rule of taking each individual's richest row and then filtering keeps {{source.strict_kept|int}}. The {{source.failed|int}} individuals with no passing row are excluded from all counts. {{source.archaic|int}} individuals whose Group ID names Neanderthals or Denisova Cave and whose date is older than 40,000 BP are treated as archaic humans and excluded from the analyses of modern humans. {{source.no_coords|int}} kept individuals lack coordinates.
+
+\subsection{Dates, labels and haplogroups}
+Calendar years are 1950 minus the date mean. Each individual is given a broad period from its date and a culture label from words in its Group ID (for example \texttt{N} or \texttt{EN} for Neolithic, \texttt{BA} for Bronze Age, \texttt{BellBeaker}, \texttt{CordedWare}, \texttt{Yamnaya}), with named cultures taking priority over periods; the rules are listed in the code. Y haplogroups are grouped by their leading characters into major clades (R1b, R1a, I1, I2, G2, J1, J2, E1b, and N, Q, C, O, H, T, L, D). Calls at a higher level than these (such as CT, F, K, P, R or R1) cannot distinguish R1a from R1b and are excluded from shares; of {{y.men|int}} men, {{y.resolved|int}} ({{y.resolved_pct|pc1}}) have a resolved call. mtDNA haplogroups are grouped by their leading letter. Sex is the archive's molecular sex.
+
+\subsection{Continents and sampling}
+Each located individual is assigned to the Natural Earth country polygon that contains it, or the nearest within 150 km. Continents follow Natural Earth, except that Russia is split at 60°E. Shares of present-day population (2019 estimates; Russia's divided in proportion to the population of its towns on each side of 60°E, {{bias_sum.rus_west_pop_share|pc1}} to the west) and of land area (equal-area projection, without Antarctica) are compared with the share of individuals.
+
+\subsection{Neolithic arrival}
+For Europe and Anatolia (latitude 30 to 72°N, longitude 12°W to 45°E), I take modern humans labelled Neolithic, leave out Russia, Ukraine, Belarus, Moldova, the Baltic states and Finland (where the label usually denotes pottery-using hunter-gatherers), groups whose labels also name hunter-gatherers ({{neolithic.drop.mixed_label|int}} individuals), dates with a standard deviation over 300 years, and dates whose mean lies outside their own stated range. This leaves {{neolithic.n_ind|int}} individuals. For each country with at least three, the earliest by date mean marks the first sampled Neolithic burial, and its great circle distance from Çatalhöyük (37.67°N 32.83°E) is computed. A least squares line of date on distance is fitted without Turkey.
+
+\subsection{Y lines through time}
+Men with a resolved Y call are grouped into 500 year bins in four regions: Britain (England, Scotland and Wales), Iberia (Spain, Portugal and Gibraltar), Scandinavia (Denmark, Sweden and Norway) and central Europe (Germany, Czechia, Austria, Switzerland, Poland and Slovakia). The share carrying R1b or R1a is computed per bin; bins with fewer than five men are shown but not interpreted.
+
+\section{Results}
+\subsection{The archive}
+Figure~\ref{fig:map} shows all {{source.mapped_modern|int}} located modern humans. The oldest are dated to {{time.oldest_year|yr}} (Ranis, Germany, and Zlatý kůň, Czechia), and {{time.n_before_10000bce|int}} lived before 10,000 BCE; {{time.pct_after_3000bce|pc1}} lived after 3000 BCE (Figure~\ref{fig:archive}). The archaic genomes range back to {{archaic.0.yr|raw}} (Denisova 25). Molecular sex is male for {{sex.M|int}}, female for {{sex.F|int}} and unknown for {{sex.U|int}} ({{sex.m_per_f|f2}} men per woman). {{pubs.y2025|int}} individuals were first published in 2025, and {{pubs.since2020_pct|pc1}} in 2020 or later. The largest single source is {{pubs.top.0.pub|raw}} ({{pubs.top.0.n|int}} individuals). {{sites_one|int}} of {{sites_n|int}} sites ({{sites_one_pct|pc1}}) contribute one individual; the most sampled are Avar period cemeteries in Austria and Hungary.
+
+\begin{figure}[tbp]\centering\includegraphics[width=\textwidth]{f_map.png}
+\caption{Every located modern human in the AADR {{source.version|raw}} that passes the quality assessment, coloured by broad period.}\label{fig:map}\end{figure}
+
+\begin{figure}[tbp]\centering\includegraphics[width=\textwidth]{f_archive.png}
+\caption{Left: individuals by year of first publication. Right: individuals per 500 years since 10,000 BCE.}\label{fig:archive}\end{figure}
+
+\subsection{Sampling bias}
+Europe supplies {{bias.Europe.n|int}} of {{bias_sum.n_located|int}} located individuals ({{bias_sum.eu_pct|pc1}}), {{bias_sum.eu_x_pop|f1}} times its share of present-day population and {{bias_sum.eu_x_land|f1}} times its share of land (Table~\ref{tab:bias}, Figure~\ref{fig:bias}). Asia supplies {{bias_sum.asia_pct|pc1}} for {{bias_sum.asia_pop_pct|pc1}} of the population, Africa {{bias_sum.africa_pct|pc1}} for {{bias_sum.africa_pop_pct|pc1}}. Per head of present-day population Europe has about {{bias_sum.eu_vs_africa_per_person|int}} times as many ancient genomes as Africa. Europe's share exceeds half in seven of the eight broad periods; the exception is 10,000 to 6000 BCE ({{bias_period.1.eu_pct|pc1}}).
+
+{{TABLE_BIAS}}
+
+\begin{figure}[tbp]\centering\includegraphics[width=\textwidth]{f_bias.png}
+\caption{Share of ancient genomes, of present-day population and of land, by continent.}\label{fig:bias}\end{figure}
+
+\subsection{The spread of farming}
+Table~\ref{tab:neo} and Figure~\ref{fig:farmers} give the earliest Neolithic-labelled individual in each of {{neolithic.n_countries|int}} countries. The earliest is in Turkey ({{neolithic.first.yr|raw}}, {{neolithic.first.group|raw}}). Among the other countries, dates fall later with distance from Çatalhöyük by {{neolithic.slope_yr_per_km|f2}} years per km (r = {{neolithic.r|f2}}), equivalent to {{neolithic.km_per_year|f2}} km a year. By latitude band, the earliest Neolithic individual is from {{neolithic.lat_bands.2.yr|raw}} at 45 to 50°N ({{neolithic.lat_bands.2.country|raw}}), {{neolithic.lat_bands.3.yr|raw}} at 50 to 55°N ({{neolithic.lat_bands.3.country|raw}}) and {{neolithic.lat_bands.4.yr|raw}} at 55 to 60°N ({{neolithic.lat_bands.4.country|raw}}). The first Neolithic individual in Ireland is {{neolithic.ireland_gap|int}} years later than the first in Turkey.
+
+{{TABLE_NEO}}
+
+\begin{figure}[tbp]\centering\includegraphics[width=\textwidth]{f_farmers.png}
+\caption{Left: the earliest individual labelled Neolithic in each country (BCE). Right: its date against distance from Çatalhöyük, with the least squares line fitted without Turkey.}\label{fig:farmers}\end{figure}
+
+\subsection{Y lines and the third millennium BCE}
+Men labelled Yamnaya mostly carry R1b ({{yamnaya.r1b|int}} of {{yamnaya.men|int}}, {{yamnaya.r1b_pct|pc1}}); men labelled Corded Ware carry R1a ({{corded.r1a_pct|pc1}}) or R1b ({{corded.r1b_pct|pc1}}); men labelled Bell Beaker carry R1b ({{beaker.r1b|int}} of {{beaker.men|int}}). Among Neolithic men in Europe, {{neo_y.r_pct|pc1}} carry R1b or R1a, {{neo_y.i2_pct|pc1}} I2 and {{neo_y.g2_pct|pc1}} G2. Within a Europe box (12°W to 45°E, 34 to 72°N), {{europe_y.early.r_pct|pc1}} of {{europe_y.early.men|int}} men dated 5000 to 3000 BCE carry R1b or R1a, against {{europe_y.late.r_pct|pc1}} of {{europe_y.late.men|int}} dated 2500 to 1500 BCE (Figure~\ref{fig:europe}).
+
+In Britain (Figure~\ref{fig:britain}) none of the {{britain.pre_n|int}} men dated before 2500 BCE carries R1b or R1a; {{britain.pre_i2|int}} carry I2. From 2500 to 1500 BCE, {{britain.post_r1b|int}} of {{britain.post_n|int}} carry R1b. The earliest R1b man is {{britain.first_r1b_id|raw}} ({{britain.first_r1b_group|raw}}, {{britain.first_r1b_date|raw}}). R1b remains at {{britain.ia_r1b_pct|pc1}} in the Iron Age (800 BCE to 43 CE), and from 400 to 1066 CE I1 rises to {{britain.em_i1_pct|pc1}}, a clade carried by {{scand_i1.i1_pct|pc1}} of Scandinavian men from 1 to 1000 CE. In the other three regions (Figure~\ref{fig:regions}) the share of R1b and R1a rises from {{steppe.Iberia.pre3000_pct|pc1}} (Iberia), {{steppe.Scandinavia.pre3000_pct|pc1}} (Scandinavia) and {{steppe.Central Europe.pre3000_pct|pc1}} (central Europe) before 3000 BCE to {{steppe.Iberia.ba_pct|pc1}}, {{steppe.Scandinavia.ba_pct|pc1}} and {{steppe.Central Europe.ba_pct|pc1}} from 2500 to 1500 BCE. In all four regions the first 500 year bin with at least five men in which at least half carry R1b or R1a is 2500 to 2000 BCE. The few earlier R1b men in central Europe ({{steppe.Central Europe.pre3000_r|int}} before 3000 BCE) are a reminder that R1b is an old clade with branches unrelated to the steppe.
+
+\begin{figure}[tbp]\centering\includegraphics[width=\textwidth]{f_britain.png}
+\caption{Y haplogroups of men in Britain per 500 years. Numbers above bars are men with a resolved call; pale bars have fewer than five. Dashed line: 2500 BCE.}\label{fig:britain}\end{figure}
+
+\begin{figure}[tbp]\centering\includegraphics[width=\textwidth]{f_regions.png}
+\caption{Share of men carrying R1b or R1a per 500 years in four regions (bins with at least five men).}\label{fig:regions}\end{figure}
+
+\begin{figure}[tbp]\centering\includegraphics[width=\textwidth]{f_europe_y.png}
+\caption{Men with a resolved Y haplogroup in Europe, 5000 to 3000 BCE (left) and 2500 to 1500 BCE (right).}\label{fig:europe}\end{figure}
+
+\section{Limitations}
+First, the archive reflects where research has been done, not where people lived, and every share here inherits that bias. Second, dates are the archive's means, some contextual and broad, and places are burial sites, sometimes given only to county level. Third, culture labels come from the archive's group names, which follow each study's own conventions; they are a convenience, not a classification. Fourth, the earliest sampled Neolithic burial in a country is a lower bound on the arrival of farming that depends on what has been dated and sequenced. Fifth, a Y haplogroup is one line of descent among thousands and is a proxy for ancestry, not ancestry itself: a change in Y lines can follow from differences in the number of sons men had, and genome-wide studies are needed to measure population change. Sixth, the quality filter follows the archive's own assessment; some well known individuals (Kennewick Man, the Anzick child) are graded Questionable and so are excluded.
+
+\section{Conclusion}
+The AADR now places more than sixteen thousand ancient people in time and space, most of them from the last five thousand years and most of them from Europe. Read simply, its annotations reproduce two central findings of archaeogenetics: a stepwise spread of Neolithic burials away from Anatolia at about a kilometre a year, and an abrupt change in male lines across western and central Europe around 2500 BCE, nowhere sharper than in Britain. They also show how unevenly the human past has been sampled.
+
+\section*{Data and code availability}
+The interactive map is at \url{{{meta.page}}}. Data and code are at \url{{{meta.repo}}} and archived with this paper at \url{https://doi.org/{{meta.doi}}}. Derived data are released under CC BY 4.0 and code under the MIT licence. The AADR is released under CC0 1.0 and should be cited as \citet{aadr,aadrpaper}; each genome should be credited to its original publication.
+
+\section*{AI statement}
+I wrote the text, with drafting and editing assistance from Claude (Anthropic), which also helped prepare the analysis code. I reviewed and checked all text and results.
+
+\begin{thebibliography}{9}
+\bibitem[Mallick et al.(2026)]{aadr} Mallick, S., Micco, A., Mah, M., Ringbauer, H., Lazaridis, I., Olalde, I., Patterson, N. and Reich, D. The Allen Ancient DNA Resource (AADR), version {{source.version|raw}}. Harvard Dataverse. CC0 1.0. \url{https://doi.org/10.7910/DVN/FFIDCW}
+\bibitem[Mallick et al.(2024)]{aadrpaper} Mallick, S. et al. (2024) The Allen Ancient DNA Resource (AADR) a curated compendium of ancient human genomes. Scientific Data 11, 182. \url{https://doi.org/10.1038/s41597-024-03031-7}
+\bibitem[Natural Earth(2026)]{naturalearth} Natural Earth (2026) Admin 0 countries, land and populated places, 1:50m and 1:10m. Public domain. \url{https://www.naturalearthdata.com/}
+\end{thebibliography}
+\end{document}

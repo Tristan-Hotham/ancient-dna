@@ -1,0 +1,107 @@
+<!-- wp:paragraph -->
+<p><em>Labs have now read the DNA of {{source.kept|int}} people who lived between the last Ice Age and the industrial age. I put every one of them on a map, at the place and time they lived, and pressed play.</em></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="https://maps.tristanhotham.com/ancient-dna/">Explore the interactive map</a></div>
+<!-- /wp:button -->
+<!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="https://doi.org/10.5281/zenodo.23872993">Read the paper</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->
+
+<!-- wp:paragraph -->
+<p>In 2010 scientists published the first complete genome of an ancient human, a man who lived in Greenland about four thousand years ago. Sixteen years later the field has exploded. The Allen Ancient DNA Resource, curated by Swapan Mallick, David Reich and colleagues at Harvard, gathers every published ancient genome into one free file. Its release {{source.version|raw}} describes {{source.ancient_individuals|int}} ancient individuals, and {{source.kept|int}} of them pass its quality checks. Each comes with a date, a burial place, an archaeological label and, where the DNA allows, the branches of the family tree that their father's and mother's lines belong to.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>Put them all on one map and the first thing you notice is not prehistory. It is the scientists.</p>
+<!-- /wp:paragraph -->
+
+{{IMG|b_map.png|World map with a dot for each of 16,400 ancient people, coloured by period from dark brown for the oldest to blue for the most recent. Europe is almost solid with dots, with dense clusters in Britain, Denmark, Hungary and Austria; dots thin out across the Russian steppe, Central Asia and China, and are sparse in Africa, the Americas and Oceania|Every ancient person in the AADR that passes its quality checks, placed where they were buried and coloured by when they lived.}}
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">A map of where geneticists have looked</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>{{bias_sum.eu_pct|int}}% of the people on the map were buried in Europe, a continent with {{bias_sum.eu_pop_pct|int}}% of the world's people and {{bias_sum.eu_land_pct|int}}% of its land. Africa, where our species began, supplies {{bias.Africa.pct|pc1}}, for {{bias_sum.africa_pop_pct|int}}% of the world's people. Per head of today's population, Europe has about {{bias_sum.eu_vs_africa_per_person|int}} times as many ancient genomes as Africa. Some of that is chemistry, since DNA survives best in cold ground. Much of it is money, laboratories and a long tradition of digging. The countries with the most people in the archive are Russia ({{top_countries.0.n|int}}), Hungary ({{top_countries.1.n|int}}) and the United Kingdom ({{top_countries.2.n|int}}).</p>
+<!-- /wp:paragraph -->
+
+{{IMG|b_bias.png|Bar chart comparing, for each continent, its share of ancient genomes, of people today and of land. Europe: 68% of genomes, 9.2% of people, 7.5% of land. Asia: 22%, 60%, 33%. Africa: 1.9%, 17%, 22%. North America, South America and Oceania each have a few per cent of the genomes|Share of ancient genomes, of people today and of land, by continent.}}
+
+<!-- wp:paragraph -->
+<p>The archive is also young, in two senses. {{pubs.since2020_pct|int}}% of these genomes were first published in 2020 or later, and {{pubs.y2025|int}} in 2025 alone. And most of the people in it lived recently: half lived after {{time.median_year|yr}}. The oldest modern humans, from the cave of Ranis in Germany and from Zlatý kůň in Czechia, are dated to around {{time.oldest_year|yr}}, but only {{time.n_before_10000bce|int}} people in the whole archive lived before 10,000 BCE.</p>
+<!-- /wp:paragraph -->
+
+{{IMG|b_archive.png|Two bar charts. Left: genomes by year first published, a handful before 2015, about 1,300 a year in 2018 and 2019, around 2,000 a year in the early 2020s and 3,757 in 2025. Right: people per 500 years from 10,000 BCE, rising slowly to around 1,000 per 500 years in the Bronze Age and peaking at about 3,000 between 500 and 1000 CE|When the genomes were published (left) and when the people lived (right).}}
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">The first farmers</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Press play on the map and the first big movement is farming. The earliest people the archive labels Neolithic are in Turkey, from {{neolithic.first.yr|raw}}. Country by country, the first Neolithic burials get later the further they are from Anatolia: Greece {{neolithic.by_country.Greece.yr|raw}}, Hungary {{neolithic.by_country.Hungary.yr|raw}}, France {{neolithic.by_country.France.yr|raw}}, Britain {{neolithic.by_country.United Kingdom.yr|raw}}, Ireland {{neolithic.by_country.Ireland.yr|raw}}. Across {{neolithic.n_countries|int}} countries, the date of the first sampled Neolithic burial falls about {{neolithic.slope_yr_per_km|f2}} years later for every kilometre from Çatalhöyük in central Anatolia. That is a farming frontier moving at about {{neolithic.km_per_year|f1}} km a year: slow enough that nobody alive would have noticed it, fast enough to cross a continent in a few thousand years.</p>
+<!-- /wp:paragraph -->
+
+{{IMG|b_farmers.png|Left: map of Europe and Anatolia with a dot in each country for its earliest Neolithic burial, labelled with the year BCE, dark brown 8750 in Turkey, orange around 6000 in the Balkans and Italy, lighter around 5400 in France and Iberia and pale yellow around 4000 to 3700 in Britain, Ireland and Scandinavia. Right: the same dates plotted against distance from Çatalhöyük, falling along a dashed line from about 6400 BCE at 1,000 km to about 3700 BCE at 3,600 km|The earliest Neolithic burial in each country, and its distance from central Anatolia.}}
+
+<!-- wp:paragraph -->
+<p>A caution: the earliest sampled burial is not the moment farming arrived, only the earliest one that has been dated and sequenced. And "Neolithic" is the archive's label. In the Baltic, Russia and Ukraine it often marks hunter-gatherers who made pottery, so I left those countries out.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">After 2500 BCE</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Then something stranger happens. The Y chromosome passes from father to son almost unchanged, so its branches trace male lines. Colour the map by them and watch western Europe around 2500 BCE. Before then, men across the continent carry a mix of lines, mostly I2 and G2. Within a few centuries most carry R1b or R1a: in a box covering Europe, {{europe_y.early.r_pct|int}}% of {{europe_y.early.men|int}} men from 5000 to 3000 BCE, against {{europe_y.late.r_pct|int}}% of {{europe_y.late.men|int}} from 2500 to 1500 BCE.</p>
+<!-- /wp:paragraph -->
+
+{{IMG|b_europe_y.png|Two maps of Europe with a dot for each man whose Y line is known. Left, 5000 to 3000 BCE: mostly light blue I2 dots in Britain, Ireland and Scandinavia and teal G2 dots in central Europe, with a few red R1b dots on the steppe north of the Black Sea. Right, 2500 to 1500 BCE: red R1b dots cover Britain, Iberia, France and central Europe, with orange R1a dots in Scandinavia and Russia|Men's Y lines in Europe before 3000 BCE (left) and from 2500 to 1500 BCE (right).}}
+
+<!-- wp:paragraph -->
+<p>In the archive, men of the Yamnaya culture of the Pontic and Caspian steppe mostly carry R1b ({{yamnaya.r1b_pct|int}}%), men of the Corded Ware culture carry R1a ({{corded.r1a_pct|int}}%) and R1b ({{corded.r1b_pct|int}}%), and men buried with Bell Beaker pots carry R1b ({{beaker.r1b_pct|int}}%). Britain shows the turn most starkly. Of the {{britain.pre_n|int}} men in Britain before 2500 BCE whose Y line is known, not one carried R1b. Of the {{britain.post_n|int}} from the next thousand years, {{britain.post_r1b|int}} did.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:pullquote -->
+<figure class="wp-block-pullquote"><blockquote><p>In Britain, none of {{britain.pre_n|int}} men before 2500 BCE carried R1b. In the thousand years after, {{britain.post_r1b_pct|int}}% did.</p></blockquote></figure>
+<!-- /wp:pullquote -->
+
+{{IMG|b_britain.png|Stacked bar chart of Y lines among men in Britain per 500 years. From 4000 to 2500 BCE the bars are almost entirely light blue I2. From 2500 BCE they are mostly red R1b, between about 73% and 100%, until 500 CE, when dark blue I1 takes about a third of the bar|Y lines of men in Britain, per 500 years. The dashed line marks 2500 BCE.}}
+
+<!-- wp:paragraph -->
+<p>The same turn happens in Iberia, central Europe and Scandinavia, all in the same few centuries. In each, the first 500 years in which at least half of men carry R1b or R1a is 2500 to 2000 BCE.</p>
+<!-- /wp:paragraph -->
+
+{{IMG|b_regions.png|Line chart of the share of men carrying R1b or R1a in four regions from 5000 BCE to 1500 CE. All four lines sit near zero before 3000 BCE, apart from one central European bump, and jump to between half and more than nine tenths just after 2500 BCE, staying mostly between about 30% and 100% afterwards|Men carrying R1b or R1a in Britain, Iberia, Scandinavia and central Europe.}}
+
+<!-- wp:paragraph -->
+<p>One important caveat. A Y haplogroup is one line of descent out of thousands; it is a proxy for ancestry, not ancestry itself. A change in Y lines can happen because some men had more sons than others, without a whole population being replaced, and R1b is an old branch with some earlier forms too. The genetic studies behind the archive measure whole-genome ancestry to tell how much changed. Here I only count branches.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Famous faces</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Some of the people on the map are famous. Ötzi the Iceman, found in an Alpine glacier in 1991, is there under the ID "Iceman", dated {{iceman.date|raw}}; his Y line, {{iceman.y|raw}}, sits in G2, the commonest branch among Neolithic men in Anatolia in the archive. Ust'-Ishim man, from Siberia, lived around {{famous.1.yr|raw}}. Not everyone famous passes the checks: Kennewick Man and the Anzick child are in the archive but graded "Questionable", so they are only on the map if you switch on the layer for people who did not pass. The single most sampled place is an Avar period cemetery at Mödling, near Vienna, with {{sites.0.n|int}} people.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>The interactive map lets you scrub through time, colour people by period, culture, father's line or mother's line, search for a person, group or site, and click any dot for the details and the paper that published it. The data and code are open, and the archive itself is free for anyone to use.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="https://maps.tristanhotham.com/ancient-dna/">Explore the interactive map</a></div>
+<!-- /wp:button -->
+<!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="https://github.com/Tristan-Hotham/ancient-dna">Data and code</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->
+
+<!-- wp:paragraph -->
+<p><em>Data: Allen Ancient DNA Resource (AADR) {{source.version|raw}}, Mallick, S. et al., Harvard Dataverse, doi:10.7910/DVN/FFIDCW (CC0 1.0); described in Mallick et al. (2024), Scientific Data, doi:10.1038/s41597-024-03031-7. Population and outlines: Natural Earth. Paper: https://doi.org/10.5281/zenodo.23872993. I wrote the text, with drafting and editing assistance from Claude (Anthropic), which also helped prepare the analysis code. I reviewed and checked all text and results.</em></p>
+<!-- /wp:paragraph -->

@@ -1,0 +1,25 @@
+country,n,year,yr,id,group,site,lat,lon,km,date,median_year
+Turkey,175,-8750,8750 BCE,I8432,Turkey_PPNA,"Boncuklu Tarla (Southeast, Mardin, Dargeçit, Ilısu)",37.526,41.845,794,9000-8500 BCE,-6550
+Greece,14,-6366,6366 BCE,Rev5,Greece_North_N,"Revenia (Epirus-Western Macedonia, Ipeiroy)",39.489,20.918,1054,"6434-6257 calBCE (7505±25 BP, MAMS-23036)",-5954
+Serbia,19,-6143,6143 BCE,LEPE52,Serbia_EMN,"Lepenski-Vir (Bor District, Majdanpek Municipality, Boljetin)",44.553,22.028,1184,"6223-6064 calBCE (7265±30 BP,",-5700
+Italy,40,-6031,6031 BCE,R2,Italy_Abruzzo_N,"Grotta Continenza (Abruzzo, L'Aquila)",41.958,13.544,1711,"6068-5993 calBCE (7165±20 BP, UCIAMS-198574)",-4778
+Romania,19,-6021,6021 BCE,I6174,Romania_EN_Starcevo,"Teleor-3 (Teleorman County, Măgura)",44.027,25.392,943,"6074-5927 calBCE (7155±35 BP, PSUAMS-3903)",-5461
+Hungary,186,-5990,5990 BCE,I29877,Hungary_EN_LBK_DVK,"Egerág-Gyilkos-tó (Baranya County, Northwest of Egerág Village, HT 156)",45.98,18.15,1524,"6069-5909 calBCE (7120±40 BP, PSUAMS-15083)",-5122
+Bulgaria,22,-5950,5950 BCE,I0698,Bulgaria_Yabalkovo_N,"Yabalkovo (Haskovo Province, Dimitrovgrad Municipality)",42.077,25.451,797,6000-5900 BCE,-5664
+Croatia,33,-5913,5913 BCE,I3948,Croatia_N_Cardial,"Zemunica Cave (Split-Dalmatia County, Općina Dugopolje, Vladovići)",43.589,16.648,1512,"6007-5803 calBCE (7030±40 BP, PSUAMS-2224)",-4635
+Austria,88,-5578,5578 BCE,Asp6,Austria_N_LBK,"Asparn Schletz (Niederösterreich, Mistelbach)",48.58,16.469,1792,5626-5525 calBCE (6646±21 BP),-5150
+France,187,-5413,5413 BCE,PEN003,France_EN,"Pendimoun (Provence-Alpes-Côte d'Azur Region, Alpes-Maritimes Department, Nice Arrondissement)",43.81,7.51,2230,"5479-5331 calBCE (6450±40 BP, GrA-32061)",-4500
+Spain,63,-5395,5395 BCE,CB13,Spain_EN,"Cova Bonica (Catalonia, Barcelona, Vallirana)",41.37,1.89,2671,"5474-5318 calBCE (6410±30 BP, Beta-384724)",-3577
+Portugal,22,-5352,5352 BCE,NEO632,Portugal_EN_Cardial,"Gruta do Caldeirão (Santarém, Além da Ribeira e Pedreira)",39.648,-8.415,3556,"5474-5320 calBCE (6415±36 BP, UBA-40088)",-3075
+Czechia,41,-5250,5250 BCE,I15818,Czechia_EN_LBK,"Bžany (Ústecký Region, Teplice District)",50.591,13.876,2075,5500-5000 BCE,-3663
+Germany,157,-5249,5249 BCE,XN191,Germany_StuttgartMuhlhausen2_EN,"Stuttgart-Mühlhausen-2 (Baden-Württemberg, Stuttgart-Stadtkreis)",48.78,9.18,2265,"5316-5081 calBCE (6267±30 BP, MAMS-25931)",-5097
+Slovakia,57,-5150,5150 BCE,I11866,Slovakia_N_LBK,"Nitra-Horné-Krškany (Nitra Region, Nitra District, Nitra)",48.283,18.085,1677,5400-4900 BCE,-5150
+Poland,52,-4441,4441 BCE,poz252,Poland_N_LLBK_LLengyel,"Siniarzewo-1 (Kuyavian-Pomeranian Province, Aleksandrów County, Zakrzewo)",52.732,18.686,2001,"4531-4353 calBCE (5605±35 BP, Poz-87727)",-3000
+Switzerland,50,-4405,4405 BCE,TU877(SX11),Switzerland_LN,"Niederried Ursisbalm (Bern, Seeland)",47.012,7.251,2331,"4455-4355 calBCE (5587±22 BP, BE-8011.1.1)",-2948
+Channel Islands,6,-4141,4141 BCE,I16437,ChannelIslands_MN,"Le Déhus (Guernsey, Vale)",49.497,-2.506,3098,4241-4050 calBCE (5315±21 BP),-3542
+Denmark,58,-4110,4110 BCE,NEO960,Denmark_EN_N_TRB,Ravnsbjerggard II (Zealand Region),55.581,11.578,2548,"4315-3995 calBCE (5308±43 BP, AAR-10993; BCH198:4a+b)",-3229
+United Kingdom,113,-3981,3981 BCE,I12438,England_EN_Megalithic,"Hazleton North (England, Gloucestershire, Cheltenham)",51.861,-1.883,3120,"4045-3946 calBCE (5165±25 BP, PSUAMS-14097)",-3573
+Ireland,50,-3796,3796 BCE,PN10_PN113,Ireland_EN,Poulnabrone (Clare County),53.049,-9.14,3629,"3945-3656 calBCE (5004±31 BP, OxA-25950)",-3492
+Sweden,116,-3796,3796 BCE,Kvarlov5164,Sweden_MN,"Skåne (Gävleborgs län, Hudiksvall)",61.658,17.004,2883,3945-3647 calBCE,-3022
+Netherlands,5,-3700,3700 BCE,I35542,Netherlands_MN,Tiel-Medel (Gelderland),51.917,5.469,2652,3800-3600 BCE,-3700
+Belgium,18,-3203,3203 BCE,I13627,Belgium_N,"Trou Al'Wesse (Liège Province, Modave)",50.431,5.295,2595,"3334-3028 calBCE (4466±21 BP, OxA-39060)",-2800
